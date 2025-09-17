@@ -11,7 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contra   = $_POST['contra'];
 
     $pass = password_hash($contra, PASSWORD_BCRYPT);
-
+if (empty($cedula) || strlen($cedula) !== 8) {
+    echo "<script>alert('Cédula inválida o vacía.'); window.history.back();</script>";
+    $mysqli->close();
+    exit;
+}
     // Verificar si la cédula ya existe
     $check = $mysqli->prepare("SELECT Cedula FROM Usuarios WHERE Cedula = ?");
     $check->bind_param("s", $cedula);
@@ -27,26 +31,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check->close();
 
     // Insertar en Usuarios
-    $sql = "INSERT INTO Usuarios (Cedula, Contrasenia, Nombre_usr)
-            VALUES (?, ?, ?)";
+    $sql = "INSERT INTO Usuarios (Cedula, Contrasenia, Nombre_usr) VALUES (?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("sss", $cedula, $pass, $nombre);
     $stmt->execute() or die("<script>alert('Error Usuarios: {$stmt->error}'); window.history.back();</script>");
     $stmt->close();
 
     // Insertar en Email
-    $sql = "INSERT INTO Email (Cedula, numeroTelefono, email)
-            VALUES (?, ?, '')";
+    $sql = "INSERT INTO Email (Cedula, numeroTelefono, email) VALUES (?, ?, '')";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ss", $cedula, $telefono);
     $stmt->execute() or die("<script>alert('Error Email: {$stmt->error}'); window.history.back();</script>");
     $stmt->close();
 
-    // Insertar en tabla específica
+    // Guardar datos comunes en sesión
+    $_SESSION['cedula']   = $cedula;
+    $_SESSION['nombre']   = $nombre;
+    $_SESSION['telefono'] = $telefono;
+    $_SESSION['tipo']     = $tipo;
+
+    // Insertar en tabla específica y guardar en sesión
     if ($tipo === 'admin') {
         $rolAdm = $_POST['rolAdm'];
-        $sql = "INSERT INTO Administrador (Cedula, EsAdmin, rolAdmin)
-                VALUES (?, 1, ?)";
+        $_SESSION['rolAdmin'] = $rolAdm;
+
+        $sql = "INSERT INTO Administrador (Cedula, EsAdmin, rolAdmin) VALUES (?, 1, ?)";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ss", $cedula, $rolAdm);
     }
@@ -54,6 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $anioIns  = $_POST['anioIns'];
         $estado   = $_POST['estado'];
         $fechaIns = "$anioIns-01-01";
+
+        $_SESSION['anioIns'] = $anioIns;
+        $_SESSION['estado']  = $estado;
+
         $sql = "INSERT INTO Docente (Cedula, grado, contrasenia, AnioInsercion, Estado)
                 VALUES (?, 0, ?, ?, ?)";
         $stmt = $mysqli->prepare($sql);
@@ -61,8 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     else { // estudiante
         $fnac = $_POST['fnac'];
-        $sql  = "INSERT INTO Estudiante (Cedula, FechaNac)
-                 VALUES (?, ?)";
+        $_SESSION['fnac'] = $fnac;
+
+        $sql = "INSERT INTO Estudiante (Cedula, FechaNac) VALUES (?, ?)";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ss", $cedula, $fnac);
     }

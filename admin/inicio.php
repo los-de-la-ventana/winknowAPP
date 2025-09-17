@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,7 +13,7 @@
         <link rel="stylesheet" href="../inicio.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinKnow - Gestión de Aulas</title>
+    <title>WinKnow - Inicio</title>
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -35,20 +40,34 @@
             </ul>
         </nav> 
         
-        <div class="usuario">
-            <div class="avatar">A</div>
-<button class="boton-primario" onclick="location.href='login.php'">Iniciar sesión</button>          </div>
-
-
-            </div>
+<div class="usuario">
+    <div class="nombre-usuario">
+        <?php
+        session_start();
+        if (isset($_SESSION['nombre'])) {
+            echo htmlspecialchars($_SESSION['nombre']);
+        } else {
+            echo "Invitado";
+        }
+        ?>
+    </div>
+</div>
         </div>
     </aside>
 
     <!-- Contenido Principal -->
     <main class="principal">
-        <header class="encabezado">
-            <h1>Inicio</h1>
-        </header>
+<header class="encabezado">
+    <h1>
+        <?php
+        if (isset($_SESSION['nombre']) && $_SESSION['tipo'] === 'admin') {
+            echo "Hola, " . htmlspecialchars($_SESSION['nombre']);
+        } else {
+            echo "Bienvenido";
+        }
+        ?>
+    </h1>
+</header>
         <section class="about">
             <h3>WinKnow es una aplicación web desarrollada como proyecto de egreso del ITSP que organiza de forma eficiente aulas, laboratorios y recursos. Permite a estudiantes, docentes y personal administrativo consultar horarios, reservar espacios y optimizar el uso de los recursos del instituto.</h3>
            <!--CARRUSEL -->

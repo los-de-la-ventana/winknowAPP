@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return digitoVerificador === parseInt(cedula[7]);
   }
 
-  
+  function validarContrasenia(contra) {
+  return /^(?=.*\d).{8,}$/.test(contra);
+}
   function validarLongitud(valor, min, max) {
     return valor.length >= min && valor.length <= max;
   }

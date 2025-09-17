@@ -28,7 +28,12 @@ body {
     color: var(--texto-primario);
     display: flex;
 }
-
+.nombre-usuario {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+    padding: 10px;
+}
 /* =======================
    BARRA LATERAL
 ======================= */
