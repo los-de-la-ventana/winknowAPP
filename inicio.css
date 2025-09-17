@@ -1,0 +1,577 @@
+/* =======================
+   VARIABLES Y RESET
+======================= */
+:root {
+    --fondo-primario: #2a2d39;
+    --fondo-barra-lateral: #1a1d28;
+    --fondo-tarjeta: #3a3f52;
+    --texto-primario: #fff;
+    --texto-secundario: #a1a8b8;
+    --azul: #4f7df3;
+    --verde: #10b981;
+    --rojo: #ef4444;
+    --amarillo: #f59e0b;
+    --gris: #4b5563;
+    --fuente-logo: 'Orbitron', monospace;
+    --fuente-principal: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fuente-principal);
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    display: flex;
+}
+
+/* =======================
+   BARRA LATERAL
+======================= */
+.barra-lateral {
+    width: 250px;
+    background: var(--fondo-barra-lateral);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.icono-logo {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 900 16px var(--fuente-logo);
+}
+
+.logo span {
+    font: 700 18px var(--fuente-logo);
+    letter-spacing: 1px;
+}
+
+.navegacion {
+    flex: 1;
+    padding: 24px 0;
+}
+
+.navegacion ul {
+    list-style: none;
+}
+
+.navegacion a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.navegacion li {
+    padding: 16px 24px;
+    font-size: 17px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background .2s;
+}
+
+.navegacion a:hover li {
+    background: var(--azul);
+}
+
+.usuario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--azul);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.usuario h4 { font-size: 14px; margin-bottom: 2px; }
+.usuario span { font-size: 12px; color: var(--texto-secundario); }
+
+/* =======================
+   CONTENIDO PRINCIPAL
+======================= */
+.principal {
+    flex: 1;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.encabezado {
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.encabezado h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.contenido {
+    padding: 32px;
+    flex: 1;
+}
+
+/* =======================
+   BOTONES
+======================= */
+.boton-primario, .boton-secundario, .boton-icono, .boton-accion {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--fuente-principal);
+    font-weight: 500;
+    transition: transform .2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.boton-primario, .boton-secundario {
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+.boton-primario {
+    background: var(--azul);
+    color: #fff;
+}
+
+.boton-secundario {
+    background: var(--gris);
+    color: #fff;
+}
+
+.boton-icono {
+    width: 40px;
+    height: 40px;
+    background: var(--gris);
+    color: #fff;
+    justify-content: center;
+}
+
+.boton-accion {
+    width: 28px;
+    height: 28px;
+    background: rgba(255,255,255,.1);
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    justify-content: center;
+}
+
+.boton-primario:hover, .boton-secundario:hover, .boton-icono:hover, .boton-accion:hover {
+    transform: translateY(-1px);
+}
+
+/* =======================
+   ACCIONES Y ESTADÍSTICAS
+======================= */
+.acciones {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.estadisticas {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.tarjeta-estadistica {
+    background: var(--fondo-tarjeta);
+    padding: 24px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    flex: 1;
+}
+/* Estilos para filas y grupos de formulario */
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin-bottom: 18px;
+    width: 40%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.form-group label {
+    font-size: 15px;
+    color: var(--texto-secundario);
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.form-group select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    font-size: 15px;
+    font-family: var(--fuente-principal);
+    outline: none;
+    transition: border-color .2s;
+}
+
+.form-group select:focus {
+    border-color: var(--azul);
+}
+
+.error-message {
+    color: var(--rojo);
+    font-size: 13px;
+    margin-top: 2px;
+    min-height: 16px;
+}
+.icono {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+}
+.icono.total { background: var(--azul); }
+.icono.disponible { background: var(--verde); }
+.icono.reservado { background: var(--gris); }
+
+.tarjeta-estadistica h3 {
+    font-size: 14px;
+    color: var(--texto-secundario);
+    margin-bottom: 4px;
+}
+.numero { font-size: 32px; font-weight: 700; }
+
+/* =======================
+   FILTROS
+======================= */
+.filtros {
+    background: var(--fondo-tarjeta);
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.pestanas {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 24px;
+}
+
+.pestana {
+    padding: 16px 0;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    font-weight: 500;
+    color: var(--texto-secundario);
+    transition: all .2s;
+}
+.pestana.activa {
+    color: var(--texto-primario);
+    border-bottom-color: var(--azul);
+}
+
+.controles-filtro {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.controles-filtro select {
+    padding: 10px 12px;
+    background: var(--fondo-primario);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 8px;
+    color: var(--texto-primario);
+    font-family: var(--fuente-principal);
+    min-width: 140px;
+}
+
+/* =======================
+   AULAS Y GRILLA
+======================= */
+.aulas {
+    background: var(--fondo-tarjeta);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.aulas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.aulas h2 { font-size: 18px; font-weight: 600; }
+
+.grilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.tarjeta-aula {
+    background: var(--fondo-primario);
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+}
+
+.estado {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.estado.disponible { background: var(--verde); color: #fff; }
+.estado.ocupado { background: var(--rojo); color: #fff; }
+.estado.mantenimiento { background: var(--amarillo); color: #fff; }
+
+.acciones-aula {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.info-aula h4 { font-size: 16px; margin-bottom: 4px; }
+.detalles {
+    font-size: 12px;
+    color: var(--texto-secundario);
+    line-height: 1.4;
+}
+.etiqueta {
+    display: inline-block;
+    background: var(--gris);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* =======================
+   FORMULARIO SUPERPUESTO
+======================= */
+.form-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(30,32,44,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.form-flotante {
+    background: var(--fondo-tarjeta);
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    min-width: 340px;
+    max-width: 90vw;
+    width: 400px;
+    color: var(--texto-primario);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.form-flotante .input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.form-flotante label {
+    font-size: 15px;
+    color: var(--texto-secundario);
+}
+.form-flotante input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    font-size: 15px;
+}
+.form-flotante button[type="submit"] {
+    margin-top: 10px;
+    width: 100%;
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+.form-flotante button[type="submit"]:hover {
+    background: #3459b6;
+}
+
+/* =======================
+   ABOUT Y CAROUSEL
+======================= */
+.about {
+    padding: 20px 32px;
+}
+.about h3 {
+    margin: 30px auto;
+    max-width: 80ch;
+    text-align: center;
+    line-height: 1.6;
+}
+#myCarousel {
+    width: 80%;
+    max-width: 80rem;
+    margin: 20px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+#myCarousel .item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* =======================
+   MEDIA QUERIES
+======================= */
+@media (min-width: 1200px) {
+    .contenido { padding: 40px; }
+    .grilla { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
+    .encabezado h1 { font-size: 28px; }
+    .about { padding: 30px 40px; }
+    .about h3 { font-size: 20px; margin: 40px auto; }
+    #myCarousel .item img { height: 500px; }
+}
+@media (max-width: 1199px) and (min-width: 768px) {
+    .barra-lateral { width: 200px; }
+    .principal { margin-left: 200px; }
+    .logo { padding: 20px; }
+    .icono-logo { width: 36px; height: 36px; font-size: 14px; }
+    .logo span { font-size: 16px; }
+    .navegacion li { padding: 14px 20px; }
+    .contenido { padding: 24px; }
+    .encabezado { padding: 20px 24px; }
+    .encabezado h1 { font-size: 22px; }
+    .grilla { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .about { padding: 20px 24px; }
+    .about h3 { font-size: 18px; margin: 25px auto; max-width: 70ch; }
+    #myCarousel { width: 90%; margin: 15px auto; }
+    #myCarousel .item img { height: 350px; }
+}
+@media (max-width: 767px) and (min-width: 481px) {
+    body { flex-direction: column; }
+    .barra-lateral {
+        width: 100%; height: auto; position: static;
+        flex-direction: row; justify-content: space-between; padding: 16px 20px;
+    }
+    .logo { padding: 0; }
+    .icono-logo { width: 32px; height: 32px; font-size: 12px; }
+    .logo span { font-size: 14px; }
+    .navegacion { padding: 0; }
+    .navegacion ul { display: flex; gap: 20px; }
+    .navegacion li { padding: 8px 0; }
+    .navegacion li i { display: none; }
+    .usuario { padding: 0; }
+    .usuario h4 { display: none; }
+    .principal { margin-left: 0; }
+    .encabezado { padding: 16px 20px; flex-wrap: wrap; gap: 16px; }
+    .encabezado h1 { font-size: 20px; }
+    .contenido { padding: 20px; }
+    .boton-primario, .boton-secundario { padding: 8px 12px; font-size: 13px; }
+    .grilla { grid-template-columns: 1fr; gap: 16px; }
+    .about { padding: 16px 20px; }
+    .about h3 { font-size: 16px; margin: 20px auto; max-width: 60ch; text-align: left; }
+    #myCarousel { width: 95%; margin: 10px auto; border-radius: 15px; }
+    #myCarousel .item img { height: 280px; border-radius: 15px; }
+}
+@media (max-width: 480px) {
+    body { flex-direction: column; }
+    .barra-lateral {
+        width: 100%; height: auto; position: static; padding: 12px 16px;
+    }
+    .logo { padding: 0; }
+    .icono-logo { width: 28px; height: 28px; font-size: 10px; }
+    .logo span { font-size: 12px; }
+    .navegacion { display: none; }
+    .usuario { padding: 0; gap: 8px; }
+    .usuario h4 { font-size: 12px; }
+    .usuario span { display: none; }
+    .avatar { width: 28px; height: 28px; }
+    .principal { margin-left: 0; }
+    .encabezado {
+        padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 12px;
+    }
+    .encabezado h1 { font-size: 18px; }
+    .contenido { padding: 16px; }
+    .boton-primario, .boton-secundario {
+        width: 100%; justify-content: center; padding: 12px 16px;
+    }
+    .grilla { grid-template-columns: 1fr; gap: 12px; }
+    .about { padding: 12px 16px; }
+    .about h3 {
+        font-size: 14px; margin: 15px auto; max-width: 90%; text-align: left; line-height: 1.5;
+    }
+    #myCarousel { width: 100%; margin: 8px auto; border-radius: 12px; }
+    #myCarousel .item img { height: 200px; border-radius: 12px; }
+    .carousel-control { width: 10%; font-size: 16px; }
+    .carousel-indicators li { width: 8px; height: 8px; }
+}   
