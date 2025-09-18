@@ -63,9 +63,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
                         - <?php echo htmlspecialchars($_SESSION['rolAdmin']); ?>
                     <?php endif; ?>
                 </div>
-                <div class="cedula-usuario">
-                    CI: <?php echo isset($_SESSION['cedula']) && !empty($_SESSION['cedula']) ? htmlspecialchars($_SESSION['cedula']) : 'No disponible'; ?>
-                </div>
+
             </div>
         </div>
     </aside>

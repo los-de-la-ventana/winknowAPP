@@ -446,10 +446,6 @@ body {
     font-weight: 600;
     text-transform: uppercase;
 }
-.estado.disponible { background: var(--verde); color: #fff; }
-.estado.ocupado { background: var(--rojo); color: #fff; }
-.estado.mantenimiento { background: var(--amarillo); color: #fff; }
-
 .acciones-aula {
     display: flex;
     gap: 8px;

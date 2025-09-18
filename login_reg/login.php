@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../conexion.php';
+require("../conexion.php");
 $mysqli = conectarDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,7 +20,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($contra, $hash)) {
             $_SESSION['cedula'] = $cedula;
             $_SESSION['nombre'] = $nombre;
-            echo "<script>alert('Bienvenido, $nombre'); window.location.href='dashboard.php';</script>";
+
+            // Verificar rol
+            $rol = '';
+            $queryAdmin = $mysqli->prepare("SELECT rolAdmin FROM Administrador WHERE Cedula = ?");
+            $queryAdmin->bind_param("i", $cedula);
+            $queryAdmin->execute();
+            $resultAdmin = $queryAdmin->get_result();
+            if ($resultAdmin->num_rows > 0) {
+                $data = $resultAdmin->fetch_assoc();
+                $_SESSION['rolAdmin'] = $data['rolAdmin'];
+                $_SESSION['tipo'] = 'admin';
+                $_SESSION['logged_in'] = true;
+                echo "<script>alert('Bienvenido, $nombre'); window.location.href='../admin/inicio.php';</script>";
+                exit;
+            }
+
+            $queryDocente = $mysqli->prepare("SELECT Estado FROM Docente WHERE Cedula = ?");
+            $queryDocente->bind_param("i", $cedula);
+            $queryDocente->execute();
+            $resultDocente = $queryDocente->get_result();
+            if ($resultDocente->num_rows > 0) {
+                $data = $resultDocente->fetch_assoc();
+                $_SESSION['estado'] = $data['Estado'];
+                $_SESSION['tipo'] = 'docente';
+                $_SESSION['logged_in'] = true;
+                echo "<script>alert('Bienvenido, $nombre'); window.location.href='../docente/inicioDoc.php';</script>";
+                exit;
+            }
+
+            $queryEst = $mysqli->prepare("SELECT FechaNac FROM Estudiante WHERE Cedula = ?");
+            $queryEst->bind_param("i", $cedula);
+            $queryEst->execute();
+            $resultEst = $queryEst->get_result();
+            if ($resultEst->num_rows > 0) {
+                $data = $resultEst->fetch_assoc();
+                $_SESSION['fnac'] = $data['FechaNac'];
+                $_SESSION['tipo'] = 'estudiante';
+                $_SESSION['logged_in'] = true;
+                echo "<script>alert('Bienvenido, $nombre'); window.location.href='../estudiante/inicioEst.php';</script>";
+                exit;
+            }
+
+            // Si no tiene rol asignado
+            echo "<script>alert('Usuario sin rol asignado'); window.history.back();</script>";
         } else {
             echo "<script>alert('Contraseña incorrecta'); window.history.back();</script>";
         }
