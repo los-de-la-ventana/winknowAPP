@@ -63,10 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const estado     = bloque.querySelector('input[name="estado"]')?.value;
 
     let errores = [];
-
-    if (!validarCedula(cedula)) {
-      errores.push("Cédula inválida. Verifique el número.");
-    }
+ 
 
     if (!validarLongitud(nombre, 3, 50)) {
       errores.push("El nombre debe tener entre 3 y 50 caracteres.");

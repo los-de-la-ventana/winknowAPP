@@ -10,11 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefono = $_POST['telefono'];
     $contra   = $_POST['contra'];
     $pass = password_hash($contra, PASSWORD_BCRYPT);
-if (empty($cedula) || strlen($cedula) !== 8) {
-    echo "<script>alert('Cédula inválida o vacía.'); window.history.back();</script>";
-    $mysqli->close();
-    exit;
-}
+
     // Verificar si la cédula ya existe
     $check = $mysqli->prepare("SELECT Cedula FROM Usuarios WHERE Cedula = ?");
     $check->bind_param("s", $cedula);
@@ -86,7 +82,7 @@ if (empty($cedula) || strlen($cedula) !== 8) {
     // Redirección por tipo
     switch ($tipo) {
         case 'admin':
-            echo "<script>alert('Registro exitoso como Administrador'); window.location.href='admin/inicioAdmin.php';</script>";
+            echo "<script>alert('Registro exitoso como Administrador'); window.location.href='admin/inicio.php';</script>";
             break;
         case 'docente':
             echo "<script>alert('Registro exitoso como Docente'); window.location.href='docente/inicioDoc.php';</script>";
