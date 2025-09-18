@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['cedula'])) {
-    echo "<script>alert('Debe iniciar sesión primero'); window.location.href='login.html';</script>";
+    echo "<script>alert('Debe iniciar sesión primero'); window.location.href='login.php';</script>";
     exit;
 }
 ?>
@@ -16,4 +16,4 @@ if (!isset($_SESSION['cedula'])) {
   <p>Tu cédula es: <?php echo $_SESSION['cedula']; ?></p>
   <a href="logout.php">Cerrar sesión</a>
 </body>
-</html>
+</html> 

@@ -178,7 +178,72 @@ body {
     background: var(--gris);
     color: #fff;
 }
+    /* Estilos adicionales para la información del usuario */
+        .usuario .info-usuario {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
 
+        .nombre-usuario {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .rol-usuario {
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-bottom: 3px;
+        }
+
+        .cedula-usuario {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .info-sesion {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .badge-admin {
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .telefono {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .admin-info-cards {
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .info-card h4 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            margin-bottom: 8px;
+            color: #6c757d;
+        }
 .boton-icono {
     width: 40px;
     height: 40px;

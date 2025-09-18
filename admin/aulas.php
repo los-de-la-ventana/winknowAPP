@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// Verificar si el usuario está logueado y es admin
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../login_reg/login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
