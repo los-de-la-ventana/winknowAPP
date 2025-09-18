@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre   = $_POST['nombre'];
     $telefono = $_POST['telefono'];
     $contra   = $_POST['contra'];
-
     $pass = password_hash($contra, PASSWORD_BCRYPT);
 if (empty($cedula) || strlen($cedula) !== 8) {
     echo "<script>alert('Cédula inválida o vacía.'); window.history.back();</script>";
