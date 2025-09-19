@@ -2,52 +2,87 @@
 session_start();
 require("../conexion.php");
 
-// Validador de cédula uruguaya
+// Validador de cédula uruguaya corregido
 class CiValidator
 {
     /**
      * @param string $ci
      * @return bool
      */
-    public function validate_ci( string $ci ) : bool
+    public function validate_ci(string $ci): bool
     {
         if (empty(trim($ci))) {
             return false;
         }
+        
         $ci = $this->clean_ci($ci);
+        
         if (strlen($ci) < 7 || strlen($ci) > 8) {
             return false;
         }
-        $validationDigit = $ci[-1];
-        $ci = preg_replace('/[0-9]$/', '', $ci );
-        return $validationDigit == $this->validation_digit( $ci );
+        
+        // Obtener el último dígito (dígito verificador)
+        $validationDigit = (int)substr($ci, -1);
+        
+        // Obtener los primeros 6 o 7 dígitos (sin el dígito verificador)
+        $ciWithoutCheck = substr($ci, 0, -1);
+        
+        // Calcular el dígito verificador esperado
+        $expectedDigit = $this->validation_digit($ciWithoutCheck);
+        
+        return $validationDigit === $expectedDigit;
     }
 
     /**
      * @param string $ci
      * @return string
      */
-    public function clean_ci( string $ci ) : string
+    public function clean_ci(string $ci): string
     {
-        return preg_replace( '/\D/', '', $ci );
+        return preg_replace('/\D/', '', $ci);
     }
 
     /**
      * @param string $ci
      * @return int
      */
-    public function validation_digit( string $ci ) : int
+    public function validation_digit(string $ci): int
     {
-        $ci = $this->clean_ci( $ci );
-        $ci = str_pad( $ci, 7, '0', STR_PAD_LEFT );
-        $a = 0;
+        $ci = $this->clean_ci($ci);
+        // Pad to 7 digits with leading zeros
+        $ci = str_pad($ci, 7, '0', STR_PAD_LEFT);
+        
+        $sum = 0;
         $baseNumber = "2987634";
-        for ( $i = 0; $i < 7; $i++ ) {
-            $baseDigit = $baseNumber[ $i ];
-            $ciDigit = $ci[ $i ];
-            $a += ( intval($baseDigit ) * intval( $ciDigit ) ) % 10;
+        
+        for ($i = 0; $i < 7; $i++) {
+            $baseDigit = (int)$baseNumber[$i];
+            $ciDigit = (int)$ci[$i];
+            $sum += ($baseDigit * $ciDigit) % 10;
         }
-        return $a % 10 == 0 ? 0 : 10 - $a % 10;
+        
+        $remainder = $sum % 10;
+        return $remainder === 0 ? 0 : 10 - $remainder;
+    }
+    
+    /**
+     * Método para debugging - puedes removerlo después de probar
+     */
+    public function debug_validation(string $ci): array
+    {
+        $cleanCi = $this->clean_ci($ci);
+        $validationDigit = (int)substr($cleanCi, -1);
+        $ciWithoutCheck = substr($cleanCi, 0, -1);
+        $expectedDigit = $this->validation_digit($ciWithoutCheck);
+        
+        return [
+            'original' => $ci,
+            'clean' => $cleanCi,
+            'ci_without_check' => $ciWithoutCheck,
+            'provided_digit' => $validationDigit,
+            'expected_digit' => $expectedDigit,
+            'is_valid' => $validationDigit === $expectedDigit
+        ];
     }
 }
 
@@ -63,6 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Validar cédula uruguaya
     $validator = new CiValidator();
+    
+    // Debug temporal - puedes comentar estas líneas después de probar
+    $debugInfo = $validator->debug_validation($cedula_raw);
+    error_log("DEBUG Validación: " . json_encode($debugInfo));
+    
     if (!$validator->validate_ci($cedula_raw)) {
         echo "<script>alert('Error: Cédula uruguaya inválida'); window.history.back();</script>";
         exit;
@@ -177,7 +217,6 @@ $mysqli->close();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WinKnow - Registro</title>
     <link rel="stylesheet" href="../inicio.css">
-    <link rel="stylesheet" href="../aulas.css">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
