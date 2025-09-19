@@ -118,7 +118,7 @@ function obtenerEstadoConEstilo($estado) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="/img/image-removebg-preview (2).png">
+    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../inicio.css">
     <link rel="stylesheet" href="aulas.css">

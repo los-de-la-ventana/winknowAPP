@@ -12,7 +12,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="../img/image-removebg-preview.png">
+    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../inicio.css">
