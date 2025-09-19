@@ -65,25 +65,7 @@ class CiValidator
         return $remainder === 0 ? 0 : 10 - $remainder;
     }
     
-    /**
-     * Método para debugging - puedes removerlo después de probar
-     */
-    public function debug_validation(string $ci): array
-    {
-        $cleanCi = $this->clean_ci($ci);
-        $validationDigit = (int)substr($cleanCi, -1);
-        $ciWithoutCheck = substr($cleanCi, 0, -1);
-        $expectedDigit = $this->validation_digit($ciWithoutCheck);
-        
-        return [
-            'original' => $ci,
-            'clean' => $cleanCi,
-            'ci_without_check' => $ciWithoutCheck,
-            'provided_digit' => $validationDigit,
-            'expected_digit' => $expectedDigit,
-            'is_valid' => $validationDigit === $expectedDigit
-        ];
-    }
+   
 }
 
 $mysqli = conectarDB();
@@ -99,14 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar cédula uruguaya
     $validator = new CiValidator();
     
-    // Debug temporal - puedes comentar estas líneas después de probar
-    $debugInfo = $validator->debug_validation($cedula_raw);
-    error_log("DEBUG Validación: " . json_encode($debugInfo));
-    
-    if (!$validator->validate_ci($cedula_raw)) {
-        echo "<script>alert('Error: Cédula uruguaya inválida'); window.history.back();</script>";
-        exit;
-    }
+  
     
     // Limpiar y convertir a entero
     $cedula = intval($validator->clean_ci($cedula_raw));

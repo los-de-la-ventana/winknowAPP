@@ -588,3 +588,424 @@ body {
     object-fit: cover;
     border-radius: 20px;
 }
+
+/* ===============================
+   MEDIA QUERIES - RESPONSIVE
+=============================== */
+
+/* Tablets (768px - 1023px) */
+@media screen and (max-width: 1023px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .barra-lateral {
+        width: 100%;
+        height: auto;
+        position: relative;
+        order: -1;
+    }
+    
+    .logo {
+        padding: 16px 24px;
+        justify-content: center;
+    }
+    
+    .navegacion {
+        padding: 16px 0;
+    }
+    
+    .navegacion ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        padding: 0 16px;
+    }
+    
+    .navegacion li {
+        padding: 12px 16px;
+        font-size: 14px;
+        border-radius: 8px;
+        background: var(--fondo-primario);
+        margin: 4px;
+        flex: 1;
+        min-width: 120px;
+        max-width: 200px;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .usuario {
+        padding: 16px 24px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+    
+    .usuario.estudiante {
+        margin: 8px 16px;
+        padding: 12px 16px;
+    }
+    
+    .principal {
+        margin-left: 0;
+        flex: 1;
+    }
+    
+    .encabezado {
+        padding: 16px 24px;
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .contenido {
+        padding: 24px;
+    }
+    
+    .estadisticas {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .tarjeta-estadistica {
+        padding: 20px;
+    }
+    
+    .acciones {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .controles-filtro {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .controles-filtro select {
+        min-width: 100%;
+    }
+    
+    .pestanas {
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .pestana {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .grilla {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 16px;
+    }
+    
+    .aulas {
+        padding: 20px;
+    }
+    
+    .aulas-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .form-row {
+        width: 100%;
+    }
+    
+    .form-flotante {
+        width: 90%;
+        max-width: 500px;
+        padding: 32px 24px;
+    }
+    
+    #myCarousel {
+        width: 95%;
+    }
+    
+    #myCarousel .item img {
+        height: 300px;
+    }
+    
+    .about {
+        padding: 16px 24px;
+    }
+}
+
+/* Móviles (hasta 767px) */
+@media screen and (max-width: 767px) {
+    .logo {
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .icono-logo {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .logo span {
+        font-size: 16px;
+    }
+    
+    .navegacion ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 0 16px;
+    }
+    
+    .navegacion li {
+        padding: 12px 20px;
+        font-size: 13px;
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .usuario {
+        flex-direction: column;
+        padding: 12px 16px;
+        gap: 8px;
+    }
+    
+    .info-sesion {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .encabezado {
+        padding: 12px 16px;
+        text-align: center;
+    }
+    
+    .encabezado h1 {
+        font-size: 20px;
+    }
+    
+    .contenido {
+        padding: 16px;
+    }
+    
+    .tarjeta-estadistica {
+        padding: 16px;
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .icono {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .numero {
+        font-size: 24px;
+    }
+    
+    .acciones {
+        gap: 8px;
+    }
+    
+    .boton-primario, .boton-secundario {
+        padding: 12px 16px;
+        font-size: 13px;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .filtros {
+        padding: 16px;
+    }
+    
+    .pestanas {
+        gap: 8px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+    
+    .pestana {
+        padding: 8px 12px;
+        font-size: 13px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .controles-filtro select {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .grilla {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .aulas {
+        padding: 16px;
+    }
+    
+    .aulas h2 {
+        font-size: 16px;
+    }
+    
+    .tarjeta-aula {
+        padding: 12px;
+    }
+    
+    .acciones-aula {
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    
+    .boton-accion {
+        width: 32px;
+        height: 32px;
+        font-size: 10px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .form-flotante {
+        width: 95%;
+        max-width: none;
+        padding: 24px 16px;
+        margin: 10px;
+    }
+    
+    .form-flotante input,
+    .form-flotante select {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .form-flotante button[type="submit"] {
+        padding: 14px 0;
+        font-size: 15px;
+    }
+    
+    #myCarousel {
+        width: 100%;
+        margin: 15px auto;
+        border-radius: 12px;
+    }
+    
+    #myCarousel .item img {
+        height: 200px;
+        border-radius: 12px;
+    }
+    
+    .about {
+        padding: 12px 16px;
+    }
+    
+    .about h3 {
+        margin: 20px auto;
+        font-size: 16px;
+    }
+    
+    .admin-info-cards {
+        margin: 15px 0;
+    }
+    
+    .info-card {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+    
+    .info-card h4 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .info-card p {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+}
+
+/* Móviles muy pequeños (hasta 480px) */
+@media screen and (max-width: 480px) {
+    .logo {
+        padding: 8px 12px;
+    }
+    
+    .navegacion li {
+        padding: 8px 16px;
+        font-size: 12px;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .encabezado {
+        padding: 10px 12px;
+    }
+    
+    .encabezado h1 {
+        font-size: 18px;
+    }
+    
+    .contenido {
+        padding: 12px;
+    }
+    
+    .tarjeta-estadistica {
+        padding: 12px;
+    }
+    
+    .numero {
+        font-size: 20px;
+    }
+    
+    .tarjeta-estadistica h3 {
+        font-size: 12px;
+    }
+    
+    .filtros {
+        padding: 12px;
+    }
+    
+    .aulas {
+        padding: 12px;
+    }
+    
+    .tarjeta-aula {
+        padding: 10px;
+    }
+    
+    .form-flotante {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .form-flotante input,
+    .form-flotante select {
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    #myCarousel .item img {
+        height: 180px;
+    }
+    
+    .about h3 {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+}
