@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verificar rol
             $rol = '';
             $queryAdmin = $mysqli->prepare("SELECT rolAdmin FROM Administrador WHERE Cedula = ?");
-            $queryAdmin->bind_param("i", $cedula);
+            $queryAdmin->bind_param("s", $cedula);
             $queryAdmin->execute();
             $resultAdmin = $queryAdmin->get_result();
             if ($resultAdmin->num_rows > 0) {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $queryDocente = $mysqli->prepare("SELECT Estado FROM Docente WHERE Cedula = ?");
-            $queryDocente->bind_param("i", $cedula);
+            $queryDocente->bind_param("s", $cedula);
             $queryDocente->execute();
             $resultDocente = $queryDocente->get_result();
             if ($resultDocente->num_rows > 0) {
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $queryEst = $mysqli->prepare("SELECT FechaNac FROM Estudiante WHERE Cedula = ?");
-            $queryEst->bind_param("i", $cedula);
+            $queryEst->bind_param("s", $cedula);
             $queryEst->execute();
             $resultEst = $queryEst->get_result();
             if ($resultEst->num_rows > 0) {
@@ -92,12 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form id="registroForm" class="form-flotante" method="post" action="login.php">
       <h2>Iniciar Sesión</h2>
       <input type="number" name="cedula" placeholder="Cédula" required>
-      <input type="password" name="contra" placeholder="Contraseña" required>
+      <input type="password" name="contra"  placeholder="Contraseña" required>
       <button type="submit">Ingresar</button>
       <a href="register.php" style="color:white;">¿No tienes una cuenta? Regístrate</a>
     </form>
   </div>
 
   <script src="registerValidation.js"></script>
+
 </body>
 </html>

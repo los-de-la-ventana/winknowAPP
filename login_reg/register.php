@@ -1,15 +1,78 @@
 <?php
 session_start();
 require("../conexion.php");
+
+// Validador de cédula uruguaya
+class CiValidator
+{
+    /**
+     * @param string $ci
+     * @return bool
+     */
+    public function validate_ci( string $ci ) : bool
+    {
+        if (empty(trim($ci))) {
+            return false;
+        }
+        $ci = $this->clean_ci($ci);
+        if (strlen($ci) < 7 || strlen($ci) > 8) {
+            return false;
+        }
+        $validationDigit = $ci[-1];
+        $ci = preg_replace('/[0-9]$/', '', $ci );
+        return $validationDigit == $this->validation_digit( $ci );
+    }
+
+    /**
+     * @param string $ci
+     * @return string
+     */
+    public function clean_ci( string $ci ) : string
+    {
+        return preg_replace( '/\D/', '', $ci );
+    }
+
+    /**
+     * @param string $ci
+     * @return int
+     */
+    public function validation_digit( string $ci ) : int
+    {
+        $ci = $this->clean_ci( $ci );
+        $ci = str_pad( $ci, 7, '0', STR_PAD_LEFT );
+        $a = 0;
+        $baseNumber = "2987634";
+        for ( $i = 0; $i < 7; $i++ ) {
+            $baseDigit = $baseNumber[ $i ];
+            $ciDigit = $ci[ $i ];
+            $a += ( intval($baseDigit ) * intval( $ciDigit ) ) % 10;
+        }
+        return $a % 10 == 0 ? 0 : 10 - $a % 10;
+    }
+}
+
 $mysqli = conectarDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo     = $_POST['operacion'];
-    $cedula   = $_POST['cedula'];
-    $nombre   = $_POST['nombre'];
-    $telefono = $_POST['telefono'];
+    $cedula_raw = trim($_POST['cedula']);
+    $nombre   = trim($_POST['nombre']);
+    $telefono = trim($_POST['telefono']);
     $contra   = $_POST['contra'];
     $pass     = password_hash($contra, PASSWORD_BCRYPT);
+    
+    // Validar cédula uruguaya
+    $validator = new CiValidator();
+    if (!$validator->validate_ci($cedula_raw)) {
+        echo "<script>alert('Error: Cédula uruguaya inválida'); window.history.back();</script>";
+        exit;
+    }
+    
+    // Limpiar y convertir a entero
+    $cedula = intval($validator->clean_ci($cedula_raw));
+    
+    // Debug temporal - remover después de probar
+    error_log("DEBUG: Cedula recibida = " . $cedula . " (tipo: " . gettype($cedula) . "), CI original: " . $cedula_raw);
     
     $rolYaExiste = false;
     $mensajeError = "";
@@ -19,24 +82,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Check if user already exists
-    $checkUsuario = mysqli_query($mysqli, "SELECT Cedula FROM Usuarios WHERE Cedula = '$cedula'");
-    $usuarioExiste = mysqli_num_rows($checkUsuario) > 0;
+    // Check if user already exists using prepared statement
+    $checkUsuario = $mysqli->prepare("SELECT Cedula FROM Usuarios WHERE Cedula = ?");
+    $checkUsuario->bind_param("i", $cedula);
+    $checkUsuario->execute();
+    $result = $checkUsuario->get_result();
+    $usuarioExiste = $result->num_rows > 0;
+    $checkUsuario->close();
     
     if (!$usuarioExiste) {
-        // Insert into Usuarios table
-        $sqlUsuario = "INSERT INTO Usuarios (Cedula, Contrasenia, Nombre_usr) VALUES ('$cedula', '$pass', '$nombre')";
-        if (!mysqli_query($mysqli, $sqlUsuario)) {
-            echo "<script>alert('Error al crear usuario: " . mysqli_error($mysqli) . "'); window.history.back();</script>";
+        // Insert into Usuarios table using prepared statement
+        $stmtUsuario = $mysqli->prepare("INSERT INTO Usuarios (Cedula, Contrasenia, Nombre_usr) VALUES (?, ?, ?)");
+        $stmtUsuario->bind_param("iss", $cedula, $pass, $nombre);
+        if (!$stmtUsuario->execute()) {
+            echo "<script>alert('Error al crear usuario: " . $stmtUsuario->error . "'); window.history.back();</script>";
             exit;
         }
+        $stmtUsuario->close();
         
-        // Insert into Email table (note: using empty string for email field as it's part of primary key)
-        $sqlEmail = "INSERT INTO Email (Cedula, numeroTelefono, email) VALUES ('$cedula', '$telefono', '')";
-        if (!mysqli_query($mysqli, $sqlEmail)) {
-            echo "<script>alert('Error al crear email: " . mysqli_error($mysqli) . "'); window.history.back();</script>";
+        // Insert into Email table using prepared statement
+        $stmtEmail = $mysqli->prepare("INSERT INTO Email (Cedula, numeroTelefono, email) VALUES (?, ?, ?)");
+        $email_empty = '';
+        $stmtEmail->bind_param("iss", $cedula, $telefono, $email_empty);
+        if (!$stmtEmail->execute()) {
+            echo "<script>alert('Error al crear email: " . $stmtEmail->error . "'); window.history.back();</script>";
             exit;
         }
+        $stmtEmail->close();
     }
     
     // Set session variables
@@ -50,14 +122,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rolAdm = $_POST['rolAdm'];
         $_SESSION['rolAdmin'] = $rolAdm;
         
-        // Fixed: Column name is 'rolAdmin' not 'contrasenia' in Administrador table
-        // Also added EsAdmin field which is required based on schema
-        $sqlAdmin = "INSERT INTO Administrador (Cedula, EsAdmin, rolAdmin) VALUES ('$cedula', TRUE, '$rolAdm')";
-        if (mysqli_query($mysqli, $sqlAdmin)) {
+        // Insert admin using prepared statement
+        $stmtAdmin = $mysqli->prepare("INSERT INTO Administrador (Cedula, EsAdmin, rolAdmin) VALUES (?, TRUE, ?)");
+        $stmtAdmin->bind_param("is", $cedula, $rolAdm);
+        if ($stmtAdmin->execute()) {
             echo "<script>alert('Registro exitoso como Administrador'); window.location.href='../admin/inicio.php';</script>";
         } else {
-            echo "<script>alert('Error al registrar administrador: " . mysqli_error($mysqli) . "'); window.history.back();</script>";
+            echo "<script>alert('Error al registrar administrador: " . $stmtAdmin->error . "'); window.history.back();</script>";
         }
+        $stmtAdmin->close();
         
     } elseif ($tipo === 'docente') {
         $anioIns  = $_POST['anioIns'];
@@ -67,24 +140,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['anioIns'] = $anioIns;
         $_SESSION['estado']  = $estado;
         
-        // Fixed: Using hashed password and proper column names
-        $sqlDocente = "INSERT INTO Docente (Cedula, contrasenia, AnioInsercion, Estado) VALUES ('$cedula', '$pass', '$fechaIns', '$estado')";
-        if (mysqli_query($mysqli, $sqlDocente)) {
+        // Insert docente using prepared statement
+        $stmtDocente = $mysqli->prepare("INSERT INTO Docente (Cedula, contrasenia, AnioInsercion, Estado) VALUES (?, ?, ?, ?)");
+        $stmtDocente->bind_param("isss", $cedula, $pass, $fechaIns, $estado);
+        if ($stmtDocente->execute()) {
             echo "<script>alert('Registro exitoso como Docente'); window.location.href='../docente/inicioDoc.php';</script>";
         } else {
-            echo "<script>alert('Error al registrar docente: " . mysqli_error($mysqli) . "'); window.history.back();</script>";
+            echo "<script>alert('Error al registrar docente: " . $stmtDocente->error . "'); window.history.back();</script>";
         }
+        $stmtDocente->close();
         
     } else { // estudiante
         $fnac = $_POST['fnac'];
         $_SESSION['fnac'] = $fnac;
         
-        $sqlEstudiante = "INSERT INTO Estudiante (Cedula, FechaNac) VALUES ('$cedula', '$fnac')";
-        if (mysqli_query($mysqli, $sqlEstudiante)) {
+        // Insert estudiante using prepared statement
+        $stmtEstudiante = $mysqli->prepare("INSERT INTO Estudiante (Cedula, FechaNac) VALUES (?, ?)");
+        $stmtEstudiante->bind_param("is", $cedula, $fnac);
+        if ($stmtEstudiante->execute()) {
             echo "<script>alert('Registro exitoso como Estudiante'); window.location.href='../estudiante/inicioEst.php';</script>";
         } else {
-            echo "<script>alert('Error al registrar estudiante: " . mysqli_error($mysqli) . "'); window.history.back();</script>";
+            echo "<script>alert('Error al registrar estudiante: " . $stmtEstudiante->error . "'); window.history.back();</script>";
         }
+        $stmtEstudiante->close();
     }
 }
 
@@ -100,6 +178,8 @@ $mysqli->close();
     <title>WinKnow - Registro</title>
     <link rel="stylesheet" href="../inicio.css">
     <link rel="stylesheet" href="../aulas.css">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
@@ -119,7 +199,7 @@ $mysqli->close();
         <div id="admin-form" class="input-field" style="display:none;">
             <input type="text"     name="nombre" placeholder="Nombre" required>
             <input type="password" name="contra" placeholder="Contraseña" required>
-            <input type="number"   name="cedula" placeholder="Cédula" required>
+            <input type="text"     name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones">
             <input type="tel"      name="telefono" placeholder="Teléfono" required>
             <input type="text"     name="rolAdm" placeholder="Rol admin" required>
         </div>
@@ -127,7 +207,7 @@ $mysqli->close();
         <div id="docente-form" class="input-field" style="display:none;">
             <input type="text"     name="nombre"  placeholder="Nombre" required>
             <input type="password" name="contra"  placeholder="Contraseña" required>
-            <input type="number"   name="cedula"  placeholder="Cédula" required>
+            <input type="text"     name="cedula"  placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones">
             <input type="text"     name="estado"  placeholder="Estado" required>
             <input type="tel"      name="telefono" placeholder="Teléfono" required>
             <!-- Added missing anioIns field for docente -->
@@ -137,7 +217,7 @@ $mysqli->close();
         <div id="estudiante-form" class="input-field" style="display:none;">
             <input type="text"     name="nombre"  placeholder="Nombre" required>
             <input type="password" name="contra"  placeholder="Contraseña" required>
-            <input type="number"   name="cedula"  placeholder="Cédula" required>
+            <input type="text"     name="cedula"  placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones">
             <input type="date"     name="fnac"    placeholder="Fecha nacimiento" required>
             <input type="tel"      name="telefono" placeholder="Teléfono" required>
         </div>

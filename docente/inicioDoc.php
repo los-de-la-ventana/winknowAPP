@@ -31,7 +31,7 @@ session_start();
         
     <nav class="navegacion">
             <ul>
-                <a href="inicio.php"> <li><i class="bi bi-house"></i> Inicio</li></a> 
+                <a href="inicioDoc.php"> <li><i class="bi bi-house"></i> Inicio</li></a> 
                 
                 <?php
                 // Verificar si el usuario es estudiante
@@ -49,6 +49,8 @@ session_start();
                 
                 <!-- Calendario disponible para todos los tipos de usuario -->
                 <a href="calendario.php">  <li><i class="bi bi-calendar3"></i> Calendario</li> </a>
+                <!-- Cerrar sesión disponible para todos los tipos de usuario -->
+                <a href="../login_reg/logout.php"><li><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</li></a>
 
             </ul>
         </nav> 

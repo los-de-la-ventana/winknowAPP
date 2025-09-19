@@ -3,7 +3,7 @@
 -- ==============================================
 CREATE TABLE Usuarios (
     Cedula INT PRIMARY KEY,
-    Contrasenia VARCHAR(50),
+    Contrasenia VARCHAR(255) NOT NULL,   
     Nombre_usr VARCHAR(50)
 ) ENGINE=InnoDB;
 
@@ -27,7 +27,7 @@ CREATE TABLE Docente (
     codigo_doc INT PRIMARY KEY AUTO_INCREMENT,
     Cedula INT UNIQUE,
     grado INT,
-    contrasenia VARCHAR(100),
+    contrasenia VARCHAR(255) NOT NULL,
     AnioInsercion DATE,
     Estado VARCHAR(20),
     FOREIGN KEY (Cedula) REFERENCES Usuarios(Cedula)

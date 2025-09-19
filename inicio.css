@@ -101,10 +101,35 @@ body {
 
 .usuario {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 5px;
     padding: 24px;
     border-top: 1px solid rgba(255,255,255,.1);
+}
+
+/* Estilos específicos para estudiantes */
+.usuario.estudiante {
+    background-color: #2c2c2c;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.usuario.estudiante .nombre-usuario {
+    color: #ffffff !important;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.usuario.estudiante .tipo-usuario {
+    color: #ffffff !important;
+    font-size: 14px;
+    opacity: 0.9;
+    font-weight: 400;
+    margin-bottom: 0;
 }
 
 .avatar {
@@ -314,18 +339,28 @@ body {
     margin-bottom: 2px;
     font-weight: 500;
 }
-
-.form-group select {
+.form-flotante select {
+    width: 100%;
     padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid rgba(255,255,255,0.15);
     background: var(--fondo-primario);
     color: var(--texto-primario);
     font-size: 15px;
-    font-family: var(--fuente-principal);
-    outline: none;
-    transition: border-color .2s;
+    box-sizing: border-box;
+    appearance: none;          /* elimina estilos nativos del navegador */
+    -webkit-appearance: none;  /* Safari/Chrome */
+    -moz-appearance: none;     /* Firefox */
+    cursor: pointer;
 }
+.form-flotante select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 36px; /* espacio para la flecha */
+}
+
 
 .form-group select:focus {
     border-color: var(--azul);
@@ -495,23 +530,21 @@ body {
     flex-direction: column;
     gap: 18px;
 }
-.form-flotante .input {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-.form-flotante label {
-    font-size: 15px;
-    color: var(--texto-secundario);
-}
 .form-flotante input {
+    width: 100%;              /* todos los inputs ocupan el mismo ancho */
     padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid rgba(255,255,255,0.15);
     background: var(--fondo-primario);
     color: var(--texto-primario);
     font-size: 15px;
+    box-sizing: border-box;   /* evita que el padding altere el ancho */
 }
+.form-flotante label {
+    font-size: 15px;
+    color: var(--texto-secundario);
+}
+
 .form-flotante button[type="submit"] {
     margin-top: 10px;
     width: 100%;
@@ -555,89 +588,3 @@ body {
     object-fit: cover;
     border-radius: 20px;
 }
-
-/* =======================
-   MEDIA QUERIES
-======================= */
-@media (min-width: 1200px) {
-    .contenido { padding: 40px; }
-    .grilla { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
-    .encabezado h1 { font-size: 28px; }
-    .about { padding: 30px 40px; }
-    .about h3 { font-size: 20px; margin: 40px auto; }
-    #myCarousel .item img { height: 500px; }
-}
-@media (max-width: 1199px) and (min-width: 768px) {
-    .barra-lateral { width: 200px; }
-    .principal { margin-left: 200px; }
-    .logo { padding: 20px; }
-    .icono-logo { width: 36px; height: 36px; font-size: 14px; }
-    .logo span { font-size: 16px; }
-    .navegacion li { padding: 14px 20px; }
-    .contenido { padding: 24px; }
-    .encabezado { padding: 20px 24px; }
-    .encabezado h1 { font-size: 22px; }
-    .grilla { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-    .about { padding: 20px 24px; }
-    .about h3 { font-size: 18px; margin: 25px auto; max-width: 70ch; }
-    #myCarousel { width: 90%; margin: 15px auto; }
-    #myCarousel .item img { height: 350px; }
-}
-@media (max-width: 767px) and (min-width: 481px) {
-    body { flex-direction: column; }
-    .barra-lateral {
-        width: 100%; height: auto; position: static;
-        flex-direction: row; justify-content: space-between; padding: 16px 20px;
-    }
-    .logo { padding: 0; }
-    .icono-logo { width: 32px; height: 32px; font-size: 12px; }
-    .logo span { font-size: 14px; }
-    .navegacion { padding: 0; }
-    .navegacion ul { display: flex; gap: 20px; }
-    .navegacion li { padding: 8px 0; }
-    .navegacion li i { display: none; }
-    .usuario { padding: 0; }
-    .usuario h4 { display: none; }
-    .principal { margin-left: 0; }
-    .encabezado { padding: 16px 20px; flex-wrap: wrap; gap: 16px; }
-    .encabezado h1 { font-size: 20px; }
-    .contenido { padding: 20px; }
-    .boton-primario, .boton-secundario { padding: 8px 12px; font-size: 13px; }
-    .grilla { grid-template-columns: 1fr; gap: 16px; }
-    .about { padding: 16px 20px; }
-    .about h3 { font-size: 16px; margin: 20px auto; max-width: 60ch; text-align: left; }
-    #myCarousel { width: 95%; margin: 10px auto; border-radius: 15px; }
-    #myCarousel .item img { height: 280px; border-radius: 15px; }
-}
-@media (max-width: 480px) {
-    body { flex-direction: column; }
-    .barra-lateral {
-        width: 100%; height: auto; position: static; padding: 12px 16px;
-    }
-    .logo { padding: 0; }
-    .icono-logo { width: 28px; height: 28px; font-size: 10px; }
-    .logo span { font-size: 12px; }
-    .navegacion { display: none; }
-    .usuario { padding: 0; gap: 8px; }
-    .usuario h4 { font-size: 12px; }
-    .usuario span { display: none; }
-    .avatar { width: 28px; height: 28px; }
-    .principal { margin-left: 0; }
-    .encabezado {
-        padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 12px;
-    }
-    .encabezado h1 { font-size: 18px; }
-    .contenido { padding: 16px; }
-    .boton-primario, .boton-secundario {
-        width: 100%; justify-content: center; padding: 12px 16px;
-    }
-    .grilla { grid-template-columns: 1fr; gap: 12px; }
-    .about { padding: 12px 16px; }
-    .about h3 {
-        font-size: 14px; margin: 15px auto; max-width: 90%; text-align: left; line-height: 1.5;
-    }
-    #myCarousel { width: 100%; margin: 8px auto; border-radius: 12px; }
-    #myCarousel .item img { height: 200px; border-radius: 12px; }
-    .carousel-control { width: 10%; font-size: 16px; }
-    .carousel-indicators li { width: 8px; height: 8px; }
-}   
