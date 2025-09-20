@@ -17,3 +17,10 @@ $conexion = conectarDB();
 
 ?>
 
+
+<?php
+// para el coso de bruno cambiar
+// user = WinKnow
+// pass = winknow
+// db = db_WinKnow
+?>
