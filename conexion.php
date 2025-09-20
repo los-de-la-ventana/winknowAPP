@@ -1,6 +1,6 @@
 <?php
 
-function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "db_WinKnow") {
+function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "winknow") {
     $conexion = new mysqli($server, $user, $pass, $db);
 
     if ($conexion->connect_errno) {
@@ -13,4 +13,4 @@ function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "db
 // variable con valor de la funcion 
 $conexion = conectarDB();
 
-?>
+?>db_WinKnow
