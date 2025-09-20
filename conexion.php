@@ -1,6 +1,6 @@
 <?php
 
-function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "winknow") {
+function conectarDB($server = "localhost", $user = "root", $pass = "winknow", $db = "winknow") {
     $conexion = new mysqli($server, $user, $pass, $db);
 
     if ($conexion->connect_errno) {
