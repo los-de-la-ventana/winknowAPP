@@ -74,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
     $mysqli->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -85,12 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WK - Inicio de sesión</title>
   <link rel="stylesheet" href="../inicio.css">
-  <link rel="stylesheet" href="../aulas.css">
+  <link rel="stylesheet" href="titleFX.css">
 </head>
 <body>
+
+
   <div class="form-overlay">
     <form id="registroForm" class="form-flotante" method="post" action="login.php">
-      <h2>Iniciar Sesión</h2>
+    <p class="cursor typewriter-animation">INICIA SESION</p>
       <input type="number" name="cedula" placeholder="Cédula" required>
       <input type="password" name="contra"  placeholder="Contraseña" required>
       <button type="submit">Ingresar</button>

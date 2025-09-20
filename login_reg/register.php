@@ -193,13 +193,18 @@ $mysqli->close();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WinKnow - Registro</title>
     <link rel="stylesheet" href="../inicio.css">
+    <link rel="stylesheet" href="titleFX.css">
+
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="form-overlay">
+    
     <form id="registroForm" class="form-flotante" method="post" action="register.php">
+            <p class="cursor typewriter-animation">REGÍSTRATE</p>
+
         <!-- Selección de tipo -->
         <label for="operacion">Seleccione tipo de usuario</label>
         <select name="operacion" id="operacion" required>
