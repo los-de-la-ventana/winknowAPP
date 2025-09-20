@@ -2,7 +2,10 @@
 
 session_start();
 require("../conexion.php");
+require("../conexionSERVER.php");
 $mysqli = conectarDB();
+$mysqli = conectarDBSERVER();
+
 
 // Verificar si el usuario está logueado y es admin
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['tipo'] !== 'admin') {

@@ -1,8 +1,9 @@
+
 <?php
 //--------------------------------------------
-// FUNCION PARA CONECTAR A LA BASE DE DATOS EN LOCALHOST
+// FUNCION PARA CONECTAR A LA BASE DE DATOS SERVIDOR BRUNO
 //--------------------------------------------
-function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "winknow") {
+function conectarDBSERVER($server = "localhost", $user = "WinKnow", $pass = "winknow", $db = "db_WinKnow") {
     $conexion = new mysqli($server, $user, $pass, $db);
 
     if ($conexion->connect_errno) {
@@ -13,7 +14,5 @@ function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "wi
 }
 
 // variable con valor de la funcion 
-$conexion = conectarDB();
-
+$conexion = conectarDBSERVER();
 ?>
-

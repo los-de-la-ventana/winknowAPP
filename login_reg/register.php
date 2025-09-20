@@ -1,6 +1,8 @@
 <?php
 session_start();
 require("../conexion.php");
+require("../conexionSERVER.php");
+
 
 // Validador de cédula uruguaya corregido
 class CiValidator
@@ -69,6 +71,7 @@ class CiValidator
 }
 
 $mysqli = conectarDB();
+$mysqli = conectarDBSERVER();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo     = $_POST['operacion'];
