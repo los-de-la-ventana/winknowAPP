@@ -108,7 +108,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
                     </div>
 
                     <div class="item">
-                        <img src="../img/itsp2.jpeg" alt="ITSP Laboratorios">
+                        <img src="../img/itsp2.jpg" alt="ITSP Laboratorios">
                         <div class="carousel-caption"></div>
                     </div>
 
