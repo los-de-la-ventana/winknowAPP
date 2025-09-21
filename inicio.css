@@ -14,8 +14,67 @@
     --gris: #4b5563;
     --fuente-logo: 'Orbitron', monospace;
     --fuente-principal: 'Inter', sans-serif;
+    
+    /* Nuevas variables de color agregadas */
+    --color-usuario-fondo: #2c2c2c;
+    --color-usuario-texto: #ffffff;
+    --color-badge-admin: #28a745;
+    --color-telefono: #666;
+    --color-borde: rgba(255,255,255,.1);
+    --color-hover-overlay: rgba(255,255,255,.1);
+    --color-shadow: rgba(0,0,0,.3);
+    --color-overlay: rgba(30,32,44,0.85);
+    --color-form-shadow: rgba(0,0,0,0.35);
+    --color-form-border: rgba(255,255,255,0.15);
+    --color-carousel-shadow: rgba(0,0,0,0.2);
 }
 
+/* Modo claro */
+[data-theme="light"] {
+    --fondo-primario: #f5f7fa;
+    --fondo-barra-lateral: #e9ecef;
+    --fondo-tarjeta: #ffffff;
+    --texto-primario: #222;
+    --texto-secundario: #4b5563;
+    --azul: #3459b6;
+    --verde: #10b981;
+    --rojo: #ef4444;
+    --amarillo: #f59e0b;
+    --gris: #b0b7c3;
+    
+    /* Variables específicas para modo claro */
+    --color-usuario-fondo: #f8f9fa;
+    --color-usuario-texto: #222;
+    --color-badge-admin: #28a745;
+    --color-telefono: #6c757d;
+    --color-borde: rgba(0,0,0,.1);
+    --color-hover-overlay: rgba(0,0,0,.05);
+    --color-shadow: rgba(0,0,0,.1);
+    --color-overlay: rgba(248,249,250,0.95);
+    --color-form-shadow: rgba(0,0,0,0.15);
+    --color-form-border: rgba(0,0,0,0.15);
+    --color-carousel-shadow: rgba(0,0,0,0.15);
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+    --fondo-primario: #2a2d39;
+    --fondo-barra-lateral: #1a1d28;
+    --fondo-tarjeta: #3a3f52;
+    --texto-primario: #fff;
+    --texto-secundario: #a1a8b8;
+    --azul: #4f7df3;
+    --verde: #10b981;
+    --rojo: #ef4444;
+    --amarillo: #f59e0b;
+    --gris: #4b5563;
+}
+#toggle-theme{
+    position:fixed;
+    top:15px;
+    right:15px;
+    z-index:2000;
+}
 * {
     margin: 0;
     padding: 0;
@@ -31,8 +90,11 @@ body {
 .nombre-usuario {
     font-weight: bold;
     font-size: 1.2em;
-    color: #333;
+    color: var(--texto-primario);
     padding: 10px;
+}
+.link {
+    color: var(--color-usuario-texto)
 }
 /* =======================
    BARRA LATERAL
@@ -51,13 +113,13 @@ body {
     align-items: center;
     gap: 16px;
     padding: 24px;
-    border-bottom: 1px solid rgba(255,255,255,.1);
+    border-bottom: 1px solid var(--color-borde);
 }
 
 .icono-logo {
     width: 40px;
     height: 40px;
-    border: 2px solid #fff;
+    border: 2px solid var(--texto-primario);
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -104,20 +166,20 @@ body {
     flex-direction: column;
     gap: 5px;
     padding: 24px;
-    border-top: 1px solid rgba(255,255,255,.1);
+    border-top: 1px solid var(--color-borde);
 }
 
 /* Estilos específicos para estudiantes */
 .usuario.estudiante {
-    background-color: #2c2c2c;
+    background-color: var(--color-usuario-fondo);
     border-radius: 8px;
     padding: 15px;
     margin: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .usuario.estudiante .nombre-usuario {
-    color: #ffffff !important;
+    color: var(--color-usuario-texto) !important;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -125,7 +187,7 @@ body {
 }
 
 .usuario.estudiante .tipo-usuario {
-    color: #ffffff !important;
+    color: var(--color-usuario-texto) !important;
     font-size: 14px;
     opacity: 0.9;
     font-weight: 400;
@@ -161,7 +223,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,.1);
+    border-bottom: 1px solid var(--color-borde);
 }
 
 .encabezado h1 {
@@ -206,7 +268,7 @@ body {
     /* Estilos adicionales para la información del usuario */
         .usuario .info-usuario {
             padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--color-hover-overlay);
             border-radius: 10px;
             margin-top: 20px;
         }
@@ -219,13 +281,13 @@ body {
 
         .rol-usuario {
             font-size: 12px;
-            color: #a0a0a0;
+            color: var(--texto-secundario);
             margin-bottom: 3px;
         }
 
         .cedula-usuario {
             font-size: 11px;
-            color: #888;
+            color: var(--texto-secundario);
         }
 
         .info-sesion {
@@ -236,7 +298,7 @@ body {
         }
 
         .badge-admin {
-            background: #28a745;
+            background: var(--color-badge-admin);
             color: white;
             padding: 5px 10px;
             border-radius: 15px;
@@ -244,7 +306,7 @@ body {
         }
 
         .telefono {
-            color: #666;
+            color: var(--color-telefono);
             font-size: 14px;
         }
 
@@ -254,20 +316,20 @@ body {
 
         .info-card {
             background: var(--fondo-tarjeta);
-            border: 1px solid #dee2e6;
+            border: 1px solid var(--color-borde);
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 15px;
         }
 
         .info-card h4 {
-            color: white;
+            color: var(--texto-primario);
             margin-bottom: 15px;
         }
 
         .info-card p {
             margin-bottom: 8px;
-            color: white;
+            color: var(--texto-primario);
         }
 .boton-icono {
     width: 40px;
@@ -280,8 +342,8 @@ body {
 .boton-accion {
     width: 28px;
     height: 28px;
-    background: rgba(255,255,255,.1);
-    color: #fff;
+    background: var(--color-hover-overlay);
+    color: var(--texto-primario);
     font-size: 12px;
     border-radius: 4px;
     justify-content: center;
@@ -314,7 +376,7 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    box-shadow: 0 2px 8px var(--color-shadow);
     flex: 1;
 }
 /* Estilos para filas y grupos de formulario */
@@ -343,24 +405,23 @@ body {
     width: 100%;
     padding: 10px 12px;
     border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid var(--color-form-border);
     background: var(--fondo-primario);
     color: var(--texto-primario);
     font-size: 15px;
     box-sizing: border-box;
-    appearance: none;          /* elimina estilos nativos del navegador */
-    -webkit-appearance: none;  /* Safari/Chrome */
-    -moz-appearance: none;     /* Firefox */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     cursor: pointer;
 }
 .form-flotante select {
-    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg fill='currentColor' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-size: 16px;
-    padding-right: 36px; /* espacio para la flecha */
+    padding-right: 36px;
 }
-
 
 .form-group select:focus {
     border-color: var(--azul);
@@ -401,9 +462,8 @@ body {
     padding: 24px;
     border-radius: 8px;
     margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    box-shadow: 0 2px 8px var(--color-shadow);
 }
-
 
 .controles-filtro {
     display: flex;
@@ -414,7 +474,7 @@ body {
 .controles-filtro select {
     padding: 10px 12px;
     background: var(--fondo-primario);
-    border: 1px solid rgba(255,255,255,.2);
+    border: 1px solid var(--color-borde);
     border-radius: 8px;
     color: var(--texto-primario);
     font-family: var(--fuente-principal);
@@ -428,7 +488,7 @@ body {
     background: var(--fondo-tarjeta);
     border-radius: 8px;
     padding: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .aulas-header {
@@ -493,7 +553,7 @@ body {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
-    background: rgba(30,32,44,0.85);
+    background: var(--color-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -503,7 +563,7 @@ body {
     background: var(--fondo-tarjeta);
     padding: 40px 32px;
     border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 32px var(--color-form-shadow);
     min-width: 340px;
     max-width: 90vw;
     width: 400px;
@@ -513,14 +573,14 @@ body {
     gap: 18px;
 }
 .form-flotante input {
-    width: 100%;              /* todos los inputs ocupan el mismo ancho */
+    width: 100%;
     padding: 10px 12px;
     border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid var(--color-form-border);
     background: var(--fondo-primario);
     color: var(--texto-primario);
     font-size: 15px;
-    box-sizing: border-box;   /* evita que el padding altere el ancho */
+    box-sizing: border-box;
 }
 .form-flotante label {
     font-size: 15px;
@@ -562,7 +622,7 @@ body {
     margin: 20px auto;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px var(--color-carousel-shadow);
 }
 #myCarousel .item img {
     width: 100%;
@@ -718,7 +778,7 @@ body {
         flex-direction: column;
         gap: 8px;
     }
-    
+   
     .icono-logo {
         width: 32px;
         height: 32px;
@@ -968,4 +1028,11 @@ body {
         font-size: 14px;
         line-height: 1.5;
     }
+        #toggle-theme {
+            width: auto;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 2000;
+        }
 }

@@ -74,6 +74,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
             <h1>
                 Hola, <?php echo isset($_SESSION['nombre']) && !empty($_SESSION['nombre']) ? htmlspecialchars($_SESSION['nombre']) : '<span class="usuario-blanco">Usuario</span>'; ?>
             </h1>
+            <!-- Botón para cambiar tema a claro u oscuro -->
+            <button id="toggle-theme" class="boton-primario">
+                Cambiar tema
+            </button>
+            <script src="../lightmode.js"></script>
         </header>
 
         <section class="about">

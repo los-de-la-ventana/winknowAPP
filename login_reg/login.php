@@ -88,6 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="../inicio.css">
   <link rel="stylesheet" href="titleFX.css">
 </head>
+<header>    <!-- Botón para cambiar tema a claro u oscuro -->
+            <button id="toggle-theme" class="boton-primario">
+                Cambiar tema
+            </button>
+            <script src="../lightmode.js"></script></header>
 <body>
 
 
@@ -97,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="number" name="cedula" placeholder="Cédula" required>
       <input type="password" name="contra"  placeholder="Contraseña" required>
       <button type="submit">Ingresar</button>
-      <a href="register.php" style="color:white;">¿No tienes una cuenta? Regístrate</a>
+      <a href="register.php" class="link">¿No tienes una cuenta? Regístrate</a>
     </form>
   </div>
 

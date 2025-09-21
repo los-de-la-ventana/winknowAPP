@@ -197,6 +197,11 @@ function obtenerIconoTipo($tipoSalon) {
     <main class="principal">
         <header class="encabezado">
             <h1>Gestion de Aulas y Espacios</h1>
+    <!-- Botón para cambiar tema a claro u oscuro -->
+            <button id="toggle-theme" class="boton-primario">
+                Cambiar tema
+            </button>
+            <script src="../lightmode.js"></script>
         </header>
 
         <div class="contenido">

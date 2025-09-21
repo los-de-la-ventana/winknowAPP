@@ -20,6 +20,13 @@ session_start();
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
+<header>
+    <!-- Botón para cambiar tema a claro u oscuro -->
+            <button id="toggle-theme" class="boton-primario">
+                Cambiar tema
+            </button>
+            <script src="../lightmode.js"></script>
+</header>
 <body>
 
         <!-- Barra Lateral -->
