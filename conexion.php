@@ -2,7 +2,7 @@
 //--------------------------------------------
 // FUNCION PARA CONECTAR A LA BASE DE DATOS EN LOCALHOST
 //--------------------------------------------
-function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "winknow") {
+function conectarDB($server = "localhost", $user = "WinKnow", $pass = "winknow", $db = "db_WinKnow") {
     $conexion = new mysqli($server, $user, $pass, $db);
 
     if ($conexion->connect_errno) {
