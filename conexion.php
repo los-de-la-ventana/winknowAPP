@@ -1,6 +1,7 @@
 <?php
 //--------------------------------------------
 // FUNCION PARA CONECTAR A LA BASE DE DATOS EN LOCALHOST
+// CAMBIAR VARIABLES SEGUN SEA NECESARIO PARA EL SERVIDOR DEL ITS
 //--------------------------------------------
 function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "winKnow") {
     $conexion = new mysqli($server, $user, $pass, $db);
