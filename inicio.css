@@ -96,6 +96,15 @@ body {
 .link {
     color: var(--color-usuario-texto)
 }
+
+.usuario-card {
+    background: var(--texto-secundario);
+    color:var(--fondo-primario);
+    border-radius: 2rem;
+    padding: 10px;
+    width: 50%;
+    margin: 10px 0;
+}
 /* =======================
    BARRA LATERAL
 ======================= */
