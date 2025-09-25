@@ -7,52 +7,15 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
     exit;
 }
 include '../headerfooter/header.html';
+include '../headerfooter/navADM.php';
+
 ?>
 <title>WinKnow - Panel Admin</title>
 
 
 <body>
 
-    <!-- Barra Lateral -->
-    <aside class="barra-lateral">
-        <div class="logo">
-            <div class="icono-logo">WK</div>
-            <span>WinKnow</span>
-        </div>
-        
-        <nav class="navegacion">
-            <ul>
-                <a href="inicio.php"><li class="activo"><i class="bi bi-house"></i> Inicio</li></a> 
-                <a href="aulas.php"><li><i class="bi bi-building"></i> Aulas</li></a>
-                <a href="calendario.php"><li><i class="bi bi-calendar3"></i> Calendario</li></a>
-                <a href="reportes.php"><li><i class="bi bi-bar-chart"></i> Reportes</li></a>
-                <a href="usuarios.php"><li><i class="bi bi-people"></i> Administrar Usuarios</li></a>
-                <a href="../login_reg/logout.php"><li><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</li></a>
-            </ul>
-        </nav> 
-        
-        <div class="usuario">
-            <div class="info-usuario">
-                <div class="nombre-usuario">
-                    <i class="bi bi-person-circle"></i>
-                    <?php   
-                        if (isset($_SESSION['nombre']) && !empty($_SESSION['nombre'])) {
-                            echo htmlspecialchars($_SESSION['nombre']);
-                        } else {
-                            echo '<span class="usuario-blanco">Usuario</span>';
-                        }
-                    ?>
-                </div>
-                <div class="rol-usuario">
-                    Administrador
-                    <?php if (isset($_SESSION['rolAdmin']) && !empty($_SESSION['rolAdmin'])): ?>
-                        - <?php echo htmlspecialchars($_SESSION['rolAdmin']); ?>
-                    <?php endif; ?>
-                </div>
 
-            </div>
-        </div>
-    </aside>
 
     <!-- Contenido Principal -->
     <main class="principal">

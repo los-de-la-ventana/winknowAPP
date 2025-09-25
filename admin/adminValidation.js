@@ -161,3 +161,17 @@ if (typeof module !== 'undefined') {
         getURLParams
     };
 }
+function mostrarCamposEspecificos(tipo){
+    ['docente','admin','estudiante'].forEach(t=>document.getElementById('campos-'+t).style.display='none');
+    if(tipo) document.getElementById('campos-'+tipo).style.display='block';
+}
+
+function postForm(data){
+    const form=document.createElement('form'); form.method='POST'; form.style.display='none';
+    for(const k in data){ let i=document.createElement('input'); i.type='hidden'; i.name=k; i.value=data[k]; form.appendChild(i); }
+    document.body.appendChild(form); form.submit();
+}
+
+function eliminarUsuario(cedula){ if(confirm('¿Seguro de eliminar?')) postForm({accion:'eliminar',cedula}); }
+function cambiarEstado(cedula, estado){ if(confirm('Cambiar estado a '+estado+'?')) postForm({accion:'cambiar_estado',cedula,nuevo_estado:estado}); }
+function editarUsuario(cedula){ window.location.href='adm_usr/editar_usr.php?cedula='+cedula; }

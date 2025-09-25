@@ -24,11 +24,6 @@ include '../headerfooter/header.html';
                     // Mostrar opciones completas para admin y docente
                     echo '<a href="aulas.php"> <li class="activo"><i class="bi bi-building"></i> Aulas</li></a>';
                     echo '<a href="reportes.php">  <li><i class="bi bi-bar-chart"></i> Reportes</li></a>';
-                    
-                    // Mostrar administrar usuario solo para admin
-                    if ($_SESSION['tipo'] === 'admin') {
-                        echo '<a href="admin_usuarios.php">  <li><i class="bi bi-people"></i> Administrar usuario</li></a>';
-                    }
                 }
                 ?>
                 

@@ -2,6 +2,7 @@
 // INICIO DE SESIÓN Y CONFIGURACIÓN
 session_start();
 require("../conexion.php");
+
 $mysqli = conectarDB();
 
 // SEGURIDAD: VERIFICAR PERMISOS DE ADMIN
@@ -105,7 +106,9 @@ function obtenerIconoTipo($tipoSalon) {
 // INCLUIR HEADER
 // ============================================
 include '../headerfooter/header.html';
+include '../headerfooter/navADM.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -116,38 +119,6 @@ include '../headerfooter/header.html';
 </head>
 <body>
 
-<!-- ==================== BARRA LATERAL ==================== -->
-<aside class="barra-lateral">
-    <div class="logo">
-        <div class="icono-logo">WK</div>
-        <span>WinKnow</span>
-    </div>
-    <nav class="navegacion">
-        <ul>
-            <a href="inicio.php"><li><i class="bi bi-house"></i> Inicio</li></a>
-            <a href="aulas.php"><li class="activo"><i class="bi bi-building"></i> Aulas</li></a>
-            <a href="calendario.php"><li><i class="bi bi-calendar3"></i> Calendario</li></a>
-            <a href="reportes.php"><li><i class="bi bi-bar-chart"></i> Reportes</li></a>
-            <a href="usuarios.php"><li><i class="bi bi-people"></i> Administrar Usuarios</li></a>
-            <a href="../login_reg/logout.php"><li><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</li></a>
-        </ul>
-    </nav>
-
-    <div class="usuario">
-        <div class="info-usuario">
-            <div class="nombre-usuario">
-                <i class="bi bi-person-circle"></i>
-                <?= htmlspecialchars($_SESSION['nombre'] ?? 'Usuario') ?>
-            </div>
-            <div class="rol-usuario">
-                Administrador
-                <?php if (!empty($_SESSION['rolAdmin'])): ?>
-                    - <?= htmlspecialchars($_SESSION['rolAdmin']); ?>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-</aside>
 
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
 <main class="principal">
