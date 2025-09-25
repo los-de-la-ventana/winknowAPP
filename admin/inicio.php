@@ -85,7 +85,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
             <h3>Panel de Administración - WinKnow</h3>
             <p>Desde este panel puedes gestionar usuarios, aulas, recursos y generar reportes del sistema. WinKnow te permite administrar de forma eficiente todos los recursos del ITSP.</p>
 
-            <!-- Tarjetas de información del admin -->
+            <!-- Tarjetas de información del admin -->  
             <div class="admin-info-cards">
                 <div class="info-card">
                     <h4><i class="bi bi-person-badge"></i> Tu Información</h4>
