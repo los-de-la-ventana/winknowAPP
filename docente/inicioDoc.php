@@ -1,32 +1,10 @@
 <?php
 session_start();
+include '../headerfooter/header.html';
 ?>
 
+<title>WinKnow - Panel Admin</title>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> <!--CSS DEL CARRUSEL DE W3SCHOOLS-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="../inicio.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinKnow - Inicio</title>
-
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<header>
-    <!-- Botón para cambiar tema a claro u oscuro -->
-            <button id="toggle-theme" class="boton-primario">
-                Cambiar tema
-            </button>
-            <script src="../lightmode.js"></script>
-</header>
 <body>
 
         <!-- Barra Lateral -->

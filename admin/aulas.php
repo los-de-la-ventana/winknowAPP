@@ -3,7 +3,7 @@
 session_start();
 require("../conexion.php");
 $mysqli = conectarDB();
-
+include '../headerfooter/header.html';
 // SECCION DE SEGURIDAD - Verificar permisos de administrador
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['tipo'] !== 'admin') {
     header("Location: ../login_reg/login.php");
@@ -135,21 +135,9 @@ function obtenerIconoTipo($tipoSalon) {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../inicio.css">
-    <link rel="stylesheet" href="aulas.css">
     <title>WinKnow - Gestion de Aulas</title>
 
-    <!-- Bootstrap Icons para iconos -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts para tipografia -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
+
 <body>
     <!-- BARRA LATERAL DE NAVEGACION -->
     <aside class="barra-lateral">
@@ -195,14 +183,7 @@ function obtenerIconoTipo($tipoSalon) {
     
     <!-- CONTENIDO PRINCIPAL DE LA PAGINA -->
     <main class="principal">
-        <header class="encabezado">
-            <h1>Gestion de Aulas y Espacios</h1>
-    <!-- Botón para cambiar tema a claro u oscuro -->
-            <button id="toggle-theme" class="boton-primario">
-                Cambiar tema
-            </button>
-            <script src="../lightmode.js"></script>
-        </header>
+
 
         <div class="contenido">
 
