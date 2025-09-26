@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-09-2025 a las 02:51:58
+-- Tiempo de generación: 26-09-2025 a las 17:36:48
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -58,7 +58,7 @@ DELIMITER ;
 
 CREATE TABLE `administrador` (
   `codigo_adm` int(11) NOT NULL,
-  `Cedula` int(11) NOT NULL,
+  `Cedula` int(11) DEFAULT NULL,
   `EsAdmin` tinyint(1) DEFAULT NULL,
   `rolAdmin` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,9 +68,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`codigo_adm`, `Cedula`, `EsAdmin`, `rolAdmin`) VALUES
-(1, 0, 1, 'PROGRAMADOR'),
-(2, 0, 1, 'pruebaregistro'),
-(3, 0, 1, 'PROGRAMADOR');
+(1, 0, 1, 'secretario');
 
 -- --------------------------------------------------------
 
@@ -126,9 +124,7 @@ CREATE TABLE `dictan` (
 
 CREATE TABLE `docente` (
   `codigo_doc` int(11) NOT NULL,
-  `Cedula` int(11) NOT NULL,
-  `grado` int(11) DEFAULT NULL,
-  `IdReserva` int(11) DEFAULT NULL,
+  `Cedula` int(11) DEFAULT NULL,
   `contrasenia` varchar(255) NOT NULL,
   `AnioInsercion` date DEFAULT NULL,
   `Estado` varchar(20) DEFAULT NULL
@@ -138,8 +134,8 @@ CREATE TABLE `docente` (
 -- Volcado de datos para la tabla `docente`
 --
 
-INSERT INTO `docente` (`codigo_doc`, `Cedula`, `grado`, `IdReserva`, `contrasenia`, `AnioInsercion`, `Estado`) VALUES
-(10, 0, 0, NULL, '$2y$10$vBK4Hzbm4PmnMzixXcX/o.O4O49Wb/l4XLID4xrt9Cq0Yz3qYTvnu', '2020-01-01', 'ACT');
+INSERT INTO `docente` (`codigo_doc`, `Cedula`, `contrasenia`, `AnioInsercion`, `Estado`) VALUES
+(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', '2020-01-01', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -161,7 +157,7 @@ CREATE TABLE `docente_recurso` (
 CREATE TABLE `email` (
   `Cedula` int(11) NOT NULL,
   `numeroTelefono` varchar(50) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL
+  `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -170,8 +166,7 @@ CREATE TABLE `email` (
 
 INSERT INTO `email` (`Cedula`, `numeroTelefono`, `email`) VALUES
 (0, '', ''),
-(52591257, '099006958', ''),
-(25600150, '099006958', '');
+(57255539, '099006955', '');
 
 -- --------------------------------------------------------
 
@@ -187,6 +182,18 @@ CREATE TABLE `espacios` (
   `Estado_Espacio` varchar(20) DEFAULT NULL,
   `Tipo_salon` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `espacios`
+--
+
+INSERT INTO `espacios` (`IdEspacio`, `NumEdificio`, `NumSalon`, `capacidad`, `Estado_Espacio`, `Tipo_salon`) VALUES
+(1, 1, 1, 35, NULL, 'Aula'),
+(2, 1, 2, 40, NULL, 'Aula'),
+(3, 1, 3, 30, NULL, 'Aula'),
+(4, 0, 10, 25, NULL, 'Taller'),
+(5, 2, 20, 30, NULL, 'Taller'),
+(6, 2, 21, 25, NULL, 'Taller');
 
 -- --------------------------------------------------------
 
@@ -204,8 +211,7 @@ CREATE TABLE `estudiante` (
 --
 
 INSERT INTO `estudiante` (`Cedula`, `FechaNac`) VALUES
-(52591257, '0222-02-22'),
-(25600150, '0022-02-22');
+(57255539, '2008-04-25');
 
 -- --------------------------------------------------------
 
@@ -296,9 +302,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
-(0, '$2y$10$PEFjKTSHBJL4UrpWINWn5Oq.Q6rJJDBWO0c4a4nK5nwPXgMNoLxy2', ''),
-(25600150, '$2y$10$LbyVoQiuu9g5YtAtIjnDW.PgrMK7BJRP.woJzJuIFYiSGE2F.zwyG', 'vale coria'),
-(52591257, '$2y$10$xykR4UUw7NVY4n8lhaUgoepDlMKMJAcXno6brsWNf9zwAzRNrOBBi', 'gustavo');
+(0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', ''),
+(57255539, '$2y$10$5CZJK12EjqBAxYcwxNidW.yHIlgAIYxG/36P/yfXagMg2Czjdxapu', 'Santi Rameau');
 
 --
 -- Índices para tablas volcadas
@@ -309,7 +314,7 @@ INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
 --
 ALTER TABLE `administrador`
   ADD PRIMARY KEY (`codigo_adm`),
-  ADD KEY `Cedula` (`Cedula`);
+  ADD UNIQUE KEY `Cedula` (`Cedula`);
 
 --
 -- Indices de la tabla `asignatura`
@@ -343,7 +348,7 @@ ALTER TABLE `dictan`
 --
 ALTER TABLE `docente`
   ADD PRIMARY KEY (`codigo_doc`),
-  ADD KEY `Cedula` (`Cedula`);
+  ADD UNIQUE KEY `Cedula` (`Cedula`);
 
 --
 -- Indices de la tabla `docente_recurso`
@@ -356,7 +361,7 @@ ALTER TABLE `docente_recurso`
 -- Indices de la tabla `email`
 --
 ALTER TABLE `email`
-  ADD KEY `Cedula` (`Cedula`);
+  ADD PRIMARY KEY (`Cedula`,`email`);
 
 --
 -- Indices de la tabla `espacios`
@@ -368,7 +373,7 @@ ALTER TABLE `espacios`
 -- Indices de la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  ADD KEY `Cedula` (`Cedula`);
+  ADD PRIMARY KEY (`Cedula`);
 
 --
 -- Indices de la tabla `estudiante_curso`
@@ -425,31 +430,31 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `asignatura`
 --
 ALTER TABLE `asignatura`
-  MODIFY `IdAsignatura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IdAsignatura` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `IdCurso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IdCurso` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `espacios`
 --
 ALTER TABLE `espacios`
-  MODIFY `IdEspacio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IdEspacio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `horario`
@@ -461,7 +466,7 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT de la tabla `recursos`
 --
 ALTER TABLE `recursos`
-  MODIFY `IdRecurso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IdRecurso` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`

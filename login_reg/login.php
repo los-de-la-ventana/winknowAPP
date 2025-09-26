@@ -74,26 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
     $mysqli->close();
 }
+include '../headerfooter/header.html';
 
 ?>
+       <link rel="stylesheet" href="titleFX.css">
+        <title>WinKnow - Registro</title>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
-  <link rel="icon" type="image/x-icon" href="../img/image-removebg-preview.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WK - Inicio de sesión</title>
-  <link rel="stylesheet" href="../inicio.css">
-  <link rel="stylesheet" href="titleFX.css">
-</head>
-<header>    <!-- Botón para cambiar tema a claro u oscuro -->
-            <button id="toggle-theme" class="boton-primario">
-                Cambiar tema
-            </button>
-            <script src="../lightmode.js"></script></header>
-<body>
 
 
   <div class="form-overlay">
