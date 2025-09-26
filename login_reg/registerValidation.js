@@ -17,34 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Función para mostrar/ocultar bloques según el tipo seleccionado
-  function toggle() {
-    const val = selectTipo.value;
-    
-    // Ocultar todos los bloques y remover required
-    adminBlock.style.display = 'none';
-    docenteBlock.style.display = 'none';
-    estBlock.style.display = 'none';
-    
-    setRequired(adminBlock, false);
-    setRequired(docenteBlock, false);
-    setRequired(estBlock, false);
-    
-    // Mostrar y activar el bloque correspondiente
-    if (val === 'admin') {
-      adminBlock.style.display = 'block';
-      setRequired(adminBlock, true);
-    } else if (val === 'docente') {
-      docenteBlock.style.display = 'block';
-      setRequired(docenteBlock, true);
-    } else if (val === 'estudiante') {
-      estBlock.style.display = 'block';
-      setRequired(estBlock, true);
-    }
-
-    // Aplicar validaciones después de mostrar los bloques
-    applyFieldValidations();
-  }
+  
 
   // Función para validar solo números
   function validateNumericInput(input) {
@@ -66,6 +39,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+function inicializarFormularioRegistro() {
+    // Esperar a que el DOM esté completamente cargado
+    const menuTipoUsuario = document.querySelector('#registroForm #operacion');
+    const contenedorInputs = document.querySelector('#registroForm #divDeInputs');
+
+    const templates = {
+        admin: 'template-admin',
+        docente: 'template-docente',
+        estudiante: 'template-estudiante'
+    };
+
+    function actualizarCampos() {
+        const tipoSeleccionado = menuTipoUsuario.value;
+        contenedorInputs.innerHTML = '';
+
+        if (templates[tipoSeleccionado]) {
+            const template = document.getElementById(templates[tipoSeleccionado]);
+            if (template && template.content) {
+                contenedorInputs.appendChild(template.content.cloneNode(true));
+            }
+        }
+    }
+
+    if (menuTipoUsuario) {
+        menuTipoUsuario.addEventListener('change', actualizarCampos);
+        actualizarCampos(); // Inicializar con el valor actual
+    }
+}
+
+document.addEventListener('DOMContentLoaded', inicializarFormularioRegistro);
+  
     function createPasswordToggle(passwordInput) {
     if (passwordInput.dataset.toggleAdded) return;
 
@@ -145,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Event listener para el cambio de tipo
-  selectTipo.addEventListener('change', toggle);
-  toggle(); // Ejecutar al cargar
+  // selectTipo.addEventListener('change', toggle);
+  // toggle(); // Ejecutar al cargar
 
   // Validación básica del formulario
   form.addEventListener('submit', (e) => {
