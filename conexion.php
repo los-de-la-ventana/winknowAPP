@@ -20,7 +20,7 @@ $conexion = conectarDB();
 
 
 <?php
-// para el coso de bruno cambiar
+// para el server de bruno cambiar
 // user = WinKnow
 // pass = winknow
 // db = db_WinKnow

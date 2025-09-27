@@ -1,8 +1,6 @@
 <?php
 session_start();
-        Include '../headerfooter/header.html';
-        include '../headerfooter/carrusel.html'; 
-
+        include '../headerfooter/header.html';
 ?>
 
 <title>WinKnow - Inicio</title>
@@ -60,7 +58,10 @@ session_start();
         ?>
     </h1>
 </header>
+<?php
+        include '../headerfooter/carrusel.html'; 
 
+?>
         </div>
         </main>
     </body>

@@ -1,14 +1,24 @@
 santi 
-57255539
+57255539 | estudiante
 Rameau1
-est
+
 
 
 vale coria
-25600150
+25600150 | estudiante
 Rameau1
 
 
 
 39295446
-frubil
+frubil | no me acuerdo q rol es
+
+
+80731788
+Rameau1
+bianchimts | docente
+
+
+83256953
+Rameau1
+Gaston gomez | docente

@@ -273,7 +273,6 @@ $mysqli->close();
             <option value="estudiante">Estudiante</option>
         </select>
         <br>
-
         <div id="divDeInputs" class="input-field"></div>
 
         <button type="submit">Registrar</button>

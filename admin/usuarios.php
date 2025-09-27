@@ -52,8 +52,6 @@ $tipo_mensaje = ($resultado_accion['success'] ?? false) ? 'success' : 'danger';
 $usuarios = listarUsuarios()['data'] ?? [];
 $estadisticas = obtenerEstadisticasUsuarios()['data'] ?? [];
 
-include '../headerfooter/header.html';
-include '../headerfooter/navADM.php';
 
 // ---------------------------
 // Función para inputs
@@ -134,7 +132,11 @@ function inputGroup($label, $name, $type='text', $placeholder='', $extra='') {
         <div class="alert alert-info mt-3">No hay usuarios registrados.</div>
     <?php endif; ?>
 </main>
+<?php
 
+include '../headerfooter/header.html';
+include '../headerfooter/navADM.php';
+?>
 <!-- Modal Agregar Usuario -->
 <div class="modal fade" id="modalAgregar" tabindex="-1">
     <div class="modal-dialog modal-lg">

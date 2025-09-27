@@ -106,7 +106,6 @@ function obtenerIconoTipo($tipoSalon) {
 // INCLUIR HEADER
 // ============================================
 include '../headerfooter/header.html';
-include '../headerfooter/navADM.php';
 ?>
 
 
@@ -119,9 +118,13 @@ include '../headerfooter/navADM.php';
 </head>
 <body>
 
+<?php
+        include '../headerfooter/navADM.php'; 
 
+?>
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
 <main class="principal">
+    
     <div class="contenido">
 
         <!-- TARJETAS DE ESTADÍSTICAS -->
