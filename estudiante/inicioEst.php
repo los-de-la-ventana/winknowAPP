@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../headerfooter/header.html';
+        Include '../headerfooter/header.html';
         include '../headerfooter/carrusel.html'; 
 
 ?>
