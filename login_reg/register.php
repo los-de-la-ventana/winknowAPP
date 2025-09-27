@@ -239,11 +239,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $mysqli->close();
-include("../header.php");
-include("../nav.php");
 ?>
 
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WinKnow - Registro</title>
+    <link rel="stylesheet" href="../inicio.css">
+    <link rel="stylesheet" href="titleFX.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<header>
+    <button id="toggle-theme" class="boton-primario">
+        Cambiar tema
+    </button>
+    <script src="../lightmode.js"></script>
+</header>
 <body>
 
 <div class="form-overlay">
