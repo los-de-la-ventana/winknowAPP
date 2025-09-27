@@ -16,13 +16,7 @@
         </ul>
     </nav> 
     
-    <!-- Selector de Idioma -->
-    <div class="selector-idioma">
-        <select id="languageSelector" class="language-select">
-            <option value="es" selected>🇪🇸 Español</option>
-            <option value="en">🇺🇸 English</option>
-        </select>
-    </div>
+
     
     <div class="usuario">
         <div class="info-usuario">

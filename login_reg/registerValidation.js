@@ -39,35 +39,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+// Función para inicializar el formulario de registro
 function inicializarFormularioRegistro() {
-    // Esperar a que el DOM esté completamente cargado
-    const menuTipoUsuario = document.querySelector('#registroForm #operacion');
-    const contenedorInputs = document.querySelector('#registroForm #divDeInputs');
+    // Obtener referencias a los elementos del DOM
+    const domMenuSeleccion = document.getElementById('operacion'); // Menu de opciones
+    const domDivDeInputs = document.getElementById('divDeInputs'); // Div vacío que se llena según la opción
 
-    const templates = {
-        admin: 'template-admin',
-        docente: 'template-docente',
-        estudiante: 'template-estudiante'
-    };
+    // Función que actualiza los campos según la opción seleccionada
+    function updateInputs() {
+        const opcionSeleccionada = domMenuSeleccion.value; // Obtener el valor del menu seleccionado
+        domDivDeInputs.innerHTML = ''; // Borrar el contenido del div
 
-    function actualizarCampos() {
-        const tipoSeleccionado = menuTipoUsuario.value;
-        contenedorInputs.innerHTML = '';
-
-        if (templates[tipoSeleccionado]) {
-            const template = document.getElementById(templates[tipoSeleccionado]);
-            if (template && template.content) {
-                contenedorInputs.appendChild(template.content.cloneNode(true));
+        if (opcionSeleccionada === 'admin') {
+            // Clonar e insertar template de Administrador
+            const adminTemplate = document.getElementById('template-admin');
+            if (adminTemplate && adminTemplate.content) {
+                domDivDeInputs.appendChild(adminTemplate.content.cloneNode(true));
+            }
+        }
+        else if (opcionSeleccionada === 'docente') {
+            // Clonar e insertar template de Docente
+            const docenteTemplate = document.getElementById('template-docente');
+            if (docenteTemplate && docenteTemplate.content) {
+                domDivDeInputs.appendChild(docenteTemplate.content.cloneNode(true));
+            }
+        }
+        else if (opcionSeleccionada === 'estudiante') {
+            // Clonar e insertar template de Estudiante
+            const estudianteTemplate = document.getElementById('template-estudiante');
+            if (estudianteTemplate && estudianteTemplate.content) {
+                domDivDeInputs.appendChild(estudianteTemplate.content.cloneNode(true));
             }
         }
     }
 
-    if (menuTipoUsuario) {
-        menuTipoUsuario.addEventListener('change', actualizarCampos);
-        actualizarCampos(); // Inicializar con el valor actual
+    // Verificar que los elementos existan antes de agregar el event listener
+    if (domMenuSeleccion && domDivDeInputs) {
+        // Escuchar cambios en el select y actualizar los inputs
+        domMenuSeleccion.addEventListener('change', updateInputs);
+        
+        // Inicializar formulario con los inputs correspondientes al valor por defecto
+        updateInputs();
     }
 }
 
+// Esperar a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', inicializarFormularioRegistro);
+
+// También ejecutar si el script se carga después del DOM (fallback)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarFormularioRegistro);
+} else {
+    inicializarFormularioRegistro();
+}
 document.addEventListener('DOMContentLoaded', inicializarFormularioRegistro);
   
     function createPasswordToggle(passwordInput) {
