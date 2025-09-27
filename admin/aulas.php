@@ -106,6 +106,7 @@ function obtenerIconoTipo($tipoSalon) {
 // INCLUIR HEADER
 // ============================================
 include '../headerfooter/header.html';
+
 ?>
 
 

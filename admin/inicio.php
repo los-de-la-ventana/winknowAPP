@@ -7,19 +7,20 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
     exit;
 }
 include '../headerfooter/header.html';
-include '../headerfooter/navADM.php';
 
 ?>
-<title>WinKnow - Panel Admin</title>
 
-
+<?php
+ include '../headerfooter/navADM.php';
+?>
 <body>
+<title>WinKnow - Panel Admin</title>
 
 
 
     <!-- Contenido Principal -->
     <main class="principal">
-     
+
         <section class="about">
             <h3>Panel de Administración - WinKnow</h3>
             <p>Desde este panel puedes gestionar usuarios, aulas, recursos y generar reportes del sistema. WinKnow te permite administrar de forma eficiente todos los recursos del ITSP.</p>
