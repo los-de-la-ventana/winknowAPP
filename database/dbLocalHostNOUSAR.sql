@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2025 a las 17:36:48
+-- Tiempo de generación: 28-09-2025 a las 00:14:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -58,7 +58,7 @@ DELIMITER ;
 
 CREATE TABLE `administrador` (
   `codigo_adm` int(11) NOT NULL,
-  `Cedula` int(11) DEFAULT NULL,
+  `Cedula` varchar(12) DEFAULT NULL,
   `EsAdmin` tinyint(1) DEFAULT NULL,
   `rolAdmin` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,7 +68,9 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`codigo_adm`, `Cedula`, `EsAdmin`, `rolAdmin`) VALUES
-(1, 0, 1, 'secretario');
+(1, '0', 1, 'secretario'),
+(13, '93773381', 1, 'ADMIN'),
+(14, '80731788', 1, 'PROGRAMADOR');
 
 -- --------------------------------------------------------
 
@@ -135,7 +137,8 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`codigo_doc`, `Cedula`, `contrasenia`, `AnioInsercion`, `Estado`) VALUES
-(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', '2020-01-01', 'Activo');
+(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', '2020-01-01', 'Activo'),
+(5, 83256953, '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', '2017-01-01', 'activooo');
 
 -- --------------------------------------------------------
 
@@ -166,7 +169,12 @@ CREATE TABLE `email` (
 
 INSERT INTO `email` (`Cedula`, `numeroTelefono`, `email`) VALUES
 (0, '', ''),
-(57255539, '099006955', '');
+(39295446, '099006955', ''),
+(57255539, '099006955', ''),
+(57738262, '092047886', ''),
+(80731788, '099006958', ''),
+(83256953, '099006958', ''),
+(93773381, '099006955', '');
 
 -- --------------------------------------------------------
 
@@ -211,6 +219,7 @@ CREATE TABLE `estudiante` (
 --
 
 INSERT INTO `estudiante` (`Cedula`, `FechaNac`) VALUES
+(39295446, '1111-11-11'),
 (57255539, '2008-04-25');
 
 -- --------------------------------------------------------
@@ -292,7 +301,7 @@ CREATE TABLE `terciario` (
 --
 
 CREATE TABLE `usuarios` (
-  `Cedula` int(11) NOT NULL,
+  `Cedula` varchar(12) NOT NULL,
   `Contrasenia` varchar(255) NOT NULL,
   `Nombre_usr` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -302,8 +311,12 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
-(0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', ''),
-(57255539, '$2y$10$5CZJK12EjqBAxYcwxNidW.yHIlgAIYxG/36P/yfXagMg2Czjdxapu', 'Santi Rameau');
+('0', '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', ''),
+('39295446', '$2y$10$UKKFI3D3qxUTPJEwLaA.aupXiUjWHRYDVnQR56okV5gf8vggl5kqa', 'Fede'),
+('57255539', '$2y$10$5CZJK12EjqBAxYcwxNidW.yHIlgAIYxG/36P/yfXagMg2Czjdxapu', 'Santi Rameau'),
+('80731788', '$2y$10$Koc..wS9Ko2bnCtukIPGw.Odrh3wMDk1Z9K7z5KPo2GHhK4eXkUYi', 'Bianchi Matias'),
+('83256953', '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', 'Gaston Gomez'),
+('93773381', '$2y$10$4esUxDyXGYdVthb5t7xdc.9oKHlanghjoBID28hCOayqIW4StWd/C', 'ADMINPrueba');
 
 --
 -- Índices para tablas volcadas
@@ -313,8 +326,7 @@ INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
 -- Indices de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`codigo_adm`),
-  ADD UNIQUE KEY `Cedula` (`Cedula`);
+  ADD PRIMARY KEY (`codigo_adm`);
 
 --
 -- Indices de la tabla `asignatura`
@@ -430,7 +442,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `asignatura`
@@ -448,7 +460,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `espacios`
@@ -479,12 +491,6 @@ ALTER TABLE `reserva`
 --
 
 --
--- Filtros para la tabla `administrador`
---
-ALTER TABLE `administrador`
-  ADD CONSTRAINT `administrador_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `usuarios` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `asignatura_curso`
 --
 ALTER TABLE `asignatura_curso`
@@ -492,55 +498,27 @@ ALTER TABLE `asignatura_curso`
   ADD CONSTRAINT `asignatura_curso_ibfk_2` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `cursos`
---
-ALTER TABLE `cursos`
-  ADD CONSTRAINT `cursos_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `dictan`
 --
 ALTER TABLE `dictan`
-  ADD CONSTRAINT `dictan_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `dictan_ibfk_2` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `docente`
---
-ALTER TABLE `docente`
-  ADD CONSTRAINT `docente_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `usuarios` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `docente_recurso`
 --
 ALTER TABLE `docente_recurso`
-  ADD CONSTRAINT `docente_recurso_ibfk_1` FOREIGN KEY (`IdRecurso`) REFERENCES `recursos` (`IdRecurso`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `docente_recurso_ibfk_2` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `email`
---
-ALTER TABLE `email`
-  ADD CONSTRAINT `email_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `usuarios` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `estudiante`
---
-ALTER TABLE `estudiante`
-  ADD CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `usuarios` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `estudiante_curso`
 --
 ALTER TABLE `estudiante_curso`
-  ADD CONSTRAINT `estudiante_curso_ibfk_1` FOREIGN KEY (`Cedula`) REFERENCES `estudiante` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `estudiante_curso_ibfk_2` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `horario`
 --
 ALTER TABLE `horario`
-  ADD CONSTRAINT `horario_ibfk_1` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `horario_ibfk_2` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
