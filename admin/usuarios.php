@@ -62,6 +62,8 @@ function inputGroup($label, $name, $type='text', $placeholder='', $extra='') {
         <input type='{$type}' name='{$name}' class='form-control' placeholder='{$placeholder}' {$extra}>
     </div>";
 }
+include '../headerfooter/header.html';
+
 ?>
 
 <body>
@@ -134,7 +136,6 @@ function inputGroup($label, $name, $type='text', $placeholder='', $extra='') {
 </main>
 <?php
 
-include '../headerfooter/header.html';
 include '../headerfooter/navADM.php';
 ?>
 <!-- Modal Agregar Usuario -->
