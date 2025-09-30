@@ -79,3 +79,43 @@ if (document.readyState === 'loading') {
 } else {
     inicializarPagina();
 }
+setTimeout(function() {
+    var alerts = document.querySelectorAll('.alert');
+    for (var i = 0; i < alerts.length; i++) {
+        alerts[i].style.display = 'none';
+    }
+}, 5000);
+
+var tipoUsuarioSelect = document.getElementById('tipoUsuario');
+if (tipoUsuarioSelect) {
+    tipoUsuarioSelect.addEventListener('change', function() {
+        var tipo = this.value;
+        var camposDocente = document.getElementById('campos-docente');
+        var camposAdmin = document.getElementById('campos-admin');
+        var camposEstudiante = document.getElementById('campos-estudiante');
+        
+        if (camposDocente) camposDocente.style.display = 'none';
+        if (camposAdmin) camposAdmin.style.display = 'none';
+        if (camposEstudiante) camposEstudiante.style.display = 'none';
+        
+        if (tipo === 'docente' && camposDocente) {
+            camposDocente.style.display = 'block';
+            var inputs = camposDocente.querySelectorAll('input');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].required = true;
+            }
+        } else if (tipo === 'admin' && camposAdmin) {
+            camposAdmin.style.display = 'block';
+            var inputs = camposAdmin.querySelectorAll('input');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].required = true;
+            }
+        } else if (tipo === 'estudiante' && camposEstudiante) {
+            camposEstudiante.style.display = 'block';
+            var inputs = camposEstudiante.querySelectorAll('input');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].required = true;
+            }
+        }
+    });
+}

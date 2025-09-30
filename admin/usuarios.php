@@ -2,68 +2,108 @@
 session_start();
 require 'adm_usr/func_usr.php';
 
-// ---------------------------
-// Verificar permisos
-// ---------------------------
 if (!($_SESSION['logged_in'] ?? false) || ($_SESSION['tipo'] ?? '') !== 'admin') {
     header("Location: ../login_reg/login.php");
     exit;
 }
 
-// ---------------------------
-// Procesar acciones POST
-// ---------------------------
-function procesarAccion() {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') return null;
+$mensaje = '';
+$tipo_mensaje = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? '';
 
     switch ($accion) {
         case 'agregar':
-            return agregarUsuario(
-                $_POST['cedula'],
-                $_POST['contrasenia'],
-                $_POST['nombre'],
-                $_POST['tipo_usuario'],
-                $_POST['email'] ?? null,
-                $_POST['telefono'] ?? null,
-                [
-                    'grado'    => $_POST['grado'] ?? null,
-                    'estado'   => $_POST['estado'] ?? 'Activo',
-                    'rolAdmin' => $_POST['rolAdmin'] ?? null,
-                    'fechaNac' => $_POST['fechaNac'] ?? null
-                ]
-            );
+            $cedula = trim($_POST['cedula'] ?? '');
+            $nombre = trim($_POST['nombre'] ?? '');
+            $contrasenia = $_POST['contra'] ?? '';
+            $tipo_usuario = strtolower($_POST['tipo_usuario'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $telefono = trim($_POST['telefono'] ?? '');
+            
+            if (empty($cedula) || empty($nombre) || empty($contrasenia) || empty($tipo_usuario)) {
+                $mensaje = 'Todos los campos obligatorios deben estar completos';
+                $tipo_mensaje = 'danger';
+                break;
+            }
+            
+            if (!ctype_digit($cedula)) {
+                $mensaje = 'La cédula solo debe contener números';
+                $tipo_mensaje = 'danger';
+                break;
+            }
+            
+            $datos_adicionales = [];
+            
+            switch ($tipo_usuario) {
+                case 'docente':
+                    $datos_adicionales['anioIns'] = $_POST['anioIns'] ?? date('Y-m-d');
+                    $datos_adicionales['estado'] = $_POST['estado'] ?? 'Activo';
+                    break;
+                    
+                case 'admin':
+                    $datos_adicionales['rolAdmin'] = $_POST['rolAdm'] ?? 'ADMIN';
+                    break;
+                    
+                case 'estudiante':
+                    $datos_adicionales['fechaNac'] = $_POST['fnac'] ?? null;
+                    if (empty($datos_adicionales['fechaNac'])) {
+                        $mensaje = 'La fecha de nacimiento es obligatoria para estudiantes';
+                        $tipo_mensaje = 'danger';
+                        break 2;
+                    }
+                    break;
+                    
+                default:
+                    $mensaje = 'Tipo de usuario no válido';
+                    $tipo_mensaje = 'danger';
+                    break 2;
+            }
+            
+            $resultado = agregarUsuario($cedula, $contrasenia, $nombre, $tipo_usuario, $email, $telefono, $datos_adicionales);
+            $mensaje = $resultado['message'];
+            $tipo_mensaje = $resultado['success'] ? 'success' : 'danger';
+            break;
+            
         case 'eliminar':
-            return eliminarUsuario($_POST['cedula']);
+            $cedula = $_POST['cedula'] ?? '';
+            if (empty($cedula)) {
+                $mensaje = 'No se especificó la cédula del usuario';
+                $tipo_mensaje = 'danger';
+                break;
+            }
+            
+            $resultado = eliminarUsuario($cedula);
+            $mensaje = $resultado['message'];
+            $tipo_mensaje = $resultado['success'] ? 'success' : 'danger';
+            break;
+            
         case 'cambiar_estado':
-            return cambiarEstadoDocente($_POST['cedula'], $_POST['nuevo_estado']);
+            $cedula = $_POST['cedula'] ?? '';
+            $nuevo_estado = $_POST['nuevo_estado'] ?? '';
+            
+            if (empty($cedula) || empty($nuevo_estado)) {
+                $mensaje = 'Datos incompletos para cambiar estado';
+                $tipo_mensaje = 'danger';
+                break;
+            }
+            
+            $resultado = cambiarEstadoDocente($cedula, $nuevo_estado);
+            $mensaje = $resultado['message'];
+            $tipo_mensaje = $resultado['success'] ? 'success' : 'danger';
+            break;
+            
         default:
-            return null;
+            $mensaje = 'Acción no válida';
+            $tipo_mensaje = 'danger';
     }
 }
 
-$resultado_accion = procesarAccion();
-$mensaje = $resultado_accion['message'] ?? '';
-$tipo_mensaje = ($resultado_accion['success'] ?? false) ? 'success' : 'danger';
-
-// ---------------------------
-// Obtener usuarios
-// ---------------------------
 $usuarios = listarUsuarios()['data'] ?? [];
 $estadisticas = obtenerEstadisticasUsuarios()['data'] ?? [];
 
-
-// ---------------------------
-// Función para inputs
-// ---------------------------
-function inputGroup($label, $name, $type='text', $placeholder='', $extra='') {
-    return "<div class='mb-3'>
-        <label class='form-label'>{$label}:</label>
-        <input type='{$type}' name='{$name}' class='form-control' placeholder='{$placeholder}' {$extra}>
-    </div>";
-}
 include '../headerfooter/header.html';
-
 ?>
 
 <body>
@@ -71,8 +111,8 @@ include '../headerfooter/header.html';
 
 <main class="principal container py-4">
     <?php if ($mensaje): ?>
-        <div class="alert alert-<?= $tipo_mensaje ?> alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($mensaje) ?>
+        <div class="alert alert-<?php echo $tipo_mensaje; ?> alert-dismissible fade show" role="alert">
+            <?php echo htmlspecialchars($mensaje); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
@@ -80,9 +120,11 @@ include '../headerfooter/header.html';
     <h2 class="mb-4">Gestión de Usuarios</h2>
 
     <div class="d-flex mb-3 gap-2">
+        <a href="adm_usr/editar_usr.php">
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregar">
             <i class="bi bi-person-plus"></i> Agregar Usuario
         </button>
+        </a>
         <button class="btn btn-info" onclick="location.reload()">
             <i class="bi bi-arrow-clockwise"></i> Actualizar Lista
         </button>
@@ -97,34 +139,43 @@ include '../headerfooter/header.html';
                 <div class="col">
                     <div class="card h-100 border-primary">
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($u['Nombre_usr']) ?></h5>
-                            <p class="card-text"><strong>Cédula:</strong> <?= htmlspecialchars($u['Cedula']) ?></p>
-                            <p class="card-text"><strong>Tipo:</strong> <?= htmlspecialchars($u['tipo_usuario']) ?></p>
-                            <?php if ($u['email']): ?><p><strong>Email:</strong> <?= htmlspecialchars($u['email']) ?></p><?php endif; ?>
-                            <?php if ($u['numeroTelefono']): ?><p><strong>Teléfono:</strong> <?= htmlspecialchars($u['numeroTelefono']) ?></p><?php endif; ?>
+                            <h5 class="card-title"><?php echo htmlspecialchars($u['Nombre_usr']); ?></h5>
+                            <p class="card-text"><strong>Cédula:</strong> <?php echo htmlspecialchars($u['Cedula']); ?></p>
+                            <p class="card-text"><strong>Tipo:</strong> <?php echo htmlspecialchars($u['tipo_usuario']); ?></p>
+                            <?php if ($u['email']): ?><p><strong>Email:</strong> <?php echo htmlspecialchars($u['email']); ?></p><?php endif; ?>
+                            <?php if ($u['numeroTelefono']): ?><p><strong>Teléfono:</strong> <?php echo htmlspecialchars($u['numeroTelefono']); ?></p><?php endif; ?>
                             <?php if ($u['tipo_usuario']==='Docente' && $u['estado_docente']): ?>
                                 <p><strong>Estado:</strong>
-                                    <span class="badge <?= $u['estado_docente']==='Activo'?'bg-success':'bg-warning text-dark' ?>">
-                                        <?= htmlspecialchars($u['estado_docente']) ?>
+                                    <span class="badge <?php echo $u['estado_docente']==='Activo'?'bg-success':'bg-warning text-dark'; ?>">
+                                        <?php echo htmlspecialchars($u['estado_docente']); ?>
                                     </span>
                                 </p>
                             <?php endif; ?>
                             <?php if ($u['tipo_usuario']==='Administrador' && $u['rolAdmin']): ?>
-                                <p><strong>Rol:</strong> <?= htmlspecialchars($u['rolAdmin']) ?></p>
+                                <p><strong>Rol:</strong> <?php echo htmlspecialchars($u['rolAdmin']); ?></p>
                             <?php endif; ?>
                         </div>
                         <div class="card-footer d-flex gap-2">
-                            <button class="btn btn-primary btn-sm" onclick="editarUsuario(<?= $u['Cedula'] ?>)">
+                            <a href="adm_usr/editar_usr.php?cedula=<?php echo $u['Cedula']; ?>" class="btn btn-primary btn-sm">
                                 <i class="bi bi-pencil"></i>
-                            </button>
+                            </a>
                             <?php if ($u['tipo_usuario']==='Docente'): ?>
-                                <button class="btn btn-warning btn-sm" onclick="cambiarEstado(<?= $u['Cedula'] ?>,'<?= $u['estado_docente']==='Activo'?'Inactivo':'Activo' ?>')">
-                                    <i class="bi bi-toggle-on"></i>
-                                </button>
+                                <form method="POST" style="display:inline;" onsubmit="return confirm('¿Cambiar estado del docente?');">
+                                    <input type="hidden" name="accion" value="cambiar_estado">
+                                    <input type="hidden" name="cedula" value="<?php echo $u['Cedula']; ?>">
+                                    <input type="hidden" name="nuevo_estado" value="<?php echo $u['estado_docente']==='Activo'?'Inactivo':'Activo'; ?>">
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-toggle-on"></i>
+                                    </button>
+                                </form>
                             <?php endif; ?>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(<?= $u['Cedula'] ?>)">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            <form method="POST" style="display:inline;" onsubmit="return confirm('¿Está seguro de eliminar este usuario?');">
+                                <input type="hidden" name="accion" value="eliminar">
+                                <input type="hidden" name="cedula" value="<?php echo $u['Cedula']; ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -134,53 +185,115 @@ include '../headerfooter/header.html';
         <div class="alert alert-info mt-3">No hay usuarios registrados.</div>
     <?php endif; ?>
 </main>
-<?php
 
-include '../headerfooter/navADM.php';
-?>
-<!-- Modal Agregar Usuario -->
+<?php include '../headerfooter/navADM.php'; ?>
+
 <div class="modal fade" id="modalAgregar" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="POST">
+            <form method="POST" id="formAgregar">
                 <input type="hidden" name="accion" value="agregar">
                 <div class="modal-header">
                     <h5 class="modal-title">Agregar Nuevo Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <?= inputGroup('Cédula','cedula','number','','required') ?>
-                    <?= inputGroup('Nombre','nombre') ?>
-                    <?= inputGroup('Contraseña','contrasenia','password') ?>
                     <div class="mb-3">
                         <label class="form-label">Tipo de Usuario:</label>
-                        <select name="tipo_usuario" class="form-select" required onchange="mostrarCamposEspecificos(this.value)">
+                        <select name="tipo_usuario" class="form-select" required id="tipoUsuario">
                             <option value="">Seleccionar...</option>
                             <option value="docente">Docente</option>
                             <option value="admin">Administrador</option>
                             <option value="estudiante">Estudiante</option>
                         </select>
                     </div>
-                    <?= inputGroup('Email','email','email') ?>
-                    <?= inputGroup('Teléfono','telefono') ?>
 
                     <div id="campos-docente" style="display:none;">
-                        <?= inputGroup('Grado','grado','number','','min=1 max=5') ?>
+                        <h5>Datos del Docente</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" name="contra" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cédula (solo números):</label>
+                            <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Estado:</label>
-                            <select name="estado" class="form-select">
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
-                            </select>
+                            <input type="text" name="estado" class="form-control" value="Activo">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono:</label>
+                            <input type="tel" name="telefono" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Año de inserción:</label>
+                            <input type="number" name="anioIns" class="form-control" min="1900" max="2025" value="<?php echo date('Y'); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" name="email" class="form-control">
                         </div>
                     </div>
 
                     <div id="campos-admin" style="display:none;">
-                        <?= inputGroup('Rol Administrativo','rolAdmin') ?>
+                        <h5>Datos del Administrador</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" name="contra" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cédula (solo números):</label>
+                            <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono:</label>
+                            <input type="tel" name="telefono" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rol admin:</label>
+                            <input type="text" name="rolAdm" class="form-control" placeholder="Ej: Director, Coordinador">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" name="email" class="form-control">
+                        </div>
                     </div>
 
                     <div id="campos-estudiante" style="display:none;">
-                        <?= inputGroup('Fecha de Nacimiento','fechaNac','date') ?>
+                        <h5>Datos del Estudiante</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" name="contra" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cédula (solo números):</label>
+                            <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha nacimiento:</label>
+                            <input type="date" name="fnac" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono:</label>
+                            <input type="tel" name="telefono" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" name="email" class="form-control">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -192,6 +305,7 @@ include '../headerfooter/navADM.php';
     </div>
 </div>
 <script src="adminValidation.js"></script>
+
 
 </body>
 </html>

@@ -39,4 +39,3 @@
         </div>
     </div>
 </aside>
-<script

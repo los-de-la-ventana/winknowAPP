@@ -86,8 +86,6 @@ body {
     background: var(--fondo-primario);
     color: var(--texto-primario);
     display: flex;
-    overflow-x: hidden; 
-    width: 100%; 
 }
 .nombre-usuario {
     font-weight: bold;
@@ -227,8 +225,6 @@ body {
     margin-left: 250px;
     display: flex;
     flex-direction: column;
-    width: 100%; /* Añade */
-    box-sizing: border-box; /* Añade */
 }
 
 .encabezado {
@@ -247,6 +243,8 @@ body {
 .contenido {
     padding: 32px;
     flex: 1;
+    max-width: 100% !important; 
+    width: 100% !important; 
 }
 
 /* =======================
