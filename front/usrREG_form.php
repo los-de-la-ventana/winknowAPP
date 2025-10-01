@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -48,7 +47,7 @@
         <div id="admin-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="password" name="contra" placeholder="Contraseña" required>
-            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones">
+            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="tel" name="telefono" placeholder="Teléfono" required>
             <input type="text" name="rolAdm" placeholder="Rol admin" required>
         </div>
@@ -58,7 +57,7 @@
         <div id="docente-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="password" name="contra" placeholder="Contraseña" required>
-            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones">
+            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="text" name="estado" placeholder="Estado" required>
             <input type="tel" name="telefono" placeholder="Teléfono" required>
             <input type="number" name="anioIns" placeholder="Año de inserción" required min="1900" max="2025">
@@ -69,13 +68,13 @@
         <div id="estudiante-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="password" name="contra" placeholder="Contraseña" required>
-            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones">
+            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="date" name="fnac" placeholder="Fecha nacimiento" required>
             <input type="tel" name="telefono" placeholder="Teléfono" required>
         </div>
     </template>
 </div>
 
-<script src="registerValidation.js"></script>
+<script src="/login_reg/registerValidation.js"></script>
 </body>
 </html>
