@@ -32,7 +32,6 @@ include '../front/header.html';
                     <p><strong>Nombre:</strong> <?php echo isset($_SESSION['nombre']) && !empty($_SESSION['nombre']) ? htmlspecialchars($_SESSION['nombre']) : 'No disponible'; ?></p>
                     <p><strong>Cédula:</strong> <?php echo isset($_SESSION['cedula']) && !empty($_SESSION['cedula']) ? htmlspecialchars($_SESSION['cedula']) : 'No disponible'; ?></p>
                     <p><strong>Rol:</strong> <?php echo isset($_SESSION['rolAdmin']) && !empty($_SESSION['rolAdmin']) ? htmlspecialchars($_SESSION['rolAdmin']) : 'Administrador General'; ?></p>
-                    <p><strong>Teléfono:</strong> <?php echo isset($_SESSION['telefono']) && !empty($_SESSION['telefono']) ? htmlspecialchars($_SESSION['telefono']) : 'No disponible'; ?></p>
                 </div>
             </div>
 
