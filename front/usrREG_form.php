@@ -46,7 +46,7 @@
     <template id="template-admin">
         <div id="admin-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="password" name="contra" placeholder="Contraseña" required>
+            <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
             <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="tel" name="telefono" placeholder="Teléfono" required>
             <input type="text" name="rolAdm" placeholder="Rol admin" required>
@@ -56,7 +56,7 @@
     <template id="template-docente">
         <div id="docente-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="password" name="contra" placeholder="Contraseña" required>
+            <input type="password" name="contra" placeholder="Contraseña" requiredmaxlength="20" minlength="7">
             <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="text" name="estado" placeholder="Estado" required>
             <input type="tel" name="telefono" placeholder="Teléfono" required>
@@ -67,7 +67,7 @@
     <template id="template-estudiante">
         <div id="estudiante-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="password" name="contra" placeholder="Contraseña" required>
+            <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
             <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="date" name="fnac" placeholder="Fecha nacimiento" required>
             <input type="tel" name="telefono" placeholder="Teléfono" required>
