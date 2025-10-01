@@ -262,17 +262,11 @@ if ($tipo_mensaje === 'success' && !empty($redirigir)) {
     <form id="registroForm" class="form-flotante" method="post" action="register.php">
         <p class="cursor typewriter-animation">REGÍSTRATE</p>
 
-        <?php if (!empty($mensaje)): ?>
-            <div class="mensaje <?php echo $tipo_mensaje; ?>" style="
-                padding: 10px; 
-                margin: 10px 0; 
-                border-radius: 5px; 
-                text-align: center;
-                <?php echo $tipo_mensaje === 'error' ? 'background-color: #ffebee; color: #c62828; border: 1px solid #ef5350;' : 'background-color: #e8f5e8; color: #2e7d32; border: 1px solid #66bb6a;'; ?>
-            ">
-                <?php echo htmlspecialchars($mensaje); ?>
-            </div>
-        <?php endif; ?>
+ <?php if (!empty($mensaje)): ?>
+    <div class="mensaje <?php echo $tipo_mensaje; ?>">
+        <?php echo htmlspecialchars($mensaje); ?>
+    </div>
+<?php endif; ?>
 
         <!-- Selección de tipo -->
         <label for="operacion">Seleccione tipo de usuario</label>

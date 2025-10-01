@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $usuarios = listarUsuarios()['data'] ?? [];
 $estadisticas = obtenerEstadisticasUsuarios()['data'] ?? [];
 
-include '../headerfooter/header.html';
+include '../front/header.html';
 ?>
 
 <body>
@@ -186,7 +186,7 @@ include '../headerfooter/header.html';
     <?php endif; ?>
 </main>
 
-<?php include '../headerfooter/navADM.php'; ?>
+<?php include '../front/navADM.php'; ?>
 
 <div class="modal fade" id="modalAgregar" tabindex="-1">
     <div class="modal-dialog modal-lg">

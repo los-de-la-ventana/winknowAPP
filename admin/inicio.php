@@ -6,12 +6,12 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
     header("Location: ../login_reg/login.php");
     exit;
 }
-include '../headerfooter/header.html';
+include '../front/header.html';
 
 ?>
 
 <?php
- include '../headerfooter/navADM.php';
+ include '../front/navADM.php';
 ?>
 <body>
 <title>WinKnow - Panel Admin</title>
@@ -37,7 +37,7 @@ include '../headerfooter/header.html';
             </div>
 
             <!-- CARRUSEL -->
-            <?php include '../headerfooter/carrusel.html'; ?>
+            <?php include '../front/carrusel.html'; ?>
         </section>
     </main>
 

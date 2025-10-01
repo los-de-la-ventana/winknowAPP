@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../headerfooter/header.html';
+include '../front/header.html';
 ?>
 
 <title>WinKnow - Panel Admin</title>
@@ -70,7 +70,7 @@ include '../headerfooter/header.html';
     </h1>
 </header>
 
-        <?php include '../headerfooter/carrusel.html'; ?>
+        <?php include '../front/carrusel.html'; ?>
 
 
         </div>

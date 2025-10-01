@@ -42,7 +42,6 @@ if ($res = $mysqli->query($sql)) {
 // FILTROS DE BÚSQUEDA
 // ============================================
 $filtroTipo      = $_GET['tipo_salon'] ?? '';
-$filtroPiso      = $_GET['piso'] ?? '';
 $filtroCapacidad = $_GET['capacidad'] ?? '';
 
 // Construir consulta dinámica
@@ -53,43 +52,23 @@ if (!empty($filtroTipo)) {
     $queryEspacios .= " AND Tipo_salon = '" . $mysqli->real_escape_string($filtroTipo) . "'";
 }
 
-// Filtro piso
-if (!empty($filtroPiso)) {
-    $mapaPisos = [
-        'Planta Baja' => 0,
-        'Primer Piso' => 1,
-        'Segundo Piso' => 2
-    ];
-    if (isset($mapaPisos[$filtroPiso])) {
-        $queryEspacios .= " AND NumEdificio = " . $mapaPisos[$filtroPiso];
-    }
-}
-
 // Filtro capacidad
 if (!empty($filtroCapacidad)) {
     $queryEspacios .= " AND capacidad = " . intval($filtroCapacidad);
 }
 
 // Ordenamiento
-$queryEspacios .= " ORDER BY NumEdificio, NumSalon";
+$queryEspacios .= " ORDER BY NumSalon";
 $resultEspacios = $mysqli->query($queryEspacios);
 
 // ============================================
 // FUNCIONES DE UTILIDAD
 // ============================================
-function obtenerNombrePiso($numEdificio) {
-    return match ($numEdificio) {
-        0 => 'Planta Baja',
-        1 => 'Primer Piso',
-        2 => 'Segundo Piso',
-        default => 'Piso ' . $numEdificio
-    };
-}
-
 function obtenerNombreAula($espacio) {
     return match ($espacio['Tipo_salon']) {
         'Taller' => 'Taller ' . $espacio['NumSalon'],
         'Salon'  => 'Salon ' . $espacio['NumSalon'],
+        'Laboratorio' => 'Laboratorio ' . $espacio['NumSalon'],
         default  => 'Aula ' . $espacio['NumSalon']
     };
 }
@@ -98,6 +77,7 @@ function obtenerIconoTipo($tipoSalon) {
     return match ($tipoSalon) {
         'Taller' => 'bi-tools',
         'Salon'  => 'bi-building',
+        'Laboratorio' => 'bi-flask',
         default  => 'bi-door-open'
     };
 }
@@ -105,7 +85,7 @@ function obtenerIconoTipo($tipoSalon) {
 // ============================================
 // INCLUIR HEADER
 // ============================================
-include '../headerfooter/header.html';
+include '../front/header.html';
 
 ?>
 
@@ -120,7 +100,7 @@ include '../headerfooter/header.html';
 <body>
 
 <?php
-        include '../headerfooter/navADM.php'; 
+        include '../front/navADM.php';
 
 ?>
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
@@ -162,12 +142,7 @@ include '../headerfooter/header.html';
                     <option value="Salon"  <?= $filtroTipo == 'Salon' ? 'selected' : ''; ?>>Salon</option>
                     <option value="Aula"   <?= $filtroTipo == 'Aula' ? 'selected' : ''; ?>>Aula</option>
                     <option value="Taller" <?= $filtroTipo == 'Taller' ? 'selected' : ''; ?>>Taller</option>
-                </select>
-                <select name="piso">
-                    <option value="">Piso - Todos</option>
-                    <option value="Planta Baja" <?= $filtroPiso == 'Planta Baja' ? 'selected' : ''; ?>>Planta Baja</option>
-                    <option value="Primer Piso" <?= $filtroPiso == 'Primer Piso' ? 'selected' : ''; ?>>Primer Piso</option>
-                    <option value="Segundo Piso" <?= $filtroPiso == 'Segundo Piso' ? 'selected' : ''; ?>>Segundo Piso</option>
+                    <option value="Laboratorio" <?= $filtroTipo == 'Laboratorio' ? 'selected' : ''; ?>>Laboratorio</option>
                 </select>
                 <select name="capacidad">
                     <option value="">Capacidad - Cualquiera</option>
@@ -202,7 +177,6 @@ include '../headerfooter/header.html';
                                     <?= obtenerNombreAula($espacio); ?>
                                 </h4>
                                 <div class="detalles">
-                                    <strong><i class="bi bi-geo-alt"></i> <?= obtenerNombrePiso($espacio['NumEdificio']); ?></strong><br>
                                     <i class="bi bi-people"></i> Capacidad: <strong><?= $espacio['capacidad']; ?></strong> Personas
                                 </div>
                                 <div class="tipo-salon <?= strtolower($espacio['Tipo_salon']); ?>">

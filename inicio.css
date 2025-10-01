@@ -464,7 +464,23 @@ body {
     margin-bottom: 4px;
 }
 .numero { font-size: 32px; font-weight: 700; }
-
+.mensaje {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+.mensaje.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef5350;
+}
+.mensaje.success {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #66bb6a;
+}
 /* =======================
    FILTROS
 ======================= */

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2025 a las 00:14:02
+-- Tiempo de generación: 01-10-2025 a las 16:30:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -70,7 +70,11 @@ CREATE TABLE `administrador` (
 INSERT INTO `administrador` (`codigo_adm`, `Cedula`, `EsAdmin`, `rolAdmin`) VALUES
 (1, '0', 1, 'secretario'),
 (13, '93773381', 1, 'ADMIN'),
-(14, '80731788', 1, 'PROGRAMADOR');
+(14, '80731788', 1, 'PROGRAMADOR'),
+(15, '55555555', 1, 'admin'),
+(16, '19809833', 1, 'ADMIN TOTAL'),
+(17, '22222222', 1, 'secretario'),
+(18, '57012127', 1, '1');
 
 -- --------------------------------------------------------
 
@@ -104,7 +108,7 @@ CREATE TABLE `cursos` (
   `IdCurso` int(11) NOT NULL,
   `Cedula` int(11) NOT NULL,
   `Recursos_Pedidos` varchar(100) DEFAULT NULL,
-  `Orientacion` varchar(50) DEFAULT NULL
+  `Nombre` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -129,7 +133,7 @@ CREATE TABLE `docente` (
   `Cedula` int(11) DEFAULT NULL,
   `contrasenia` varchar(255) NOT NULL,
   `AnioInsercion` date DEFAULT NULL,
-  `Estado` varchar(20) DEFAULT NULL
+  `Estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -137,8 +141,9 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`codigo_doc`, `Cedula`, `contrasenia`, `AnioInsercion`, `Estado`) VALUES
-(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', '2020-01-01', 'Activo'),
-(5, 83256953, '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', '2017-01-01', 'activooo');
+(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', '2020-01-01', ''),
+(5, 83256953, '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', '2017-01-01', ''),
+(6, 5555555, '$2y$10$Q0LKX8P16hwBgD3mvNUkOe3HA76fG9EM.QF9Jmjw6oO68rzW9fERy', '2020-01-01', '');
 
 -- --------------------------------------------------------
 
@@ -169,7 +174,12 @@ CREATE TABLE `email` (
 
 INSERT INTO `email` (`Cedula`, `numeroTelefono`, `email`) VALUES
 (0, '', ''),
+(5555555, '099006958', ''),
+(19809833, '099006955', ''),
+(22222222, '099006955', ''),
 (39295446, '099006955', ''),
+(55555555, '099006955', ''),
+(57012127, '099006958', ''),
 (57255539, '099006955', ''),
 (57738262, '092047886', ''),
 (80731788, '099006958', ''),
@@ -311,12 +321,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
-('0', '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', ''),
+('19809833', '$2y$10$ZjmCaK9icbz38Dnw8flxZOW1mYD.MPI5ylb9D2ZJVMunV5dwOp1.2', 'Qatest'),
 ('39295446', '$2y$10$UKKFI3D3qxUTPJEwLaA.aupXiUjWHRYDVnQR56okV5gf8vggl5kqa', 'Fede'),
+('55555555', '$2y$10$hxRsmkN11e2A/UeLhrobceBYi6WH/zCbtxUpV8BLHvWAPA5RW11j2', 'errordeprueba'),
+('57012127', '$2y$10$d4vhaRlTwd44mfrvM4C5ae//h9Im1lGTPr3HCd2Z2f91sK281VWRG', '123'),
 ('57255539', '$2y$10$5CZJK12EjqBAxYcwxNidW.yHIlgAIYxG/36P/yfXagMg2Czjdxapu', 'Santi Rameau'),
 ('80731788', '$2y$10$Koc..wS9Ko2bnCtukIPGw.Odrh3wMDk1Z9K7z5KPo2GHhK4eXkUYi', 'Bianchi Matias'),
-('83256953', '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', 'Gaston Gomez'),
-('93773381', '$2y$10$4esUxDyXGYdVthb5t7xdc.9oKHlanghjoBID28hCOayqIW4StWd/C', 'ADMINPrueba');
+('83256953', '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', 'Gaston Gomez');
 
 --
 -- Índices para tablas volcadas
@@ -442,7 +453,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `asignatura`
@@ -460,7 +471,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `espacios`

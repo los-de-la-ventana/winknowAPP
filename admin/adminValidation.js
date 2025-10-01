@@ -1,35 +1,51 @@
+import Swal from 'sweetalert2'
 
 
-// Mostrar campos específicos según tipo de usuario
-function mostrarCamposEspecificos(tipo) {
-    var tipos = ['docente', 'admin', 'estudiante'];
-    var i;
-    
-    for (i = 0; i < tipos.length; i++) {
-        var elemento = document.getElementById('campos-' + tipos[i]);
-        if (elemento) {
-            elemento.style.display = 'none';
+// ================== MOSTRAR MENSAJES DE PHP ==================
+document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.querySelector(".form-overlay");
+    if (overlay) {
+        const mensaje = overlay.dataset.mensaje;
+        const tipo = overlay.dataset.tipo;
+
+        if (mensaje) {
+            Swal.fire({
+                icon: tipo === "success" ? "success" : "error",
+                title: mensaje,
+                timer: 3000,
+                showConfirmButton: false
+            });
         }
     }
-    
-    if (tipo) {
-        var campoActivo = document.getElementById('campos-' + tipo);
-        if (campoActivo) {
-            campoActivo.style.display = 'block';
-        }
-    }
+});
+
+// ================== CONFIRMACIÓN AL GUARDAR ==================
+var form = document.querySelector('#editarUsuarioForm');
+if (form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Guardar cambios?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
 }
 
-// Crear y enviar formulario POST
+// ================== FUNCIONES AUXILIARES ==================
 function postForm(data) {
     var form = document.createElement('form');
     form.method = 'POST';
     form.style.display = 'none';
     
     var keys = Object.keys(data);
-    var i;
-    
-    for (i = 0; i < keys.length; i++) {
+    for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
         var input = document.createElement('input');
         input.type = 'hidden';
@@ -37,85 +53,50 @@ function postForm(data) {
         input.value = data[key];
         form.appendChild(input);
     }
-    
     document.body.appendChild(form);
     form.submit();
 }
 
-// Eliminar usuario
+// ================== FUNCIONES CON SWEETALERT ==================
 function eliminarUsuario(cedula) {
-    if (confirm('¿Está seguro de eliminar este usuario?')) {
-        postForm({
-            accion: 'eliminar',
-            cedula: cedula
-        });
-    }
-}
-
-// Cambiar estado del docente
-function cambiarEstado(cedula, estado) {
-    if (confirm('¿Cambiar estado a ' + estado + '?')) {
-        postForm({
-            accion: 'cambiar_estado',
-            cedula: cedula,
-            nuevo_estado: estado
-        });
-    }
-}
-
-// Editar usuario
-function editarUsuario(cedula) {
-    window.location.href = 'adm_usr/editar_usr.php?cedula=' + cedula;
-}
-
-// Inicializar página
-function inicializarPagina() {
-    console.log('Sistema de usuarios cargado');
-}
-
-// Ejecutar cuando el DOM esté listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inicializarPagina);
-} else {
-    inicializarPagina();
-}
-setTimeout(function() {
-    var alerts = document.querySelectorAll('.alert');
-    for (var i = 0; i < alerts.length; i++) {
-        alerts[i].style.display = 'none';
-    }
-}, 5000);
-
-var tipoUsuarioSelect = document.getElementById('tipoUsuario');
-if (tipoUsuarioSelect) {
-    tipoUsuarioSelect.addEventListener('change', function() {
-        var tipo = this.value;
-        var camposDocente = document.getElementById('campos-docente');
-        var camposAdmin = document.getElementById('campos-admin');
-        var camposEstudiante = document.getElementById('campos-estudiante');
-        
-        if (camposDocente) camposDocente.style.display = 'none';
-        if (camposAdmin) camposAdmin.style.display = 'none';
-        if (camposEstudiante) camposEstudiante.style.display = 'none';
-        
-        if (tipo === 'docente' && camposDocente) {
-            camposDocente.style.display = 'block';
-            var inputs = camposDocente.querySelectorAll('input');
-            for (var i = 0; i < inputs.length; i++) {
-                inputs[i].required = true;
-            }
-        } else if (tipo === 'admin' && camposAdmin) {
-            camposAdmin.style.display = 'block';
-            var inputs = camposAdmin.querySelectorAll('input');
-            for (var i = 0; i < inputs.length; i++) {
-                inputs[i].required = true;
-            }
-        } else if (tipo === 'estudiante' && camposEstudiante) {
-            camposEstudiante.style.display = 'block';
-            var inputs = camposEstudiante.querySelectorAll('input');
-            for (var i = 0; i < inputs.length; i++) {
-                inputs[i].required = true;
-            }
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: "Esta acción eliminará el usuario.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            postForm({
+                accion: 'eliminar',
+                cedula: cedula
+            });
         }
     });
+}
+
+function cambiarEstado(cedula, estado) {
+    Swal.fire({
+        title: '¿Cambiar estado?',
+        text: "El nuevo estado será: " + estado,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cambiar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            postForm({
+                accion: 'cambiar_estado',
+                cedula: cedula,
+                nuevo_estado: estado
+            });
+        }
+    });
+}
+
+function editarUsuario(cedula) {
+    window.location.href = 'adm_usr/editar_usr.php?cedula=' + cedula;
 }
