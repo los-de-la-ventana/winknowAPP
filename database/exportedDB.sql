@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-10-2025 a las 16:30:45
+-- Tiempo de generación: 01-10-2025 a las 18:55:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -179,7 +179,7 @@ INSERT INTO `email` (`Cedula`, `numeroTelefono`, `email`) VALUES
 (22222222, '099006955', ''),
 (39295446, '099006955', ''),
 (55555555, '099006955', ''),
-(57012127, '099006958', ''),
+(57012127, '099006958', 'santirameau@gmail.com'),
 (57255539, '099006955', ''),
 (57738262, '092047886', ''),
 (80731788, '099006958', ''),
@@ -194,10 +194,8 @@ INSERT INTO `email` (`Cedula`, `numeroTelefono`, `email`) VALUES
 
 CREATE TABLE `espacios` (
   `IdEspacio` int(11) NOT NULL,
-  `NumEdificio` int(11) DEFAULT NULL,
   `NumSalon` int(11) DEFAULT NULL,
   `capacidad` int(11) DEFAULT NULL,
-  `Estado_Espacio` varchar(20) DEFAULT NULL,
   `Tipo_salon` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -205,13 +203,19 @@ CREATE TABLE `espacios` (
 -- Volcado de datos para la tabla `espacios`
 --
 
-INSERT INTO `espacios` (`IdEspacio`, `NumEdificio`, `NumSalon`, `capacidad`, `Estado_Espacio`, `Tipo_salon`) VALUES
-(1, 1, 1, 35, NULL, 'Aula'),
-(2, 1, 2, 40, NULL, 'Aula'),
-(3, 1, 3, 30, NULL, 'Aula'),
-(4, 0, 10, 25, NULL, 'Taller'),
-(5, 2, 20, 30, NULL, 'Taller'),
-(6, 2, 21, 25, NULL, 'Taller');
+INSERT INTO `espacios` (`IdEspacio`, `NumSalon`, `capacidad`, `Tipo_salon`) VALUES
+(1, 101, 35, 'Aula'),
+(2, 102, 40, 'Aula'),
+(3, 103, 30, 'Aula'),
+(4, 201, 25, 'Taller'),
+(5, 202, 28, 'Taller'),
+(6, 203, 22, 'Taller'),
+(7, 301, 30, 'Laboratorio'),
+(8, 401, 45, 'Salon'),
+(9, 402, 50, 'Salon'),
+(10, 403, 40, 'Salon'),
+(11, 404, 38, 'Salon'),
+(12, 405, 42, 'Salon');
 
 -- --------------------------------------------------------
 
@@ -324,7 +328,7 @@ INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
 ('19809833', '$2y$10$ZjmCaK9icbz38Dnw8flxZOW1mYD.MPI5ylb9D2ZJVMunV5dwOp1.2', 'Qatest'),
 ('39295446', '$2y$10$UKKFI3D3qxUTPJEwLaA.aupXiUjWHRYDVnQR56okV5gf8vggl5kqa', 'Fede'),
 ('55555555', '$2y$10$hxRsmkN11e2A/UeLhrobceBYi6WH/zCbtxUpV8BLHvWAPA5RW11j2', 'errordeprueba'),
-('57012127', '$2y$10$d4vhaRlTwd44mfrvM4C5ae//h9Im1lGTPr3HCd2Z2f91sK281VWRG', '123'),
+('57012127', '$2y$10$d4vhaRlTwd44mfrvM4C5ae//h9Im1lGTPr3HCd2Z2f91sK281VWRG', 'ed'),
 ('57255539', '$2y$10$5CZJK12EjqBAxYcwxNidW.yHIlgAIYxG/36P/yfXagMg2Czjdxapu', 'Santi Rameau'),
 ('80731788', '$2y$10$Koc..wS9Ko2bnCtukIPGw.Odrh3wMDk1Z9K7z5KPo2GHhK4eXkUYi', 'Bianchi Matias'),
 ('83256953', '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', 'Gaston Gomez');
@@ -477,7 +481,7 @@ ALTER TABLE `docente`
 -- AUTO_INCREMENT de la tabla `espacios`
 --
 ALTER TABLE `espacios`
-  MODIFY `IdEspacio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `IdEspacio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `horario`

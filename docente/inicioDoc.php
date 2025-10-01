@@ -38,10 +38,7 @@ include '../front/navDOC.php';
         ?>
     </h1>
 </header>
-
         <?php include '../front/carrusel.html'; ?>
-
-
         </div>
         </main>
     </body>
