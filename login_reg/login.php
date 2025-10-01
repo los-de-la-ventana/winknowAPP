@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mysqli->close();
 }
 
-include '../headerfooter/header.html';
+include '../front/header.html';
 ?>
 
 <link rel="stylesheet" href="titleFX.css">
