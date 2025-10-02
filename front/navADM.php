@@ -12,11 +12,9 @@
             <a href="calendario.php"><li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li></a>
             <a href="reportes.php"><li><i class="bi bi-bar-chart"></i> <span data-lang="nav_reportes">Reportes</span></li></a>
             <a href="usuarios.php"><li><i class="bi bi-people"></i> <span data-lang="nav_usuarios">Administrar Usuarios</span></li></a>
-            <a href="../login_reg/logout.php"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
+            <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
         </ul>
     </nav> 
-    
-
     
     <div class="usuario">
         <div class="info-usuario">
@@ -39,3 +37,7 @@
         </div>
     </div>
 </aside>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../admin/alertaLogout.js"></script>

@@ -100,5 +100,3 @@ function cambiarEstado(cedula, estado) {
 function editarUsuario(cedula) {
     window.location.href = 'adm_usr/editar_usr.php?cedula=' + cedula;
 }
-
-
