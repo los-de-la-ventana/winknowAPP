@@ -12,7 +12,6 @@
             <a href="calendario.php"><li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li></a>
             <a href="reportes.php"><li><i class="bi bi-bar-chart"></i> <span data-lang="nav_reportes">Reportes</span></li></a>
             <a href="usuarios.php"><li><i class="bi bi-people"></i> <span data-lang="nav_usuarios">Administrar Usuarios</span></li></a>
-            <a href="register_espacios.php"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Registrar Espacios</span></li></a>
             <a href="../login_reg/logout.php"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
         </ul>
     </nav> 

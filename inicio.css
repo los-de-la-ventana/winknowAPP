@@ -462,7 +462,24 @@ body {
     margin-bottom: 4px;
 }
 .numero { font-size: 32px; font-weight: 700; }
+.boton-eliminar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
 
+.boton-eliminar:hover {
+    background-color: #c82333;
+}
+
+.boton-eliminar i {
+    margin-right: 5px;
+}
 /* =======================
    FILTROS
 ======================= */
