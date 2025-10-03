@@ -10,7 +10,6 @@ function clean_ci($ci) {
 // Función para calcular dígito verificador
 function validation_digit($ci) {
     $ci = clean_ci($ci);
-    // Rellenar a 7 dígitos con ceros a la izquierda
     $ci = str_pad($ci, 7, '0', STR_PAD_LEFT);
     
     $sum = 0;
@@ -38,13 +37,8 @@ function validate_ci($ci) {
         return false;
     }
     
-    // Obtener el último dígito (dígito verificador)
     $validationDigit = (int)substr($ci, -1);
-    
-    // Obtener los primeros 6 o 7 dígitos (sin el dígito verificador)
     $ciWithoutCheck = substr($ci, 0, -1);
-    
-    // Calcular el dígito verificador esperado
     $expectedDigit = validation_digit($ciWithoutCheck);
     
     return $validationDigit === $expectedDigit;
@@ -52,21 +46,19 @@ function validate_ci($ci) {
 
 $mysqli = conectarDB();
 
-// Variables para mensajes
 $mensaje = '';
 $tipo_mensaje = '';
-$redirigir = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $tipo = $_POST['operacion'] ?? '';
-        $cedula_raw = ($_POST['cedula'] ?? '');
-        $nombre = ($_POST['nombre'] ?? '');
-        $telefono = ($_POST['telefono'] ?? '');
+        $cedula_raw = $_POST['cedula'] ?? '';
+        $nombre = $_POST['nombre'] ?? '';
+        $telefono = $_POST['telefono'] ?? '';
         $contra = $_POST['contra'] ?? '';
+        $rolAdm = trim($_POST['rolAdm'] ?? '');
 
         // Validaciones básicas
-        if (empty($tipo) || empty($cedula_raw) || empty($nombre) || empty($contra)) {
+        if (empty($cedula_raw) || empty($nombre) || empty($telefono) || empty($contra) || empty($rolAdm)) {
             throw new Exception("Todos los campos son obligatorios");
         }
         
@@ -75,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("La cédula ingresada no es válida");
         }
         
-        // Limpiar y convertir a entero
         $cedula = intval(clean_ci($cedula_raw));
         $pass = password_hash($contra, PASSWORD_BCRYPT);
         
@@ -123,74 +114,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmtEmail->close();
         
-        // Manejar tipos específicos de usuario
-        if ($tipo === 'admin') {
-            $rolAdm = trim($_POST['rolAdm'] ?? '');
-            if (empty($rolAdm)) {
-                throw new Exception("El rol de administrador es obligatorio");
-            }
-            
-            $stmtAdmin = $mysqli->prepare("INSERT INTO Administrador (Cedula, rolAdmin) VALUES (?, ?)");
-            if (!$stmtAdmin) {
-                throw new Exception("Error preparando consulta de administrador: " . $mysqli->error);
-            }
-            
-            $stmtAdmin->bind_param("is", $cedula, $rolAdm);
-            if (!$stmtAdmin->execute()) {
-                throw new Exception("Error al registrar administrador: " . $stmtAdmin->error);
-            }
-            $stmtAdmin->close();
-            
-            $mysqli->commit();
-            $mensaje = "Registro exitoso como Administrador";
-            $tipo_mensaje = 'success';
-            
-        } elseif ($tipo === 'docente') {
-            
-
-
-            $stmtDocente = $mysqli->prepare("INSERT INTO Docente (Cedula, contrasenia) VALUES (?, ?)");
-            if (!$stmtDocente) {
-                throw new Exception("Error preparando consulta de docente: " . $mysqli->error);
-            }
-
-            $stmtDocente->bind_param("ss", $cedula, $pass);
-            if (!$stmtDocente->execute()) {
-                throw new Exception("Error al registrar docente: " . $stmtDocente->error);
-            }
-            $stmtDocente->close();
-            
-            $mysqli->commit();
-            $mensaje = "Registro exitoso como Docente";
-            $tipo_mensaje = 'success';
-            
-        } elseif ($tipo === 'estudiante') {
-            $stmtEstudiante = $mysqli->prepare("INSERT INTO Estudiante (Cedula) VALUES (?)");
-            if (!$stmtEstudiante) {
-                throw new Exception("Error preparando consulta de estudiante: " . $mysqli->error);
-            }
-            
-            $stmtEstudiante->bind_param("i", $cedula);
-            if (!$stmtEstudiante->execute()) {
-                throw new Exception("Error al registrar estudiante: " . $stmtEstudiante->error);
-            }
-            $stmtEstudiante->close();
-            
-            $mysqli->commit();
-            $mensaje = "Registro exitoso como Estudiante";
-            $tipo_mensaje = 'success';
-            
-        } else {
-            throw new Exception("Tipo de usuario no válido");
+        // Insertar en tabla Administrador
+        $stmtAdmin = $mysqli->prepare("INSERT INTO Administrador (Cedula, EsAdmin, rolAdmin) VALUES (?, TRUE, ?)");
+        if (!$stmtAdmin) {
+            throw new Exception("Error preparando consulta de administrador: " . $mysqli->error);
         }
         
-        // Redirigir a usuarios.php después de cualquier registro exitoso
-        if ($tipo_mensaje === 'success') {
-            $redirigir = '../admin/usuarios.php';
+        $stmtAdmin->bind_param("is", $cedula, $rolAdm);
+        if (!$stmtAdmin->execute()) {
+            throw new Exception("Error al registrar administrador: " . $stmtAdmin->error);
         }
+        $stmtAdmin->close();
+        
+        // Establecer variables de sesión
+        $_SESSION['cedula'] = $cedula;
+        $_SESSION['nombre'] = $nombre;
+        $_SESSION['telefono'] = $telefono;
+        $_SESSION['tipo'] = 'admin';
+        $_SESSION['rolAdmin'] = $rolAdm;
+        $_SESSION['logged_in'] = true;
+        
+        $mysqli->commit();
+        $mensaje = "Registro exitoso como Administrador";
+        $tipo_mensaje = 'success';
+        
+        header("Location: ../admin/inicio.php");
+        exit;
         
     } catch (Exception $e) {
-        // Rollback en caso de error
         $mysqli->rollback();
         $mensaje = $e->getMessage();
         $tipo_mensaje = 'error';
@@ -200,12 +151,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $mysqli->close();
-
-// Si hay redirección exitosa, hacerla con header
-if ($tipo_mensaje === 'success' && !empty($redirigir)) {
-    header("Location: $redirigir");
-    exit;
-}
-
-include '../front/usrREG_form.php';
+include '../front/admRegister_form.php';
 ?>

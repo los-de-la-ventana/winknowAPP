@@ -15,7 +15,7 @@
         <input type="number" name="cedula" placeholder="Cédula" required maxlength="8" minlength="8">
         <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
         <button type="submit">Ingresar</button>
-        <a href="register.php" class="link">¿No tienes una cuenta? Regístrate</a>
+        <a href="admin_register.php" class="link">¿No tienes una cuenta? Regístrate</a>
     </form>
 </div>
 

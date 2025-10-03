@@ -13,7 +13,7 @@
     <h2 class="mb-4">Gestión de Usuarios</h2>
 
     <div class="d-flex mb-3 gap-2">
-        <a href="adm_usr/editar_usr.php">
+        <a href="../login_reg/register.php">
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregar">
             <i class="bi bi-person-plus"></i> Agregar Usuario
         </button>
@@ -37,13 +37,9 @@
                             <p class="card-text"><strong>Tipo:</strong> <?php echo htmlspecialchars($u['tipo_usuario']); ?></p>
                             <?php if ($u['email']): ?><p><strong>Email:</strong> <?php echo htmlspecialchars($u['email']); ?></p><?php endif; ?>
                             <?php if ($u['numeroTelefono']): ?><p><strong>Teléfono:</strong> <?php echo htmlspecialchars($u['numeroTelefono']); ?></p><?php endif; ?>
-                            <?php if ($u['tipo_usuario']==='Docente' && $u['estado_docente']): ?>
-                                <p><strong>Estado:</strong>
-                                    <span class="badge <?php echo $u['estado_docente']==='Activo'?'bg-success':'bg-warning text-dark'; ?>">
-                                        <?php echo htmlspecialchars($u['estado_docente']); ?>
+                            
                                     </span>
                                 </p>
-                            <?php endif; ?>
                             <?php if ($u['tipo_usuario']==='Administrador' && $u['rolAdmin']): ?>
                                 <p><strong>Rol:</strong> <?php echo htmlspecialchars($u['rolAdmin']); ?></p>
                             <?php endif; ?>
@@ -53,13 +49,9 @@
                                 <i class="bi bi-pencil"></i>
                             </a>
                             <?php if ($u['tipo_usuario']==='Docente'): ?>
-                                <form method="POST" style="display:inline;" onsubmit="return confirm('¿Cambiar estado del docente?');">
-                                    <input type="hidden" name="accion" value="cambiar_estado">
+                               
                                     <input type="hidden" name="cedula" value="<?php echo $u['Cedula']; ?>">
-                                    <input type="hidden" name="nuevo_estado" value="<?php echo $u['estado_docente']==='Activo'?'Inactivo':'Activo'; ?>">
-                                    <button type="submit" class="btn btn-warning btn-sm">
-                                        <i class="bi bi-toggle-on"></i>
-                                    </button>
+                                   
                                 </form>
                             <?php endif; ?>
                             <form method="POST" style="display:inline;" onsubmit="return confirm('¿Está seguro de eliminar este usuario?');">
@@ -115,10 +107,7 @@
                             <label class="form-label">Cédula (solo números):</label>
                             <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Estado:</label>
-                            <input type="text" name="estado" class="form-control" value="Activo">
-                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Teléfono:</label>
                             <input type="tel" name="telefono" class="form-control">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-10-2025 a las 18:55:56
+-- Tiempo de generación: 03-10-2025 a las 23:02:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -59,7 +59,6 @@ DELIMITER ;
 CREATE TABLE `administrador` (
   `codigo_adm` int(11) NOT NULL,
   `Cedula` varchar(12) DEFAULT NULL,
-  `EsAdmin` tinyint(1) DEFAULT NULL,
   `rolAdmin` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -67,14 +66,15 @@ CREATE TABLE `administrador` (
 -- Volcado de datos para la tabla `administrador`
 --
 
-INSERT INTO `administrador` (`codigo_adm`, `Cedula`, `EsAdmin`, `rolAdmin`) VALUES
-(1, '0', 1, 'secretario'),
-(13, '93773381', 1, 'ADMIN'),
-(14, '80731788', 1, 'PROGRAMADOR'),
-(15, '55555555', 1, 'admin'),
-(16, '19809833', 1, 'ADMIN TOTAL'),
-(17, '22222222', 1, 'secretario'),
-(18, '57012127', 1, '1');
+INSERT INTO `administrador` (`codigo_adm`, `Cedula`, `rolAdmin`) VALUES
+(1, '0', 'secretario'),
+(13, '93773381', 'ADMIN'),
+(14, '80731788', 'PROGRAMADOR'),
+(15, '55555555', 'admin'),
+(16, '19809833', 'ADMIN TOTAL'),
+(17, '22222222', 'secretario'),
+(18, '57012127', '1'),
+(19, '24854988', 'secretario');
 
 -- --------------------------------------------------------
 
@@ -131,19 +131,21 @@ CREATE TABLE `dictan` (
 CREATE TABLE `docente` (
   `codigo_doc` int(11) NOT NULL,
   `Cedula` int(11) DEFAULT NULL,
-  `contrasenia` varchar(255) NOT NULL,
-  `AnioInsercion` date DEFAULT NULL,
-  `Estado` varchar(50) NOT NULL
+  `contrasenia` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `docente`
 --
 
-INSERT INTO `docente` (`codigo_doc`, `Cedula`, `contrasenia`, `AnioInsercion`, `Estado`) VALUES
-(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G', '2020-01-01', ''),
-(5, 83256953, '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', '2017-01-01', ''),
-(6, 5555555, '$2y$10$Q0LKX8P16hwBgD3mvNUkOe3HA76fG9EM.QF9Jmjw6oO68rzW9fERy', '2020-01-01', '');
+INSERT INTO `docente` (`codigo_doc`, `Cedula`, `contrasenia`) VALUES
+(1, 0, '$2y$10$YUjwWWjvoj52hepB.AYvkePAbl8gTKKko75L6anX.saUGc4LfqM8G'),
+(5, 83256953, '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe'),
+(6, 5555555, '$2y$10$Q0LKX8P16hwBgD3mvNUkOe3HA76fG9EM.QF9Jmjw6oO68rzW9fERy'),
+(7, 41741768, '$2y$10$uCtcBBB..zi55lpZ/g3LVeV686KRMWA/EfxsOcZ6zNoqH2qVu7C52'),
+(8, 59990844, '$2y$10$v0iweMKV/Ru09J.Xk.b5JO2n8y5MEq46K8nF7N0lvkMfVkwyCWBcO'),
+(9, 98486040, '$2y$10$cieuPtrEtHyM6wSN2flmp.b9mxMSgnrukL.DLOKInNttw/jZVIBEm'),
+(10, 34843901, '$2y$10$qvJGnxftbqMj.T0Wwrm56OjhxFEQospfTNe7f5a4/DcOFt3Rk6gBK');
 
 -- --------------------------------------------------------
 
@@ -177,14 +179,22 @@ INSERT INTO `email` (`Cedula`, `numeroTelefono`, `email`) VALUES
 (5555555, '099006958', ''),
 (19809833, '099006955', ''),
 (22222222, '099006955', ''),
+(24854988, '099006955', ''),
+(30945628, '', ''),
+(34843901, '', ''),
 (39295446, '099006955', ''),
+(41741768, '', ''),
 (55555555, '099006955', ''),
 (57012127, '099006958', 'santirameau@gmail.com'),
 (57255539, '099006955', ''),
 (57738262, '092047886', ''),
+(59408918, '', ''),
+(59990844, '', ''),
+(78124763, '', ''),
 (80731788, '099006958', ''),
 (83256953, '099006958', ''),
-(93773381, '099006955', '');
+(93773381, '099006955', ''),
+(98486040, '', '');
 
 -- --------------------------------------------------------
 
@@ -204,18 +214,16 @@ CREATE TABLE `espacios` (
 --
 
 INSERT INTO `espacios` (`IdEspacio`, `NumSalon`, `capacidad`, `Tipo_salon`) VALUES
-(1, 101, 35, 'Aula'),
 (2, 102, 40, 'Aula'),
 (3, 103, 30, 'Aula'),
 (4, 201, 25, 'Taller'),
 (5, 202, 28, 'Taller'),
 (6, 203, 22, 'Taller'),
 (7, 301, 30, 'Laboratorio'),
-(8, 401, 45, 'Salon'),
 (9, 402, 50, 'Salon'),
 (10, 403, 40, 'Salon'),
-(11, 404, 38, 'Salon'),
-(12, 405, 42, 'Salon');
+(14, 222, 1, 'Salon'),
+(17, 666, 200, 'Laboratorio');
 
 -- --------------------------------------------------------
 
@@ -224,17 +232,19 @@ INSERT INTO `espacios` (`IdEspacio`, `NumSalon`, `capacidad`, `Tipo_salon`) VALU
 --
 
 CREATE TABLE `estudiante` (
-  `Cedula` int(11) NOT NULL,
-  `FechaNac` date DEFAULT NULL
+  `Cedula` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estudiante`
 --
 
-INSERT INTO `estudiante` (`Cedula`, `FechaNac`) VALUES
-(39295446, '1111-11-11'),
-(57255539, '2008-04-25');
+INSERT INTO `estudiante` (`Cedula`) VALUES
+(30945628),
+(39295446),
+(57255539),
+(59408918),
+(78124763);
 
 -- --------------------------------------------------------
 
@@ -326,12 +336,18 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`Cedula`, `Contrasenia`, `Nombre_usr`) VALUES
 ('19809833', '$2y$10$ZjmCaK9icbz38Dnw8flxZOW1mYD.MPI5ylb9D2ZJVMunV5dwOp1.2', 'Qatest'),
+('24854988', '$2y$10$HAnzJ.uunxJliAIgeJwed.AqNaSw/G2P8gH2A8QYfCgJbOuApbCsq', 'pruebaregistro'),
 ('39295446', '$2y$10$UKKFI3D3qxUTPJEwLaA.aupXiUjWHRYDVnQR56okV5gf8vggl5kqa', 'Fede'),
+('41741768', '$2y$10$uCtcBBB..zi55lpZ/g3LVeV686KRMWA/EfxsOcZ6zNoqH2qVu7C52', 'wwww'),
 ('55555555', '$2y$10$hxRsmkN11e2A/UeLhrobceBYi6WH/zCbtxUpV8BLHvWAPA5RW11j2', 'errordeprueba'),
 ('57012127', '$2y$10$d4vhaRlTwd44mfrvM4C5ae//h9Im1lGTPr3HCd2Z2f91sK281VWRG', 'ed'),
 ('57255539', '$2y$10$5CZJK12EjqBAxYcwxNidW.yHIlgAIYxG/36P/yfXagMg2Czjdxapu', 'Santi Rameau'),
+('59408918', '$2y$10$T3JSO8mU.24NVITW9YyMn.P/fzU.2VzEtNs9xbZ/9q7UVKk0B.qfK', 'asdadas'),
+('59990844', '$2y$10$v0iweMKV/Ru09J.Xk.b5JO2n8y5MEq46K8nF7N0lvkMfVkwyCWBcO', 'assaas'),
+('78124763', '$2y$10$fFuFCgBjVH3d3.i4pLq2lO0nLI0cHQGw1euzl4V2T4JjNP4DSGpg6', 'gsdfg'),
 ('80731788', '$2y$10$Koc..wS9Ko2bnCtukIPGw.Odrh3wMDk1Z9K7z5KPo2GHhK4eXkUYi', 'Bianchi Matias'),
-('83256953', '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', 'Gaston Gomez');
+('83256953', '$2y$10$Ga24QGcBx8RdEQR5bpZSFOhxk9bV.G2fNZz4oBSvURkFetUqgunfe', 'Gaston Gomez'),
+('98486040', '$2y$10$cieuPtrEtHyM6wSN2flmp.b9mxMSgnrukL.DLOKInNttw/jZVIBEm', 'asdfas');
 
 --
 -- Índices para tablas volcadas
@@ -457,7 +473,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `codigo_adm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `asignatura`
@@ -475,13 +491,13 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `codigo_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `espacios`
 --
 ALTER TABLE `espacios`
-  MODIFY `IdEspacio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `IdEspacio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `horario`

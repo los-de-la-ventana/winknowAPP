@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="../img/wk_logo.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WinKnow - Registro</title>
-    <link rel="stylesheet" href="../inicio.css">
-    <link rel="stylesheet" href="titleFX.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-<header>
-    <button id="toggle-theme" class="boton-primario">
-        Cambiar tema
-    </button>
-    <script src="../lightmode.js"></script>
-</header>
-<body>
-
+<?php
+include 'header.html';
+?>
+<title>WinKnow - Registro de Usuarios</title>
+<link rel="stylesheet" href="../login_reg/titleFX.css">
 <div class="form-overlay">
     <form id="registroForm" class="form-flotante" method="post" action="register.php">
-        <p class="cursor typewriter-animation">REGÍSTRATE</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <p class="cursor typewriter-animation" style="margin: 0;">AÑADIR USUARIOS</p>
+            <a href="../admin/usuarios.php" style="text-decoration: none; color: inherit; display: flex; align-items: center; padding: 8px; border-radius: 4px; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+        </div>
 
  <?php if (!empty($mensaje)): ?>
     <div class="mensaje <?php echo $tipo_mensaje; ?>">
@@ -31,7 +24,6 @@
         <label for="operacion">Seleccione tipo de usuario</label>
         <select name="operacion" id="operacion" required>
             <option value="">-- Seleccione --</option>
-            <option value="admin">Administrador</option>
             <option value="docente">Docente</option>
             <option value="estudiante">Estudiante</option>
         </select>
@@ -40,27 +32,15 @@
 
         <button type="submit">Registrar</button>
         <br>
-        <a href="login.php" class="link">¿Ya tienes una cuenta? Inicia sesión</a>
     </form>
 
-    <template id="template-admin">
-        <div id="admin-form" class="input-field">
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
-            <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
-            <input type="tel" name="telefono" placeholder="Teléfono" required>
-            <input type="text" name="rolAdm" placeholder="Rol admin" required>
-        </div>
-    </template>
-
+ 
     <template id="template-docente">
         <div id="docente-form" class="input-field">
             <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="password" name="contra" placeholder="Contraseña" requiredmaxlength="20" minlength="7">
+            <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
             <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
             <input type="text" name="estado" placeholder="Estado" required>
-            <input type="tel" name="telefono" placeholder="Teléfono" required>
-            <input type="number" name="anioIns" placeholder="Año de inserción" required min="1900" max="2025">
         </div>
     </template>
 
@@ -69,8 +49,7 @@
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
             <input type="text" name="cedula" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
-            <input type="date" name="fnac" placeholder="Fecha nacimiento" required>
-            <input type="tel" name="telefono" placeholder="Teléfono" required>
+
         </div>
     </template>
 </div>

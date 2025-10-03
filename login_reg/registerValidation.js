@@ -38,13 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       domDivDeInputs.innerHTML = '';
 
       // Clonar el contenido del template según la opción seleccionada
-      if (opcionSeleccionada === 'admin') {
-        var adminTemplate = document.getElementById('template-admin');
-        if (adminTemplate && adminTemplate.content) {
-          domDivDeInputs.appendChild(adminTemplate.content.cloneNode(true));
-        }
-      }
-      else if (opcionSeleccionada === 'docente') {
+if (opcionSeleccionada === 'docente') {
         var docenteTemplate = document.getElementById('template-docente');
         if (docenteTemplate && docenteTemplate.content) {
           domDivDeInputs.appendChild(docenteTemplate.content.cloneNode(true));

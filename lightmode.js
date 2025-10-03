@@ -20,4 +20,4 @@ function initThemeToggle() {
 }
 
 // Llama a la función al cargar la página
-document.addEventListener('DOMContentLoaded', initThemeToggle);
+document.addEventListener('DOMContentLoaded', initThemeToggle); 

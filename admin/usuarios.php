@@ -39,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             switch ($tipo_usuario) {
                 case 'docente':
                     $datos_adicionales['anioIns'] = $_POST['anioIns'] ?? date('Y-m-d');
-                    $datos_adicionales['estado'] = $_POST['estado'] ?? 'Activo';
                     break;
                     
                 case 'admin':
@@ -75,21 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             $resultado = eliminarUsuario($cedula);
-            $mensaje = $resultado['message'];
-            $tipo_mensaje = $resultado['success'] ? 'success' : 'danger';
-            break;
-            
-        case 'cambiar_estado':
-            $cedula = $_POST['cedula'] ?? '';
-            $nuevo_estado = $_POST['nuevo_estado'] ?? '';
-            
-            if (empty($cedula) || empty($nuevo_estado)) {
-                $mensaje = 'Datos incompletos para cambiar estado';
-                $tipo_mensaje = 'danger';
-                break;
-            }
-            
-            $resultado = cambiarEstadoDocente($cedula, $nuevo_estado);
             $mensaje = $resultado['message'];
             $tipo_mensaje = $resultado['success'] ? 'success' : 'danger';
             break;

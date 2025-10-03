@@ -25,8 +25,11 @@
                 <!-- Calendario disponible para todos los tipos de usuario -->
                 <a href="calendario.php">  <li><i class="bi bi-calendar3"></i> Calendario</li> </a>
                 <!-- Cerrar sesión disponible para todos los tipos de usuario -->
-                <a href="../login_reg/logout.php"><li><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</li></a>
+            <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
 
             </ul>
         </nav> 
         
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../alertaLogout.js"></script>

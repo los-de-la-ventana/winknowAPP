@@ -64,7 +64,7 @@ if ($res = $mysqli->query($sql)) {
 // Contar docentes activos
 $sql = "SELECT COUNT(*) as total FROM Docente d 
         INNER JOIN Usuarios u ON d.Cedula = u.Cedula 
-        WHERE d.Estado = 'Activo' OR d.Estado IS NULL";
+      ";
 if ($res = $mysqli->query($sql)) {
     $conteoDocentes = $res->fetch_assoc()['total'];
 }
