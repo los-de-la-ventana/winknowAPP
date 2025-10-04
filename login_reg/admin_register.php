@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rolAdm = trim($_POST['rolAdm'] ?? '');
 
         // Validaciones básicas
-        if (empty($cedula_raw) || empty($nombre) || empty($telefono) || empty($contra) || empty($rolAdm)) {
+        if (empty($cedula_raw) || empty($nombre) || empty($contra) || empty($rolAdm)) {
             throw new Exception("Todos los campos son obligatorios");
         }
         

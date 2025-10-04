@@ -39,21 +39,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Redirigir con mensaje de éxito
                 header("Location: ../admin/inicio.php");
                 exit;
+                    }else {
+            // Ya no se busca el atributo Estado en Docente
+            $queryDocente = $mysqli->prepare("SELECT Cedula FROM Docente WHERE Cedula = ?");
+            $queryDocente->bind_param("s", $cedula);
+            $queryDocente->execute();
+            $resultDocente = $queryDocente->get_result();
+            if ($resultDocente->num_rows > 0) {
+                $_SESSION['tipo'] = 'docente';
+                $_SESSION['logged_in'] = true;
+                
+                // Redirigir con mensaje de éxito
+                header("Location: ../docente/inicioDoc.php");
+                exit;
             } else {
-                $queryDocente = $mysqli->prepare("SELECT Estado FROM Docente WHERE Cedula = ?");
-                $queryDocente->bind_param("s", $cedula);
-                $queryDocente->execute();
-                $resultDocente = $queryDocente->get_result();
-                if ($resultDocente->num_rows > 0) {
-                    $data = $resultDocente->fetch_assoc();
-                    $_SESSION['estado'] = $data['Estado'];
-                    $_SESSION['tipo'] = 'docente';
-                    $_SESSION['logged_in'] = true;
-                    
-                    // Redirigir con mensaje de éxito
-                    header("Location: ../docente/inicioDoc.php");
-                    exit;
-                } else {
                     $queryEst = $mysqli->prepare("SELECT FechaNac FROM Estudiante WHERE Cedula = ?");
                     $queryEst->bind_param("s", $cedula);
                     $queryEst->execute();
