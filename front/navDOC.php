@@ -17,7 +17,7 @@
                 // Verificar si el usuario es estudiante
                 if (isset($_SESSION['tipo']) && $_SESSION['tipo'] !== 'estudiante') {
                     // Mostrar opciones completas para admin y docente
-                    echo '<a href="aulas.php"> <li class="activo"><i class="bi bi-building"></i> Aulas</li></a>';
+                    echo '<a href="docente_reservas.php"> <li class="activo"><i class="bi bi-building"></i>Reservas</li></a>';
                     echo '<a href="reportes.php">  <li><i class="bi bi-bar-chart"></i> Reportes</li></a>';
                 }
                 ?>
