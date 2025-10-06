@@ -4,24 +4,7 @@ session_start();
                     include '../front/navEST.php'; 
 
 ?>
-<div class="usuario usuario-estudiante">
-    <div class="nombre-usuario">
-        <?php
-        if (isset($_SESSION['nombre'])) {
-            echo htmlspecialchars($_SESSION['nombre']);
-        } else {
-            echo "Invitado";
-        }
-        ?>
-    </div>
-    <div class="tipo-usuario">
-        <?php
-        if (isset($_SESSION['tipo'])) {
-            echo "(" . ucfirst(htmlspecialchars($_SESSION['tipo'])) . ")";
-        }
-        ?>
-    </div>
-</div>
+
         </div>
     </aside>
 

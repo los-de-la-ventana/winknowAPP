@@ -39,27 +39,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Redirigir con mensaje de éxito
                 header("Location: ../admin/inicio.php");
                 exit;
-                    }else {
-            // Ya no se busca el atributo Estado en Docente
-            $queryDocente = $mysqli->prepare("SELECT Cedula FROM Docente WHERE Cedula = ?");
-            $queryDocente->bind_param("s", $cedula);
-            $queryDocente->execute();
-            $resultDocente = $queryDocente->get_result();
-            if ($resultDocente->num_rows > 0) {
-                $_SESSION['tipo'] = 'docente';
-                $_SESSION['logged_in'] = true;
-                
-                // Redirigir con mensaje de éxito
-                header("Location: ../docente/inicioDoc.php");
-                exit;
             } else {
-                    $queryEst = $mysqli->prepare("SELECT FechaNac FROM Estudiante WHERE Cedula = ?");
+                // Verificar si es docente
+                $queryDocente = $mysqli->prepare("SELECT Cedula FROM Docente WHERE Cedula = ?");
+                $queryDocente->bind_param("s", $cedula);
+                $queryDocente->execute();
+                $resultDocente = $queryDocente->get_result();
+                if ($resultDocente->num_rows > 0) {
+                    $_SESSION['tipo'] = 'docente';
+                    $_SESSION['logged_in'] = true;
+                    
+                    // Redirigir con mensaje de éxito
+                    header("Location: ../docente/inicioDoc.php");
+                    exit;
+                } else {
+                    // Verificar si es estudiante
+                    $queryEst = $mysqli->prepare("SELECT Cedula FROM Estudiante WHERE Cedula = ?");
                     $queryEst->bind_param("s", $cedula);
                     $queryEst->execute();
                     $resultEst = $queryEst->get_result();
                     if ($resultEst->num_rows > 0) {
-                        $data = $resultEst->fetch_assoc();
-                        $_SESSION['fnac'] = $data['FechaNac'];
                         $_SESSION['tipo'] = 'estudiante';
                         $_SESSION['logged_in'] = true;
                         

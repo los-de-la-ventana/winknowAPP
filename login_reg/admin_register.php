@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmtEmail->close();
         
         // Insertar en tabla Administrador
-        $stmtAdmin = $mysqli->prepare("INSERT INTO Administrador (Cedula, EsAdmin, rolAdmin) VALUES (?, TRUE, ?)");
+        $stmtAdmin = $mysqli->prepare("INSERT INTO Administrador (Cedula, rolAdmin) VALUES (?, ?)");
         if (!$stmtAdmin) {
             throw new Exception("Error preparando consulta de administrador: " . $mysqli->error);
         }
