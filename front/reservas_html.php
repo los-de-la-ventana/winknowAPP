@@ -2,119 +2,147 @@
 
 <body>
 
-<?php
-    include '../front/header.html';
-
-    include '../front/navDOC.php';
-?>
 
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
 <main class="principal">
     
     <div class="contenido">
+<?php if (isset($_SESSION['mensaje'])): ?>
+    <div id="mensaje-data" 
+         data-mensaje="<?= htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
+         data-tipo="<?= htmlspecialchars($_SESSION['tipo_mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
+         style="display: none;">
+    </div>
+    <?php 
+        unset($_SESSION['mensaje']);
+        unset($_SESSION['tipo_mensaje']);
+    ?>
+<?php endif; ?>
 
-        <!-- MENSAJES DE NOTIFICACIÓN -->
-        <?php if (isset($_SESSION['mensaje'])): ?>
-            <div class="mensaje-notificacion <?= $_SESSION['tipo_mensaje']; ?>">
-                <i class="bi <?= $_SESSION['tipo_mensaje'] === 'exito' ? 'bi-check-circle' : 'bi-exclamation-triangle'; ?>"></i>
-                <?= htmlspecialchars($_SESSION['mensaje']); ?>
-            </div>
-            <?php 
-                unset($_SESSION['mensaje']);
-                unset($_SESSION['tipo_mensaje']);
-            ?>
-        <?php endif; ?>
-
-                    
-
-        <!-- BOTÓN RESERVAS-->
-        <section >
-            <a href="reservar_espacios.php" class="boton-primario">
-                <i class="bi bi-plus-circle"></i> Reservar espacios
-            </a>
-        </section>  
-                <br>
-                <br>
-
-
-        <!-- FILTROS DE BÚSQUEDA -->
+        <!-- FORMULARIO DE RESERVA -->
         <section class="filtros">
-            <h2>Filtrar Espacios</h2><br>
-            <form method="GET" action="aulas.php" class="controles-filtro">
-                <select name="tipo_salon">
-                    <option value="">Tipo de Espacio - Todos</option>
-                    <option value="Salon"  <?= $filtroTipo == 'Salon' ? 'selected' : ''; ?>>Salon</option>
-                    <option value="Aula"   <?= $filtroTipo == 'Aula' ? 'selected' : ''; ?>>Aula</option>
-                    <option value="Taller" <?= $filtroTipo == 'Taller' ? 'selected' : ''; ?>>Taller</option>
-                    <option value="Laboratorio" <?= $filtroTipo == 'Laboratorio' ? 'selected' : ''; ?>>Laboratorio</option>
-                </select>
-                <select name="capacidad">
-                    <option value="">Capacidad - Cualquiera</option>
-                    <option value="30" <?= $filtroCapacidad == '30' ? 'selected' : ''; ?>>30 Personas</option>
-                    <option value="40" <?= $filtroCapacidad == '40' ? 'selected' : ''; ?>>40 Personas</option>
-                    <option value="60" <?= $filtroCapacidad == '60' ? 'selected' : ''; ?>>60 Personas</option>
-                    <option value="80" <?= $filtroCapacidad == '80' ? 'selected' : ''; ?>>80 Personas</option>
-                </select>
-                <br><br>
-                <button type="submit" class="boton-primario">
-                    <i class="bi bi-funnel"></i> Aplicar Filtros
-                </button>
+            <h2><i class="bi bi-calendar-plus"></i> Nueva Reserva</h2>
+            <br>
+            <form method="POST" action="docente_reservas.php">
+                <input type="hidden" name="crear_reserva" value="1">
+                
+                <div class="controles-filtro">
+                    <select name="id_espacio" id="id_espacio" required>
+                        <option value="">Seleccione un espacio</option>
+                        <?php 
+                        if ($resultEspacios):
+                            $resultEspacios->data_seek(0);
+                            while ($espacio = $resultEspacios->fetch_assoc()): 
+                        ?>
+                            <option value="<?= $espacio['IdEspacio']; ?>">
+                                <?= obtenerNombreEspacio($espacio['Tipo_salon'], $espacio['NumSalon']); ?> 
+                                (Capacidad: <?= $espacio['capacidad']; ?>)
+                            </option>
+                        <?php 
+                            endwhile;
+                        endif;
+                        ?>
+                    </select>
+                    
+                    <input type="date" name="fecha" id="fecha" 
+                           min="<?= date('Y-m-d'); ?>" 
+                           required
+                        >
+                    
+                    <select name="hora_reserva" id="hora_reserva" required>
+                        <option value="">Seleccione una hora</option>
+                        <?php for ($i = 7; $i <= 22; $i++): ?>
+                            <option value="<?= $i; ?>"><?= $i; ?>:00 hs</option>
+                        <?php endfor; ?>
+                    </select>
+                    
+                    <button type="submit" class="boton-primario">
+                        <i class="bi bi-check-circle"></i> Confirmar Reserva
+                    </button>
+                </div>
             </form>
         </section>
 
-        <!-- RESULTADOS DE AULAS -->
+        <br><br>
+
+        <!-- ESPACIOS DISPONIBLES -->
         <section class="aulas">
             <div class="aulas-header">
                 <h2><i class="bi bi-building"></i> Espacios Disponibles</h2>
                 <?php if ($resultEspacios): ?>
-                    <p><strong>Mostrando <?= $resultEspacios->num_rows; ?> resultado(s)</strong></p>
+                    <?php $resultEspacios->data_seek(0); ?>
+                    <p><strong>Total: <?= $resultEspacios->num_rows; ?> espacio(s)</strong></p>
                 <?php endif; ?>
             </div>
 
             <div class="grilla">
                 <?php if ($resultEspacios && $resultEspacios->num_rows > 0): ?>
                     <?php while ($espacio = $resultEspacios->fetch_assoc()): ?>
-                       <div class="tarjeta-aula">
+                        <div class="tarjeta-aula">
                             <div class="info-aula">
                                 <h4>
                                     <i class="<?= obtenerIconoTipo($espacio['Tipo_salon']); ?>"></i>
                                     <?= obtenerNombreAula($espacio); ?>
                                 </h4>
                                 <div class="detalles">
-                                    <i class="bi bi-people"></i> Capacidad: <strong><?= $espacio['capacidad']; ?></strong> Personas
+                                    <i class="bi bi-people"></i> Capacidad: <strong><?= $espacio['capacidad']; ?></strong> personas
                                 </div>
-                                <div class="tipo-salon <?= strtolower($espacio['Tipo_salon']); ?>">
-                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($espacio['Tipo_salon']); ?>
+                                <div class="etiqueta">
+                                    <?= htmlspecialchars($espacio['Tipo_salon']); ?>
                                 </div>
-                                <form method="POST" action="aulas.php" class="form-eliminar" data-nombre-aula="<?= htmlspecialchars(obtenerNombreAula($espacio)); ?>">
-                                    <input type="hidden" name="eliminar_aula" value="1">
-                                    <input type="hidden" name="num_salon" value="<?= $espacio['NumSalon']; ?>">
-                                    <button type="submit" class="boton-eliminar">
-                                        <i class="bi bi-trash"></i> Eliminar
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p>No hay espacios disponibles.</p>
+                <?php endif; ?>
+            </div>
+        </section>
+
+        <br><br>
+
+        <!-- RESERVAS ACTIVAS -->
+        <section class="aulas">
+            <div class="aulas-header">
+                <h2><i class="bi bi-calendar-check"></i> Mis Reservas Activas</h2>
+            </div>
+            
+            <?php if ($resultReservas->num_rows > 0): ?>
+                <div class="grilla">
+                    <?php while ($reserva = $resultReservas->fetch_assoc()): ?>
+                        <div class="tarjeta-aula">
+                            <div class="info-aula">
+                                <h4>
+                                    <i class="<?= obtenerIconoTipo($reserva['Tipo_salon']); ?>"></i>
+                                    <?= obtenerNombreEspacio($reserva['Tipo_salon'], $reserva['NumSalon']); ?>
+                                </h4>
+                                <div class="detalles">
+                                    <p><i class="bi bi-calendar"></i> <strong>Fecha:</strong> <?= formatearFecha($reserva['Fecha']); ?></p>
+                                    <p><i class="bi bi-clock"></i> <strong>Hora:</strong> <?= formatearHora($reserva['Hora_Reserva']); ?></p>
+                                    <p><i class="bi bi-people"></i> <strong>Capacidad:</strong> <?= $reserva['capacidad']; ?> personas</p>
+                                </div>
+                                <form method="POST" action="docente_reservas.php">
+                                    <input type="hidden" name="eliminar_reserva" value="1">
+                                    <input type="hidden" name="id_reserva" value="<?= $reserva['IdReserva']; ?>">
+                                  <button type="submit" class="boton-secundario">
+                                        <i class="bi bi-trash"></i> Cancelar Reserva
                                     </button>
                                 </form>
                             </div>
                         </div>
                     <?php endwhile; ?>
-                <?php else: ?>
-                    <p>No se encontraron espacios con los filtros seleccionados.</p>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php else: ?>
+                <p>No tienes reservas activas en este momento.</p>
+            <?php endif; ?>
         </section>
+
     </div>
 
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<?php
-// ============================================
-// CIERRE DE CONEXIÓN
-// ============================================
-if ($mysqli) {
-    $mysqli->close();
-}
-?>
 
 </body>
 </html>

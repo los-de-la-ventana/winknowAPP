@@ -59,8 +59,8 @@
 
         <!-- BOTÓN RESERVAS-->
         <section >
-            <a href="reservar_espacios.php" class="boton-primario">
-                <i class="bi bi-plus-circle"></i> Reservar espacios
+            <a href="administrar_reservas_espacios.php" class="boton-primario">
+                            <i class="bi bi-gear"></i> Administrar Reservas
             </a>
         </section>  
                 <br>

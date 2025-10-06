@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva'])) {
         $stmtCheck->close();
     }
     
-    header("Location: reservar_espacios.php");
+    header("Location: docente_reservas.php");
     exit;
 }
 
@@ -77,30 +77,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_reserva'])) 
     }
     $stmtDelete->close();
     
-    header("Location: reservar_espacios.php");
+    header("Location: docente_reservas.php");
     exit;
 }
 
 // ============================================
-// OBTENER DATOS PARA EL FORMULARIO
+// OBTENER DATOS
 // ============================================
-$idEspacioSeleccionado = isset($_GET['id_espacio']) ? intval($_GET['id_espacio']) : 0;
 
-// Obtener todos los espacios
+// Obtener todos los espacios para el selector
 $queryEspacios = "SELECT * FROM Espacios ORDER BY NumSalon";
 $resultEspacios = $mysqli->query($queryEspacios);
-
-// Obtener información del espacio seleccionado
-$espacioSeleccionado = null;
-if ($idEspacioSeleccionado > 0) {
-    $sqlEspacio = "SELECT * FROM Espacios WHERE IdEspacio = ?";
-    $stmtEspacio = $mysqli->prepare($sqlEspacio);
-    $stmtEspacio->bind_param("i", $idEspacioSeleccionado);
-    $stmtEspacio->execute();
-    $resultEspacio = $stmtEspacio->get_result();
-    $espacioSeleccionado = $resultEspacio->fetch_assoc();
-    $stmtEspacio->close();
-}
 
 // ============================================
 // OBTENER RESERVAS ACTIVAS (FUTURAS Y ACTUALES)
@@ -123,9 +110,22 @@ $resultReservas = $stmtReservas->get_result();
 function obtenerNombreEspacio($tipo, $numSalon) {
     return match ($tipo) {
         'Taller' => 'Taller ' . $numSalon,
-        'Salon'  => 'Salon ' . $numSalon,
+        'Salon'  => 'Salón ' . $numSalon,
         'Laboratorio' => 'Laboratorio ' . $numSalon,
         default  => 'Aula ' . $numSalon
+    };
+}
+
+function obtenerNombreAula($espacio) {
+    return obtenerNombreEspacio($espacio['Tipo_salon'], $espacio['NumSalon']);
+}
+
+function obtenerIconoTipo($tipoSalon) {
+    return match ($tipoSalon) {
+        'Taller' => 'bi-tools',
+        'Salon'  => 'bi-building',
+        'Laboratorio' => 'bi-flask',
+        default  => 'bi-door-open'
     };
 }
 
@@ -139,145 +139,12 @@ function formatearHora($hora) {
 }
 
 // ============================================
-// INCLUIR HEADER
+// INCLUIR VISTA HTML
 // ============================================
 include '../front/header.html';
-?>
-
-<!-- ==================== CONTENIDO PRINCIPAL ==================== -->
-<main class="principal">
-    
-    <div class="contenido">
-
-        <!-- MENSAJES DE NOTIFICACIÓN -->
-        <?php if (isset($_SESSION['mensaje'])): ?>
-            <div class="mensaje-notificacion <?= $_SESSION['tipo_mensaje']; ?>">
-                <i class="bi <?= $_SESSION['tipo_mensaje'] === 'exito' ? 'bi-check-circle' : 'bi-exclamation-triangle'; ?>"></i>
-                <?= htmlspecialchars($_SESSION['mensaje']); ?>
-            </div>
-            <?php 
-                unset($_SESSION['mensaje']);
-                unset($_SESSION['tipo_mensaje']);
-            ?>
-        <?php endif; ?>
-
-        <!-- BOTÓN VOLVER -->
-        <section>
-            <a href="docente_reservas.php" class="boton-secundario">
-                <i class="bi bi-arrow-left"></i> Volver a Espacios
-            </a>
-        </section>
-        <br><br>
-
-        <!-- FORMULARIO DE RESERVA -->
-        <section class="formulario-reserva">
-            <h2><i class="bi bi-calendar-plus"></i> Nueva Reserva</h2>
-            <br>
-            <form method="POST" action="reservar_espacios.php">
-                <input type="hidden" name="crear_reserva" value="1">
-                
-                <div class="campo-formulario">
-                    <label for="id_espacio">Espacio:</label>
-                    <select name="id_espacio" id="id_espacio" required onchange="this.form.submit()">
-                        <option value="">Seleccione un espacio</option>
-                        <?php 
-                        $resultEspacios->data_seek(0);
-                        while ($espacio = $resultEspacios->fetch_assoc()): 
-                        ?>
-                            <option value="<?= $espacio['IdEspacio']; ?>" 
-                                    <?= $idEspacioSeleccionado == $espacio['IdEspacio'] ? 'selected' : ''; ?>>
-                                <?= obtenerNombreEspacio($espacio['Tipo_salon'], $espacio['NumSalon']); ?> 
-                                (Capacidad: <?= $espacio['capacidad']; ?>)
-                            </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-
-                <?php if ($espacioSeleccionado): ?>
-                    <div class="info-espacio-seleccionado">
-                        <p><strong>Tipo:</strong> <?= $espacioSeleccionado['Tipo_salon']; ?></p>
-                        <p><strong>Capacidad:</strong> <?= $espacioSeleccionado['capacidad']; ?> personas</p>
-                    </div>
-                    <br>
-
-                    <div class="campo-formulario">
-                        <label for="fecha">Fecha de Reserva:</label>
-                        <input type="date" name="fecha" id="fecha" 
-                               min="<?= date('Y-m-d'); ?>" required>
-                    </div>
-
-                    <div class="campo-formulario">
-                        <label for="hora_reserva">Hora de Reserva:</label>
-                        <select name="hora_reserva" id="hora_reserva" required>
-                            <option value="">Seleccione una hora</option>
-                            <?php for ($i = 8; $i <= 22; $i++): ?>
-                                <option value="<?= $i; ?>"><?= $i; ?>:00 hs</option>
-                            <?php endfor; ?>
-                        </select>
-                    </div>
-
-                    <br>
-                    <button type="submit" class="boton-primario">
-                        <i class="bi bi-check-circle"></i> Confirmar Reserva
-                    </button>
-                <?php endif; ?>
-            </form>
-        </section>
-
-        <br><br>
-
-        <!-- RESERVAS ACTIVAS -->
-        <section class="reservas-activas">
-            <h2><i class="bi bi-calendar-check"></i> Reservas Activas</h2>
-            <br>
-            
-            <?php if ($resultReservas->num_rows > 0): ?>
-                <div class="tabla-contenedor">
-                    <table class="tabla-reservas">
-                        <thead>
-                            <tr>
-                                <th>Espacio</th>
-                                <th>Tipo</th>
-                                <th>Capacidad</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($reserva = $resultReservas->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?= obtenerNombreEspacio($reserva['Tipo_salon'], $reserva['NumSalon']); ?></td>
-                                    <td><?= htmlspecialchars($reserva['Tipo_salon']); ?></td>
-                                    <td><?= $reserva['capacidad']; ?> personas</td>
-                                    <td><?= formatearFecha($reserva['Fecha']); ?></td>
-                                    <td><?= formatearHora($reserva['Hora_Reserva']); ?></td>
-                                    <td>
-                                        <form method="POST" action="reservar_espacios.php" style="display:inline;">
-                                            <input type="hidden" name="eliminar_reserva" value="1">
-                                            <input type="hidden" name="id_reserva" value="<?= $reserva['IdReserva']; ?>">
-                                            <button type="submit" class="boton-eliminar" 
-                                                    onclick="return confirm('¿Está seguro de eliminar esta reserva?')">
-                                                <i class="bi bi-trash"></i> Cancelar
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <p>No hay reservas activas en este momento.</p>
-            <?php endif; ?>
-        </section>
-
-    </div>
-
-</main>
-
-<?php
+include '../front/reservas_html.php';
 include '../front/navDOC.php';
+
 
 // ============================================
 // CIERRE DE CONEXIÓN
@@ -286,6 +153,3 @@ if ($mysqli) {
     $mysqli->close();
 }
 ?>
-
-</body>
-</html>

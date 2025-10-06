@@ -69,12 +69,14 @@
     --amarillo: #f59e0b;
     --gris: #4b5563;
 }
+
 #toggle-theme{
     position:fixed;
     top:15px;
     right:15px;
     z-index:2000;
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -87,12 +89,14 @@ body {
     color: var(--texto-primario);
     display: flex;
 }
+
 .nombre-usuario {
     font-weight: bold;
     font-size: 1.2em;
     color: var(--texto-primario);
     padding: 10px;
 }
+
 .link {
     color: var(--color-usuario-texto)
 }
@@ -105,6 +109,7 @@ body {
     width: 50%;
     margin: 10px 0;
 }
+
 /* =======================
    BARRA LATERAL
 ======================= */
@@ -274,72 +279,74 @@ body {
     background: var(--gris);
     color: #fff;
 }
-    /* Estilos adicionales para la información del usuario */
-        .usuario .info-usuario {
-            padding: 15px;
-            background: var(--color-hover-overlay);
-            border-radius: 10px;
-            margin-top: 20px;
-        }
 
-        .nombre-usuario {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
+/* Estilos adicionales para la información del usuario */
+.usuario .info-usuario {
+    padding: 15px;
+    background: var(--color-hover-overlay);
+    border-radius: 10px;
+    margin-top: 20px;
+}
 
-        .rol-usuario {
-            font-size: 12px;
-            color: var(--texto-secundario);
-            margin-bottom: 3px;
-        }
+.nombre-usuario {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
 
-        .cedula-usuario {
-            font-size: 11px;
-            color: var(--texto-secundario);
-        }
+.rol-usuario {
+    font-size: 12px;
+    color: var(--texto-secundario);
+    margin-bottom: 3px;
+}
 
-        .info-sesion {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-top: 10px;
-        }
+.cedula-usuario {
+    font-size: 11px;
+    color: var(--texto-secundario);
+}
 
-        .badge-admin {
-            background: var(--color-badge-admin);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-        }
+.info-sesion {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+}
 
-        .telefono {
-            color: var(--color-telefono);
-            font-size: 14px;
-        }
+.badge-admin {
+    background: var(--color-badge-admin);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
 
-        .admin-info-cards {
-            margin: 20px 0;
-        }
+.telefono {
+    color: var(--color-telefono);
+    font-size: 14px;
+}
 
-        .info-card {
-            background: var(--fondo-tarjeta);
-            border: 1px solid var(--color-borde);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
+.admin-info-cards {
+    margin: 20px 0;
+}
 
-        .info-card h4 {
-            color: var(--texto-primario);
-            margin-bottom: 15px;
-        }
+.info-card {
+    background: var(--fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
 
-        .info-card p {
-            margin-bottom: 8px;
-            color: var(--texto-primario);
-        }
+.info-card h4 {
+    color: var(--texto-primario);
+    margin-bottom: 15px;
+}
+
+.info-card p {
+    margin-bottom: 8px;
+    color: var(--texto-primario);
+}
+
 .boton-icono {
     width: 40px;
     height: 40px;
@@ -388,6 +395,7 @@ body {
     box-shadow: 0 2px 8px var(--color-shadow);
     flex: 1;
 }
+
 /* Estilos para filas y grupos de formulario */
 .form-row {
     display: flex;
@@ -410,6 +418,7 @@ body {
     margin-bottom: 2px;
     font-weight: 500;
 }
+
 .form-flotante select {
     width: 100%;
     padding: 10px 12px;
@@ -424,6 +433,7 @@ body {
     -moz-appearance: none;
     cursor: pointer;
 }
+
 .form-flotante select {
     background-image: url("data:image/svg+xml;utf8,<svg fill='currentColor' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
     background-repeat: no-repeat;
@@ -442,6 +452,7 @@ body {
     margin-top: 2px;
     min-height: 16px;
 }
+
 .icono {
     width: 48px;
     height: 48px;
@@ -452,6 +463,7 @@ body {
     font-size: 20px;
     color: #fff;
 }
+
 .icono.total { background: var(--azul); }
 .icono.disponible { background: var(--verde); }
 .icono.reservado { background: var(--gris); }
@@ -461,7 +473,9 @@ body {
     color: var(--texto-secundario);
     margin-bottom: 4px;
 }
+
 .numero { font-size: 32px; font-weight: 700; }
+
 .boton-eliminar {
     background-color: #dc3545;
     color: white;
@@ -480,6 +494,7 @@ body {
 .boton-eliminar i {
     margin-right: 5px;
 }
+
 /* =======================
    FILTROS
 ======================= */
@@ -497,6 +512,7 @@ body {
     align-items: center;
     flex-wrap: wrap;
 }
+
 .controles-filtro select {
     padding: 10px 12px;
     background: var(--fondo-primario);
@@ -549,6 +565,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
 }
+
 .acciones-aula {
     display: flex;
     gap: 8px;
@@ -556,11 +573,13 @@ body {
 }
 
 .info-aula h4 { font-size: 16px; margin-bottom: 4px; }
+
 .detalles {
     font-size: 12px;
     color: var(--texto-secundario);
     line-height: 1.4;
 }
+
 .etiqueta {
     display: inline-block;
     background: var(--gris);
@@ -585,6 +604,7 @@ body {
     justify-content: center;
     z-index: 1000;
 }
+
 .form-flotante {
     background: var(--fondo-tarjeta);
     padding: 40px 32px;
@@ -598,6 +618,7 @@ body {
     flex-direction: column;
     gap: 18px;
 }
+
 .form-flotante input {
     width: 100%;
     padding: 10px 12px;
@@ -608,6 +629,7 @@ body {
     font-size: 15px;
     box-sizing: border-box;
 }
+
 .form-flotante label {
     font-size: 15px;
     color: var(--texto-secundario);
@@ -626,6 +648,7 @@ body {
     cursor: pointer;
     transition: background .2s;
 }
+
 .form-flotante button[type="submit"]:hover {
     background: #3459b6;
 }
@@ -636,12 +659,14 @@ body {
 .about {
     padding: 20px 32px;
 }
+
 .about h3 {
     margin: 30px auto;
     max-width: 80ch;
     text-align: center;
     line-height: 1.6;
 }
+
 #myCarousel {
     width: 80%;
     max-width: 80rem;
@@ -650,11 +675,254 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 15px var(--color-carousel-shadow);
 }
+
 #myCarousel .item img {
     width: 100%;
     height: 400px;
     object-fit: cover;
     border-radius: 20px;
+}
+
+/* =======================
+   ADMINISTRACIÓN DE RESERVAS
+======================= */
+.tabla-reservas-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tarjeta-reserva-admin {
+    background: var(--fondo-primario);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.reserva-info {
+    flex: 1;
+}
+
+.reserva-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.reserva-header h4 {
+    font-size: 18px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge-pendiente {
+    background: var(--amarillo);
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.reserva-detalles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.detalle-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--texto-secundario);
+}
+
+.detalle-item i {
+    color: var(--azul);
+}
+
+.reserva-acciones {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-aprobar,
+.btn-rechazar {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+/* =======================
+   EDITAR USUARIO
+======================= */
+.info-usuario-editar {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--fondo-primario);
+    border-radius: 8px;
+}
+
+.info-usuario-editar p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.etiqueta-tipo {
+    display: inline-block;
+    background: var(--azul);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-flotante h2 {
+    color: var(--texto-primario);
+    font-size: 20px;
+}
+
+.form-flotante .boton-secundario {
+    display: block;
+    text-decoration: none;
+    width: 100%;
+}
+.btn-aprobar {
+    background: var(--verde);
+    color: #fff;
+}
+
+.btn-aprobar:hover {
+    background: #0ea574;
+    transform: translateY(-2px);
+}
+
+.btn-rechazar {
+    background: var(--rojo);
+    color: #fff;
+}
+
+.btn-rechazar:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+/* Mensaje vacío */
+.mensaje-vacio {
+    text-align: center;
+    padding: 40px;
+    color: var(--texto-secundario);
+}
+
+.mensaje-vacio i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.mensaje-vacio p {
+    margin: 0;
+}
+
+/* =======================
+   FORMULARIO DE ESPACIOS
+======================= */
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    font-size: 15px;
+    font-family: var(--fuente-principal);
+    box-sizing: border-box;
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a8b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 36px;
+}
+
+.form-group select option {
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    padding: 10px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(79, 125, 243, 0.1);
+}
+
+/* =======================
+   GESTIÓN DE USUARIOS
+======================= */
+.acciones-usuario {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.acciones-usuario .boton-secundario,
+.acciones-usuario .boton-eliminar {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.acciones-usuario .boton-secundario {
+    display: flex;
+    align-items: center;
+}
+
+.acciones-usuario .boton-eliminar {
+    background: var(--rojo);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    font-family: var(--fuente-principal);
+}
+
+.acciones-usuario .boton-eliminar:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
 }
 
 /* ===============================
@@ -757,7 +1025,6 @@ body {
     .controles-filtro select {
         min-width: 100%;
     }
-
     
     .grilla {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -794,6 +1061,34 @@ body {
     
     .about {
         padding: 16px 24px;
+    }
+
+    .tarjeta-reserva-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .reserva-detalles {
+        grid-template-columns: 1fr;
+    }
+
+    .reserva-acciones {
+        flex-direction: column;
+    }
+
+    .btn-aprobar,
+    .btn-rechazar {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .acciones-usuario {
+        flex-direction: column;
+    }
+    
+    .acciones-usuario .boton-secundario,
+    .acciones-usuario .boton-eliminar {
+        width: 100%;
     }
 }
 
@@ -887,8 +1182,6 @@ body {
     .filtros {
         padding: 16px;
     }
-    
-   
     
     .controles-filtro select {
         padding: 12px;
@@ -1054,11 +1347,12 @@ body {
         font-size: 14px;
         line-height: 1.5;
     }
-        #toggle-theme {
-            width: auto;
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 2000;
-        }
-}   
+
+    #toggle-theme {
+        width: auto;
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 2000;
+    }
+} 

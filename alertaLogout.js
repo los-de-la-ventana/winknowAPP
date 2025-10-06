@@ -20,3 +20,71 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// ================== CONFIRMACIÓN PARA CANCELAR RESERVAS ==================
+document.addEventListener('DOMContentLoaded', function() {
+    const formsEliminar = document.querySelectorAll('form[action="docente_reservas.php"]');
+    formsEliminar.forEach(form => {
+        if (form.querySelector('input[name="eliminar_reserva"]')) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Cancelar reserva?',
+                    text: "Esta acción no se puede deshacer",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#4b5563',
+                    confirmButtonText: 'Sí, cancelar',
+                    cancelButtonText: 'No, mantener'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        }
+    });
+}); 
+// ================== MOSTRAR MENSAJES DE RESERVAS CON SWEETALERT ==================
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.mensajeReserva !== 'undefined') {
+        const icon = window.mensajeReserva.tipo === 'exito' ? 'success' : 'error';
+        const title = window.mensajeReserva.tipo === 'exito' ? '¡Éxito!' : 'Error';
+        
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: window.mensajeReserva.mensaje,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#4f7df3',
+            timer: 3000,
+            timerProgressBar: true
+        });
+        
+        delete window.mensajeReserva;
+    }
+});
+
+// ================== MOSTRAR MENSAJES DE RESERVAS CON SWEETALERT ==================
+document.addEventListener('DOMContentLoaded', function() {
+    const mensajeDiv = document.getElementById('mensaje-data');
+    if (mensajeDiv) {
+        const mensaje = mensajeDiv.getAttribute('data-mensaje');
+        const tipo = mensajeDiv.getAttribute('data-tipo');
+        const icon = tipo === 'exito' ? 'success' : 'error';
+        const title = tipo === 'exito' ? '¡Éxito!' : 'Error';
+        
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: mensaje,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#4f7df3',
+            timer: 3000,
+            timerProgressBar: true
+        });
+        
+        mensajeDiv.remove();
+    }
+});

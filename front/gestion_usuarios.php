@@ -1,193 +1,128 @@
-
-<body>
 <title>WinKnow - Gestión de Usuarios</title>
 
-<main class="principal container py-4">
-    <?php if ($mensaje): ?>
-        <div class="alert alert-<?php echo $tipo_mensaje; ?> alert-dismissible fade show" role="alert">
-            <?php echo htmlspecialchars($mensaje); ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
+<body>
 
-    <h2 class="mb-4">Gestión de Usuarios</h2>
+<?php include 'navADM.php'; ?>
 
-    <div class="d-flex mb-3 gap-2">
-        <a href="../login_reg/register.php">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregar">
-            <i class="bi bi-person-plus"></i> Agregar Usuario
-        </button>
-        </a>
-        <button class="btn btn-info" onclick="location.reload()">
-            <i class="bi bi-arrow-clockwise"></i> Actualizar Lista
-        </button>
+<main class="principal">
+    
+    <div class="contenido">
+
+        <!-- MENSAJES -->
+        <?php if ($mensaje): ?>
+            <div id="mensaje-data" 
+                 data-mensaje="<?= htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?>" 
+                 data-tipo="<?= htmlspecialchars($tipo_mensaje === 'success' ? 'exito' : 'error', ENT_QUOTES, 'UTF-8'); ?>">
+            </div>
+        <?php endif; ?>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="estadisticas">
+            <div class="tarjeta-estadistica">
+                <div class="icono total"><i class="bi bi-person-gear"></i></div>
+                <div>
+                    <h3>Administradores</h3>
+                    <div class="numero"><?= sprintf('%02d', $estadisticas['administradores'] ?? 0); ?></div>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica">
+                <div class="icono disponible"><i class="bi bi-person-workspace"></i></div>
+                <div>
+                    <h3>Docentes</h3>
+                    <div class="numero"><?= sprintf('%02d', $estadisticas['docentes'] ?? 0); ?></div>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica">
+                <div class="icono reservado"><i class="bi bi-people"></i></div>
+                <div>
+                    <h3>Estudiantes</h3>
+                    <div class="numero"><?= sprintf('%02d', $estadisticas['estudiantes'] ?? 0); ?></div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+
+        <!-- ACCIONES -->
+        <section class="acciones">
+            <a href="../login_reg/register.php" class="boton-primario">
+                <i class="bi bi-person-plus"></i> Agregar Usuario
+            </a>
+            <button onclick="location.reload()" class="boton-secundario">
+                <i class="bi bi-arrow-clockwise"></i> Actualizar Lista
+            </button>
+        </section>
+
+        <br>
+
+        <!-- LISTA DE USUARIOS -->
+        <section class="aulas">
+            <div class="aulas-header">
+                <h2><i class="bi bi-people"></i> Lista de Usuarios</h2>
+                <p><strong>Total: <?= count($usuarios); ?> usuario(s) registrado(s)</strong></p>
+            </div>
+
+            <?php if ($usuarios): ?>
+                <div class="grilla">
+                    <?php foreach ($usuarios as $u): ?>
+                        <div class="tarjeta-aula">
+                            <div class="info-aula">
+                                <h4>
+                                    <i class="bi bi-person-circle"></i>
+                                    <?= htmlspecialchars($u['Nombre_usr']); ?>
+                                </h4>
+                                
+                                <div class="detalles">
+                                    <p><strong>Cédula:</strong> <?= htmlspecialchars($u['Cedula']); ?></p>
+                                    <p><strong>Tipo:</strong> <?= htmlspecialchars($u['tipo_usuario']); ?></p>
+                                    
+                                    <?php if ($u['email']): ?>
+                                        <p><strong>Email:</strong> <?= htmlspecialchars($u['email']); ?></p>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($u['numeroTelefono']): ?>
+                                        <p><strong>Teléfono:</strong> <?= htmlspecialchars($u['numeroTelefono']); ?></p>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($u['tipo_usuario'] === 'Administrador' && $u['rolAdmin']): ?>
+                                        <p><strong>Rol:</strong> <?= htmlspecialchars($u['rolAdmin']); ?></p>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="etiqueta">
+                                    <?= htmlspecialchars($u['tipo_usuario']); ?>
+                                </div>
+
+                                    <div class="acciones-usuario">
+                                        <a href="adm_usr/editar_usr.php?cedula=<?= $u['Cedula']; ?>" class="boton-secundario">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
+                                        
+                                        <form method="POST" action="usuarios.php" class="form-eliminar-usuario">
+                                            <input type="hidden" name="accion" value="eliminar">
+                                            <input type="hidden" name="cedula" value="<?= $u['Cedula']; ?>">
+                                            <button type="submit" class="boton-eliminar">
+                                                <i class="bi bi-trash"></i> Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="mensaje-vacio">
+                    <i class="bi bi-inbox"></i>
+                    <p>No hay usuarios registrados.</p>
+                </div>
+            <?php endif; ?>
+        </section>
+
     </div>
 
-    <hr>
-
-    <h3>Lista de Usuarios</h3>
-    <?php if ($usuarios): ?>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-            <?php foreach ($usuarios as $u): ?>
-                <div class="col">
-                    <div class="card h-100 border-primary">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($u['Nombre_usr']); ?></h5>
-                            <p class="card-text"><strong>Cédula:</strong> <?php echo htmlspecialchars($u['Cedula']); ?></p>
-                            <p class="card-text"><strong>Tipo:</strong> <?php echo htmlspecialchars($u['tipo_usuario']); ?></p>
-                            <?php if ($u['email']): ?><p><strong>Email:</strong> <?php echo htmlspecialchars($u['email']); ?></p><?php endif; ?>
-                            <?php if ($u['numeroTelefono']): ?><p><strong>Teléfono:</strong> <?php echo htmlspecialchars($u['numeroTelefono']); ?></p><?php endif; ?>
-                            
-                                    </span>
-                                </p>
-                            <?php if ($u['tipo_usuario']==='Administrador' && $u['rolAdmin']): ?>
-                                <p><strong>Rol:</strong> <?php echo htmlspecialchars($u['rolAdmin']); ?></p>
-                            <?php endif; ?>
-                        </div>
-                        <div class="card-footer d-flex gap-2">
-                            <a href="adm_usr/editar_usr.php?cedula=<?php echo $u['Cedula']; ?>" class="btn btn-primary btn-sm">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <?php if ($u['tipo_usuario']==='Docente'): ?>
-                               
-                                    <input type="hidden" name="cedula" value="<?php echo $u['Cedula']; ?>">
-                                   
-                                </form>
-                            <?php endif; ?>
-                            <form method="POST" style="display:inline;" onsubmit="return confirm('¿Está seguro de eliminar este usuario?');">
-                                <input type="hidden" name="accion" value="eliminar">
-                                <input type="hidden" name="cedula" value="<?php echo $u['Cedula']; ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php else: ?>
-        <div class="alert alert-info mt-3">No hay usuarios registrados.</div>
-    <?php endif; ?>
 </main>
-
-<?php include '../front/navADM.php'; ?>
-
-<div class="modal fade" id="modalAgregar" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form method="POST" id="formAgregar">
-                <input type="hidden" name="accion" value="agregar">
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar Nuevo Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Tipo de Usuario:</label>
-                        <select name="tipo_usuario" class="form-select" required id="tipoUsuario">
-                            <option value="">Seleccionar...</option>
-                            <option value="docente">Docente</option>
-                            <option value="admin">Administrador</option>
-                            <option value="estudiante">Estudiante</option>
-                        </select>
-                    </div>
-
-                    <div id="campos-docente" style="display:none;">
-                        <h5>Datos del Docente</h5>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre:</label>
-                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña:</label>
-                            <input type="password" name="contra" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cédula (solo números):</label>
-                            <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Teléfono:</label>
-                            <input type="tel" name="telefono" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Año de inserción:</label>
-                            <input type="number" name="anioIns" class="form-control" min="1900" max="2025" value="<?php echo date('Y'); ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control">
-                        </div>
-                    </div>
-
-                    <div id="campos-admin" style="display:none;">
-                        <h5>Datos del Administrador</h5>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre:</label>
-                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña:</label>
-                            <input type="password" name="contra" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cédula (solo números):</label>
-                            <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Teléfono:</label>
-                            <input type="tel" name="telefono" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Rol admin:</label>
-                            <input type="text" name="rolAdm" class="form-control" placeholder="Ej: Director, Coordinador">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control">
-                        </div>
-                    </div>
-
-                    <div id="campos-estudiante" style="display:none;">
-                        <h5>Datos del Estudiante</h5>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre:</label>
-                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña:</label>
-                            <input type="password" name="contra" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cédula (solo números):</label>
-                            <input type="text" name="cedula" class="form-control" pattern="[0-9]+" title="Solo números sin puntos ni guiones">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Fecha nacimiento:</label>
-                            <input type="date" name="fnac" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Teléfono:</label>
-                            <input type="tel" name="telefono" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Agregar Usuario</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<script src="adminValidation.js"></script>
-
 
 </body>
 </html>
