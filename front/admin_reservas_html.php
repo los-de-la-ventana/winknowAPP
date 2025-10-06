@@ -2,7 +2,6 @@
 
 <body>
 
-<?php include 'navADM.php'; ?>
 
 <main class="principal">
     

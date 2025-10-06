@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       domDivDeInputs.innerHTML = '';
 
       // Clonar el contenido del template según la opción seleccionada
-if (opcionSeleccionada === 'docente') {
+      if (opcionSeleccionada === 'docente') {
         var docenteTemplate = document.getElementById('template-docente');
         if (docenteTemplate && docenteTemplate.content) {
           domDivDeInputs.appendChild(docenteTemplate.content.cloneNode(true));
@@ -112,25 +112,11 @@ if (opcionSeleccionada === 'docente') {
    * Función que aplica validaciones específicas a campos según su nombre
    */
   function applyFieldValidations() {
-    // Validación de cédula: solo números y no todos iguales
+    // Validación de cédula: solo números
     var cedulaInputs = document.querySelectorAll('input[name="cedula"]');
     cedulaInputs.forEach(function (input) {
       if (input.offsetParent !== null) {
         validateNumericInput(input);
-
-        input.addEventListener('blur', function () {
-          var valor = input.value.trim();
-
-          if (valor.length > 0) {
-            if (/^(\d)\1+$/.test(valor)) {
-              mostrarError(input, 'La cédula no puede tener todos los números iguales');
-            } else {
-              limpiarError(input);
-            }
-          } else {
-            limpiarError(input);
-          }
-        });
       }
     });
 

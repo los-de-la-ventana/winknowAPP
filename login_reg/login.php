@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['tipo'] = 'admin';
                 $_SESSION['logged_in'] = true;
                 
-                // Redirigir con mensaje de éxito
                 header("Location: ../admin/inicio.php");
                 exit;
             } else {
@@ -49,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['tipo'] = 'docente';
                     $_SESSION['logged_in'] = true;
                     
-                    // Redirigir con mensaje de éxito
                     header("Location: ../docente/inicioDoc.php");
                     exit;
                 } else {
@@ -62,11 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['tipo'] = 'estudiante';
                         $_SESSION['logged_in'] = true;
                         
-                        // Redirigir con mensaje de éxito
                         header("Location: ../estudiante/inicioEst.php");
                         exit;
                     } else {
-                        // Si no tiene rol asignado
                         $mensaje = 'Usuario sin rol asignado';
                         $tipo_mensaje = 'error';
                     }
@@ -87,5 +83,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include '../front/header.html';
 include '../front/usrLOGIN_form.php';
-
 ?>

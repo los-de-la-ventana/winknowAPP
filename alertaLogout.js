@@ -88,3 +88,53 @@ document.addEventListener('DOMContentLoaded', function() {
         mensajeDiv.remove();
     }
 });
+// ================== MOSTRAR MENSAJES DE LOGIN ==================
+document.addEventListener('DOMContentLoaded', function() {
+    const mensajeDiv = document.getElementById('mensaje-data');
+    if (mensajeDiv) {
+        const mensaje = mensajeDiv.getAttribute('data-mensaje');
+        const tipo = mensajeDiv.getAttribute('data-tipo');
+        const icon = tipo === 'exito' ? 'success' : 'error';
+        const title = tipo === 'exito' ? '¡Éxito!' : 'Error';
+        
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: mensaje,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#4f7df3',
+            timer: 3000,
+            timerProgressBar: true
+        });
+        
+        mensajeDiv.remove();
+    }
+});
+// ================== CONFIRMACIÓN PARA ELIMINAR AULAS ==================
+document.addEventListener('DOMContentLoaded', function() {
+    const formsEliminarAula = document.querySelectorAll('.form-eliminar');
+    
+    formsEliminarAula.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nombreAula = form.getAttribute('data-nombre-aula');
+            
+            Swal.fire({
+                title: '¿Desea eliminar?',
+                text: `Esta acción eliminará ${nombreAula} permanentemente`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#4b5563',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+});

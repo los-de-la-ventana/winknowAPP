@@ -12,16 +12,17 @@
     <div class="contenido">
 
         <!-- MENSAJES DE NOTIFICACIÓN -->
-        <?php if (isset($_SESSION['mensaje'])): ?>
-            <div class="mensaje-notificacion <?= $_SESSION['tipo_mensaje']; ?>">
-                <i class="bi <?= $_SESSION['tipo_mensaje'] === 'exito' ? 'bi-check-circle' : 'bi-exclamation-triangle'; ?>"></i>
-                <?= htmlspecialchars($_SESSION['mensaje']); ?>
-            </div>
-            <?php 
-                unset($_SESSION['mensaje']);
-                unset($_SESSION['tipo_mensaje']);
-            ?>
-        <?php endif; ?>
+            <?php if (isset($_SESSION['mensaje'])): ?>
+                <div id="mensaje-data" 
+                    data-mensaje="<?= htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
+                    data-tipo="<?= htmlspecialchars($_SESSION['tipo_mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
+                    style="display: none;">
+                </div>
+                <?php 
+                    unset($_SESSION['mensaje']);
+                    unset($_SESSION['tipo_mensaje']);
+                ?>
+            <?php endif; ?>
 
         <!-- TARJETAS DE ESTADÍSTICAS -->
         <section class="estadisticas">
@@ -137,6 +138,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="adminValidation.js"></script>
+<script src="../alertaLogout.js"></script>
+
 
 <?php
 // ============================================
