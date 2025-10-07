@@ -13,12 +13,12 @@
     <?php endif; ?>
     
     <form id="registroForm" class="form-flotante" method="post" action="login.php">
-        <p class="cursor typewriter-animation">INICIA SESION</p>
+        <p class="cursor typewriter-animation" data-lang="login">INICIA SESION</p>
         
-        <input type="number" name="cedula" placeholder="Cédula" required maxlength="8" minlength="8">
-        <input type="password" name="contra" placeholder="Contraseña" required maxlength="20" minlength="7">
-        <button type="submit">Ingresar</button>
-        <a href="admin_register.php" class="link">¿No tienes una cuenta? Regístrate</a>
+        <input type="number" name="cedula" data-lang="id_number" placeholder="Cédula" required maxlength="8" minlength="8">
+        <input type="password" name="contra" data-lang="password" placeholder="Contraseña" required maxlength="20" minlength="7">
+        <button type="submit" data-lang="enter">Ingresar</button>
+        <a href="admin_register.php" class="link" data-lang="no_account">¿No tienes una cuenta? Regístrate</a>
     </form>
 </div>
 

@@ -11,13 +11,14 @@
         
     <nav class="navegacion">
             <ul>
-                <a href="inicioEst.php"> <li><i class="bi bi-house"></i> Inicio</li></a> 
+                <a href="inicioEst.php"> <li><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
                    <!-- Calendario disponible para todos los tipos de usuario -->
-                <a href="calendario.php">  <li><i class="bi bi-calendar3"></i> Calendario</li> </a>
+                <a href="calendario.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
                <!-- Cerrar sesión disponible para todos los tipos de usuario -->
             <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
             </ul>
         </nav> 
+
 <div class="usuario">
         <div class="info-usuario">
             <div class="nombre-usuario">
@@ -31,13 +32,11 @@
                 ?>
             </div>
             <div class="rol-usuario">
-                <span data-lang="role_admin">Estudiante</span>
-                <?php if (isset($_SESSION['rolAdmin']) && !empty($_SESSION['rolAdmin'])): ?>
-                    - <?php echo htmlspecialchars($_SESSION['rolAdmin']); ?>
-                <?php endif; ?>
+                <span data-lang="role_student">Estudiante</span>
             </div>
         </div>
     </div>
+</aside>
         
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

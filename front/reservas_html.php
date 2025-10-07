@@ -21,14 +21,14 @@
 
         <!-- FORMULARIO DE RESERVA -->
         <section class="filtros">
-            <h2><i class="bi bi-calendar-plus"></i> Nueva Reserva</h2>
+            <h2><i class="bi bi-calendar-plus"></i> <span data-lang="new_reservation">Nueva Reserva</span></h2>
             <br>
             <form method="POST" action="docente_reservas.php">
                 <input type="hidden" name="crear_reserva" value="1">
                 
                 <div class="controles-filtro">
                     <select name="id_espacio" id="id_espacio" required>
-                        <option value="">Seleccione un espacio</option>
+                        <option value="" data-lang="select_space">Seleccione un espacio</option>
                         <?php 
                         if ($resultEspacios):
                             $resultEspacios->data_seek(0);
@@ -36,7 +36,7 @@
                         ?>
                             <option value="<?= $espacio['IdEspacio']; ?>">
                                 <?= obtenerNombreEspacio($espacio['Tipo_salon'], $espacio['NumSalon']); ?> 
-                                (Capacidad: <?= $espacio['capacidad']; ?>)
+                                (<span data-lang="capacity">Capacidad</span>: <?= $espacio['capacidad']; ?>)
                             </option>
                         <?php 
                             endwhile;
@@ -50,14 +50,14 @@
                         >
                     
                     <select name="hora_reserva" id="hora_reserva" required>
-                        <option value="">Seleccione una hora</option>
+                        <option value="" data-lang="select_hour">Seleccione una hora</option>
                         <?php for ($i = 7; $i <= 22; $i++): ?>
                             <option value="<?= $i; ?>"><?= $i; ?>:00 hs</option>
                         <?php endfor; ?>
                     </select>
                     
                     <button type="submit" class="boton-primario">
-                        <i class="bi bi-check-circle"></i> Confirmar Reserva
+                        <i class="bi bi-check-circle"></i> <span data-lang="confirm_reservation">Confirmar Reserva</span>
                     </button>
                 </div>
             </form>
@@ -68,10 +68,10 @@
         <!-- ESPACIOS DISPONIBLES -->
         <section class="aulas">
             <div class="aulas-header">
-                <h2><i class="bi bi-building"></i> Espacios Disponibles</h2>
+                <h2><i class="bi bi-building"></i> <span data-lang="available_spaces">Espacios Disponibles</span></h2>
                 <?php if ($resultEspacios): ?>
                     <?php $resultEspacios->data_seek(0); ?>
-                    <p><strong>Total: <?= $resultEspacios->num_rows; ?> espacio(s)</strong></p>
+                    <p><strong><span data-lang="total">Total</span>: <?= $resultEspacios->num_rows; ?> <span data-lang="spaces">espacio(s)</span></strong></p>
                 <?php endif; ?>
             </div>
 
@@ -85,7 +85,7 @@
                                     <?= obtenerNombreAula($espacio); ?>
                                 </h4>
                                 <div class="detalles">
-                                    <i class="bi bi-people"></i> Capacidad: <strong><?= $espacio['capacidad']; ?></strong> personas
+                                    <i class="bi bi-people"></i> <span data-lang="capacity">Capacidad</span>: <strong><?= $espacio['capacidad']; ?></strong> <span data-lang="people">personas</span>
                                 </div>
                                 <div class="etiqueta">
                                     <?= htmlspecialchars($espacio['Tipo_salon']); ?>
@@ -94,7 +94,7 @@
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <p>No hay espacios disponibles.</p>
+                    <p data-lang="no_spaces_available">No hay espacios disponibles.</p>
                 <?php endif; ?>
             </div>
         </section>
@@ -104,7 +104,7 @@
         <!-- RESERVAS ACTIVAS -->
         <section class="aulas">
             <div class="aulas-header">
-                <h2><i class="bi bi-calendar-check"></i> Mis Reservas Activas</h2>
+                <h2><i class="bi bi-calendar-check"></i> <span data-lang="my_active_reservations">Mis Reservas Activas</span></h2>
             </div>
             
             <?php if ($resultReservas->num_rows > 0): ?>
@@ -117,15 +117,15 @@
                                     <?= obtenerNombreEspacio($reserva['Tipo_salon'], $reserva['NumSalon']); ?>
                                 </h4>
                                 <div class="detalles">
-                                    <p><i class="bi bi-calendar"></i> <strong>Fecha:</strong> <?= formatearFecha($reserva['Fecha']); ?></p>
-                                    <p><i class="bi bi-clock"></i> <strong>Hora:</strong> <?= formatearHora($reserva['Hora_Reserva']); ?></p>
-                                    <p><i class="bi bi-people"></i> <strong>Capacidad:</strong> <?= $reserva['capacidad']; ?> personas</p>
+                                    <p><i class="bi bi-calendar"></i> <strong data-lang="date">Fecha</strong>: <?= formatearFecha($reserva['Fecha']); ?></p>
+                                    <p><i class="bi bi-clock"></i> <strong data-lang="hour">Hora</strong>: <?= formatearHora($reserva['Hora_Reserva']); ?></p>
+                                    <p><i class="bi bi-people"></i> <strong data-lang="capacity">Capacidad</strong>: <?= $reserva['capacidad']; ?> <span data-lang="people">personas</span></p>
                                 </div>
                                 <form method="POST" action="docente_reservas.php">
                                     <input type="hidden" name="eliminar_reserva" value="1">
                                     <input type="hidden" name="id_reserva" value="<?= $reserva['IdReserva']; ?>">
                                   <button type="submit" class="boton-secundario">
-                                        <i class="bi bi-trash"></i> Cancelar Reserva
+                                        <i class="bi bi-trash"></i> <span data-lang="cancel_reservation">Cancelar Reserva</span>
                                     </button>
                                 </form>
                             </div>
@@ -133,7 +133,7 @@
                     <?php endwhile; ?>
                 </div>
             <?php else: ?>
-                <p>No tienes reservas activas en este momento.</p>
+                <p data-lang="no_reservations">No tienes reservas activas en este momento.</p>
             <?php endif; ?>
         </section>
 

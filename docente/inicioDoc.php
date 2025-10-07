@@ -11,11 +11,12 @@ include '../front/navDOC.php';
     <main class="principal">
 <header class="encabezado">
     <h1>
+        <span data-lang="hello">Hola</span>, 
         <?php
         if (isset($_SESSION['nombre']) && isset($_SESSION['tipo'])) {
-            echo "Hola, " . htmlspecialchars($_SESSION['nombre']);
+            echo htmlspecialchars($_SESSION['nombre']);
         } else {
-            echo "Bienvenido";
+            echo '<span data-lang="default_user">Usuario</span>';
         }
         ?>
     </h1>

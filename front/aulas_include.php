@@ -29,21 +29,21 @@
             <div class="tarjeta-estadistica">
                 <div class="icono total"><i class="bi bi-person-gear"></i></div>
                 <div>
-                    <h3>Administradores</h3>
+                    <h3 data-lang="administrators">Administradores</h3>
                     <div class="numero"><?= sprintf('%02d', $conteoAdmins); ?></div>
                 </div>
             </div>
             <div class="tarjeta-estadistica">
                 <div class="icono total"><i class="bi bi-person-workspace"></i></div>
                 <div>
-                    <h3>Docentes Activos</h3>
+                    <h3 data-lang="active_teachers">Docentes Activos</h3>
                     <div class="numero"><?= sprintf('%02d', $conteoDocentes); ?></div>
                 </div>
             </div>
             <div class="tarjeta-estadistica">
                 <div class="icono total"><i class="bi bi-people"></i></div>
                 <div>
-                    <h3>Estudiantes</h3>
+                    <h3 data-lang="students">Estudiantes</h3>
                     <div class="numero"><?= sprintf('%02d', $conteoEstudiantes); ?></div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
         <!-- BOTÓN REGISTRAR ESPACIOS -->
         <section >
             <a href="register_espacios.php" class="boton-primario">
-                <i class="bi bi-plus-circle"></i> Registrar Espacios
+                <i class="bi bi-plus-circle"></i> <span data-lang="register_spaces">Registrar Espacios</span>
             </a>
         </section>  
                 <br>
@@ -61,7 +61,7 @@
         <!-- BOTÓN RESERVAS-->
         <section >
             <a href="administrar_reservas_espacios.php" class="boton-primario">
-                            <i class="bi bi-gear"></i> Administrar Reservas
+                <i class="bi bi-gear"></i> <span data-lang="manage_reservations">Administrar Reservas</span>
             </a>
         </section>  
                 <br>
@@ -70,25 +70,25 @@
 
         <!-- FILTROS DE BÚSQUEDA -->
         <section class="filtros">
-            <h2>Filtrar Espacios</h2><br>
+            <h2 data-lang="filter_spaces">Filtrar Espacios</h2><br>
             <form method="GET" action="aulas.php" class="controles-filtro">
                 <select name="tipo_salon">
-                    <option value="">Tipo de Espacio - Todos</option>
-                    <option value="Salon"  <?= $filtroTipo == 'Salon' ? 'selected' : ''; ?>>Salon</option>
-                    <option value="Aula"   <?= $filtroTipo == 'Aula' ? 'selected' : ''; ?>>Aula</option>
-                    <option value="Taller" <?= $filtroTipo == 'Taller' ? 'selected' : ''; ?>>Taller</option>
-                    <option value="Laboratorio" <?= $filtroTipo == 'Laboratorio' ? 'selected' : ''; ?>>Laboratorio</option>
+                    <option value=""><span data-lang="space_type">Tipo de Espacio</span> - <span data-lang="all">Todos</span></option>
+                    <option value="Salon"  <?= $filtroTipo == 'Salon' ? 'selected' : ''; ?> data-lang="hall">Salon</option>
+                    <option value="Aula"   <?= $filtroTipo == 'Aula' ? 'selected' : ''; ?> data-lang="classroom">Aula</option>
+                    <option value="Taller" <?= $filtroTipo == 'Taller' ? 'selected' : ''; ?> data-lang="workshop">Taller</option>
+                    <option value="Laboratorio" <?= $filtroTipo == 'Laboratorio' ? 'selected' : ''; ?> data-lang="laboratory">Laboratorio</option>
                 </select>
                 <select name="capacidad">
-                    <option value="">Capacidad - Cualquiera</option>
-                    <option value="30" <?= $filtroCapacidad == '30' ? 'selected' : ''; ?>>30 Personas</option>
-                    <option value="40" <?= $filtroCapacidad == '40' ? 'selected' : ''; ?>>40 Personas</option>
-                    <option value="60" <?= $filtroCapacidad == '60' ? 'selected' : ''; ?>>60 Personas</option>
-                    <option value="80" <?= $filtroCapacidad == '80' ? 'selected' : ''; ?>>80 Personas</option>
+                    <option value=""><span data-lang="capacity">Capacidad</span> - <span data-lang="any">Cualquiera</span></option>
+                    <option value="30" <?= $filtroCapacidad == '30' ? 'selected' : ''; ?>>30 <span data-lang="people">Personas</span></option>
+                    <option value="40" <?= $filtroCapacidad == '40' ? 'selected' : ''; ?>>40 <span data-lang="people">Personas</span></option>
+                    <option value="60" <?= $filtroCapacidad == '60' ? 'selected' : ''; ?>>60 <span data-lang="people">Personas</span></option>
+                    <option value="80" <?= $filtroCapacidad == '80' ? 'selected' : ''; ?>>80 <span data-lang="people">Personas</span></option>
                 </select>
                 <br><br>
                 <button type="submit" class="boton-primario">
-                    <i class="bi bi-funnel"></i> Aplicar Filtros
+                    <i class="bi bi-funnel"></i> <span data-lang="apply_filters">Aplicar Filtros</span>
                 </button>
             </form>
         </section>
@@ -96,9 +96,9 @@
         <!-- RESULTADOS DE AULAS -->
         <section class="aulas">
             <div class="aulas-header">
-                <h2><i class="bi bi-building"></i> Espacios Disponibles</h2>
+                <h2><i class="bi bi-building"></i> <span data-lang="available_spaces">Espacios Disponibles</span></h2>
                 <?php if ($resultEspacios): ?>
-                    <p><strong>Mostrando <?= $resultEspacios->num_rows; ?> resultado(s)</strong></p>
+                    <p><strong><span data-lang="showing_results">Mostrando</span> <?= $resultEspacios->num_rows; ?> <span data-lang="results">resultado(s)</span></strong></p>
                 <?php endif; ?>
             </div>
 
@@ -112,7 +112,7 @@
                                     <?= obtenerNombreAula($espacio); ?>
                                 </h4>
                                 <div class="detalles">
-                                    <i class="bi bi-people"></i> Capacidad: <strong><?= $espacio['capacidad']; ?></strong> Personas
+                                    <i class="bi bi-people"></i> <span data-lang="capacity">Capacidad</span>: <strong><?= $espacio['capacidad']; ?></strong> <span data-lang="people">Personas</span>
                                 </div>
                                 <div class="tipo-salon <?= strtolower($espacio['Tipo_salon']); ?>">
                                     <i class="bi bi-tag"></i> <?= htmlspecialchars($espacio['Tipo_salon']); ?>
@@ -121,14 +121,14 @@
                                     <input type="hidden" name="eliminar_aula" value="1">
                                     <input type="hidden" name="num_salon" value="<?= $espacio['NumSalon']; ?>">
                                     <button type="submit" class="boton-eliminar">
-                                        <i class="bi bi-trash"></i> Eliminar
+                                        <i class="bi bi-trash"></i> <span data-lang="delete">Eliminar</span>
                                     </button>
                                 </form>
                             </div>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <p>No se encontraron espacios con los filtros seleccionados.</p>
+                    <p data-lang="no_spaces_found">No se encontraron espacios con los filtros seleccionados.</p>
                 <?php endif; ?>
             </div>
         </section>

@@ -1368,4 +1368,86 @@ body {
     #toggle-theme {
         width: auto;
     }
+}/* =======================
+   BOTONES DE TEMA E IDIOMA EN HEADER
+======================= */
+#toggle-theme,
+#toggle-language {
+    position: fixed;
+    top: 15px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: var(--fuente-principal);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-rapida);
+    box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+#toggle-theme {
+    right: 15px;
+}
+
+#toggle-language {
+    right: 160px;
+}
+
+#toggle-theme:hover,
+#toggle-language:hover {
+    background: var(--azul-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+#current-lang {
+    font-weight: 700;
+    font-size: 14px;
+    min-width: 25px;
+    text-align: center;
+}
+
+/* Responsive para botones de header */
+@media screen and (max-width: 767px) {
+    #toggle-theme,
+    #toggle-language {
+        padding: 8px 12px;
+        font-size: 13px;
+        top: 10px;
+    }
+    
+    #toggle-theme {
+        right: 10px;
+    }
+    
+    #toggle-language {
+        right: 120px;
+    }
+
+    #current-lang {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #toggle-theme,
+    #toggle-language {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    #toggle-language {
+        right: 100px;
+    }
+    
+    /* Ocultar el texto en móviles muy pequeños, solo mostrar ícono */
+    #toggle-language .bi-translate {
+        margin-right: 0;
+    }
 }

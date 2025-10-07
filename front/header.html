@@ -19,11 +19,15 @@
 </head>
 <header>
     <!-- Botón para cambiar tema a claro u oscuro -->
-            <button id="toggle-theme" class="boton-primario">
-                Cambiar tema
-            </button>
+    <button id="toggle-theme" class="boton-primario" data-lang="btn_theme">
+        Cambiar tema
+    </button>
 
-            <script src="../lightmode.js"></script>
-            <script src="../lang/lang.js"></script>
+    <!-- Botón para cambiar idioma -->
+    <button id="toggle-language" class="boton-primario" style="right: 150px;">
+        <i class="bi bi-translate"></i> <span id="current-lang">ES</span>
+    </button>
 
+    <script src="../lightmode.js"></script>
+    <script src="../lang/lang.js"></script>
 </header>
