@@ -40,7 +40,6 @@ include 'header.html';
             <input type="text" name="nombre" data-lang="name" placeholder="Nombre" required>
             <input type="password" name="contra" data-lang="password" placeholder="Contraseña" required maxlength="20" minlength="7">
             <input type="text" name="cedula" data-lang="id_only_numbers" placeholder="Cédula (solo números)" required pattern="[0-9]+" title="Solo números sin puntos ni guiones" maxlength="8" minlength="8">
-            <input type="text" name="estado" data-lang="status" placeholder="Estado" required>
         </div>
     </template>
 

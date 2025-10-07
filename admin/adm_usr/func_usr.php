@@ -2,7 +2,7 @@
 function conectarDB() {
     try {
         return ['success' => true, 'connection' => new PDO(
-            "mysql:host=127.0.0.1;dbname=winknow;charset=utf8mb4",
+            "mysql:host=127.0.0.1;dbname=db_WinKnow;charset=utf8mb4",
             "root", "",
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
         )];
@@ -10,32 +10,69 @@ function conectarDB() {
         return ['success' => false, 'message' => 'Error de conexión: ' . $e->getMessage()];
     }
 }
-
 function listarUsuarios() {
     $conn = conectarDB();
     if (!$conn['success']) return ['success' => false, 'message' => $conn['message'], 'data' => []];
     
     try {
-        $stmt = $conn['connection']->prepare("SELECT DISTINCT u.Cedula, u.Nombre_usr,
-            COALESCE(e.numeroTelefono, '') as numeroTelefono, COALESCE(e.email, '') as email,
-            CASE WHEN a.Cedula IS NOT NULL THEN 'Administrador'
-                 WHEN d.Cedula IS NOT NULL THEN 'Docente'
-                 WHEN est.Cedula IS NOT NULL THEN 'Estudiante' ELSE 'Sin tipo' END as tipo_usuario,
-            a.rolAdmin, CASE WHEN a.Cedula IS NOT NULL THEN a.codigo_adm
-                             WHEN d.Cedula IS NOT NULL THEN d.codigo_doc ELSE NULL END as codigo
-            FROM usuarios u
-            LEFT JOIN email e ON u.Cedula = e.Cedula
-            LEFT JOIN administrador a ON u.Cedula = a.Cedula
-            LEFT JOIN docente d ON u.Cedula = CAST(d.Cedula AS CHAR)
-            LEFT JOIN estudiante est ON u.Cedula = CAST(est.Cedula AS CHAR)
-            WHERE u.Cedula != '0' ORDER BY u.Nombre_usr");
+        $db = $conn['connection'];
+        
+        // Primero obtener todos los usuarios básicos
+        $stmt = $db->prepare("SELECT Cedula, Nombre_usr FROM Usuarios WHERE Cedula != '0' ORDER BY Nombre_usr");
         $stmt->execute();
-        return ['success' => true, 'message' => 'Usuarios obtenidos correctamente', 'data' => $stmt->fetchAll()];
+        $usuarios_base = $stmt->fetchAll();
+        
+        $usuarios = [];
+        
+        // Enriquecer cada usuario con su información adicional
+        foreach ($usuarios_base as $user) {
+            $cedula = $user['Cedula'];
+            
+            // Obtener email y teléfono
+            $stmt_email = $db->prepare("SELECT email, numeroTelefono FROM Email WHERE Cedula = ?");
+            $stmt_email->execute([$cedula]);
+            $email_data = $stmt_email->fetch() ?: ['email' => '', 'numeroTelefono' => ''];
+            
+            // Determinar tipo de usuario
+            $tipo_usuario = 'Sin tipo';
+            $rolAdmin = null;
+            
+            $stmt_admin = $db->prepare("SELECT rolAdmin FROM Administrador WHERE Cedula = ?");
+            $stmt_admin->execute([$cedula]);
+            if ($admin = $stmt_admin->fetch()) {
+                $tipo_usuario = 'Administrador';
+                $rolAdmin = $admin['rolAdmin'];
+            } else {
+                $stmt_doc = $db->prepare("SELECT Cedula FROM Docente WHERE Cedula = ?");
+                $stmt_doc->execute([(int)$cedula]);
+                if ($stmt_doc->fetch()) {
+                    $tipo_usuario = 'Docente';
+                } else {
+                    $stmt_est = $db->prepare("SELECT Cedula FROM Estudiante WHERE Cedula = ?");
+                    $stmt_est->execute([(int)$cedula]);
+                    if ($stmt_est->fetch()) {
+                        $tipo_usuario = 'Estudiante';
+                    }
+                }
+            }
+            
+            $usuarios[] = [
+                'Cedula' => $cedula,
+                'Nombre_usr' => $user['Nombre_usr'],
+                'email' => $email_data['email'],
+                'numeroTelefono' => $email_data['numeroTelefono'],
+                'tipo_usuario' => $tipo_usuario,
+                'rolAdmin' => $rolAdmin
+            ];
+        }
+        
+        return ['success' => true, 'message' => 'Usuarios obtenidos correctamente', 'data' => $usuarios];
+        
     } catch (PDOException $e) {
+        error_log("Error en listarUsuarios: " . $e->getMessage());
         return ['success' => false, 'message' => 'Error: ' . $e->getMessage(), 'data' => []];
     }
 }
-
 function agregarUsuario($cedula, $contrasenia, $nombre, $tipo_usuario, $email = '', $telefono = '', $datos_adicionales = []) {
     $conn = conectarDB();
     if (!$conn['success']) return ['success' => false, 'message' => $conn['message']];
