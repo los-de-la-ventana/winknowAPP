@@ -45,15 +45,15 @@
 
         <br>
 
-        <!-- ACCIONES -->
-        <section class="acciones">
-            <a href="../login_reg/register.php" class="boton-primario">
-                <i class="bi bi-person-plus"></i> <span data-lang="add_user">Agregar Usuario</span>
-            </a>
-            <button onclick="location.reload()" class="boton-secundario">
-                <i class="bi bi-arrow-clockwise"></i> <span data-lang="refresh_list">Actualizar Lista</span>
-            </button>
-        </section>
+<!-- ACCIONES -->
+<section class="acciones">
+    <a href="../login_reg/register.php" class="boton-primario">
+        <i class="bi bi-person-plus"></i> <span data-lang="add_user">Agregar Usuario</span>
+    </a>
+    <button type="button" onclick="window.location.reload();" class="boton-secundario">
+        <i class="bi bi-arrow-clockwise"></i> <span data-lang="refresh_list">Actualizar Lista</span>
+    </button>
+</section>
 
         <br>
 
