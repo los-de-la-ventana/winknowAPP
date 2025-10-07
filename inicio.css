@@ -570,7 +570,26 @@ body {
     width: 40%;
     margin-bottom: 18px;
 }
+/* ARREGLO PARA INPUT DE FECHA */
+input[type="date"] {
+    padding: 10px 12px;
+    background: var(--fondo-primario);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius);
+    color: var(--texto-primario);
+    font-family: var(--fuente-principal);
+    cursor: pointer;
+}
 
+/* Icono del calendario */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(0.5);
+}
+
+[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+}
 .form-group {
     display: flex;
     flex: 1;
