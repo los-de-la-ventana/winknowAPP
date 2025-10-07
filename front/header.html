@@ -18,15 +18,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <header>
-    <!-- Botón para cambiar tema a claro u oscuro -->
-    <button id="toggle-theme" class="boton-primario" data-lang="btn_theme">
-        Cambiar tema
-    </button>
-
-    <!-- Botón para cambiar idioma -->
-    <button id="toggle-language" class="boton-primario" style="right: 150px;">
-        <i class="bi bi-translate"></i> <span id="current-lang">ES</span>
-    </button>
+    <!-- Contenedor para botones de tema e idioma -->
+    <div class="header-controls">
+        <!-- Botón para cambiar idioma -->
+        <button id="toggle-language">
+            <i class="bi bi-translate"></i> 
+            <span id="current-lang">ES</span>
+        </button>
+        
+        <!-- Botón para cambiar tema -->
+        <button id="toggle-theme" data-lang="btn_theme">
+            <i class="bi bi-brightness-high"></i>
+            <span>Cambiar tema</span>
+        </button>
+    </div>
 
     <script src="../lightmode.js"></script>
     <script src="../lang/lang.js"></script>
