@@ -49,23 +49,22 @@
             </div>
         </section>
 
-        <!-- BOTÓN REGISTRAR ESPACIOS -->
-        <section >
-            <a href="register_espacios.php" class="boton-primario">
-                <i class="bi bi-plus-circle"></i> <span data-lang="register_spaces">Registrar Espacios</span>
-            </a>
-        </section>  
-                <br>
-                <br>
+  <!-- BOTONES DE GESTIÓN -->
+<section class="acciones-gestion">
+    <a href="register_espacios.php" class="boton-primario">
+        <i class="bi bi-plus-circle"></i> <span data-lang="register_spaces">Registrar Espacios</span>
+    </a>
+    
+    <a href="register_recursos.php" class="boton-primario">
+        <i class="bi bi-box-seam"></i> <span data-lang="register_resources">Registrar Recursos</span>
+    </a>
+    
+    <a href="administrar_reservas_espacios.php" class="boton-primario">
+        <i class="bi bi-gear"></i> <span data-lang="manage_reservations">Administrar Reservas</span>
+    </a>
+</section>
 
-        <!-- BOTÓN RESERVAS-->
-        <section >
-            <a href="administrar_reservas_espacios.php" class="boton-primario">
-                <i class="bi bi-gear"></i> <span data-lang="manage_reservations">Administrar Reservas</span>
-            </a>
-        </section>  
-                <br>
-                <br>
+<br>
 
 
         <!-- FILTROS DE BÚSQUEDA -->

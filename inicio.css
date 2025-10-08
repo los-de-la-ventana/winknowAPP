@@ -1603,3 +1603,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         display: none;
     }
 }
+/* Botones horizontales */
+.acciones-gestion {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.acciones-gestion .boton-primario {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    color:white;
+}
+
+/* Móviles */
+@media screen and (max-width: 767px) {
+    .acciones-gestion {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
