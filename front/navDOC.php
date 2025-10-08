@@ -18,7 +18,6 @@
                 if (isset($_SESSION['tipo']) && $_SESSION['tipo'] !== 'estudiante') {
                     // Mostrar opciones completas para admin y docente
                     echo '<a href="docente_reservas.php"> <li class="activo"><i class="bi bi-building"></i><span data-lang="nav_reservas">Reservas</span></li></a>';
-                    echo '<a href="reportes.php">  <li><i class="bi bi-bar-chart"></i> <span data-lang="nav_reportes">Reportes</span></li></a>';
                 }
                 ?>
                 

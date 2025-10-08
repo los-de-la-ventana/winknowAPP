@@ -64,7 +64,6 @@
     </a>
 </section>
 
-<br>
 
 
         <!-- FILTROS DE BÚSQUEDA -->
