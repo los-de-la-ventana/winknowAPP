@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva'])) {
         $_SESSION['mensaje'] = "No se puede reservar una fecha pasada.";
         $_SESSION['tipo_mensaje'] = "error";
     } else {
-        // Verificar si ya existe una reserva para ese espacio, fecha y hora
+        // Verificar si ya existe una reserva APROBADA para ese espacio, fecha y hora
         $sqlCheck = "SELECT COUNT(*) as total FROM reserva 
-                     WHERE IdEspacio = ? AND Fecha = ? AND Hora_Reserva = ?";
+                     WHERE IdEspacio = ? AND Fecha = ? AND Hora_Reserva = ? AND aprobada = 1";
         $stmtCheck = $mysqli->prepare($sqlCheck);
         $stmtCheck->bind_param("isi", $idEspacio, $fecha, $horaReserva);
         $stmtCheck->execute();
@@ -34,16 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva'])) {
         $row = $resultCheck->fetch_assoc();
         
         if ($row['total'] > 0) {
-            $_SESSION['mensaje'] = "Ya existe una reserva para ese espacio en esa fecha y hora.";
+            $_SESSION['mensaje'] = "Ya existe una reserva aprobada para ese espacio en esa fecha y hora.";
             $_SESSION['tipo_mensaje'] = "error";
         } else {
-            // Insertar la reserva
-            $sqlInsert = "INSERT INTO reserva (IdEspacio, Fecha, Hora_Reserva) VALUES (?, ?, ?)";
+            // Insertar la reserva con estado pendiente (aprobada = 0)
+            $sqlInsert = "INSERT INTO reserva (IdEspacio, Fecha, Hora_Reserva, aprobada) VALUES (?, ?, ?, 0)";
             $stmtInsert = $mysqli->prepare($sqlInsert);
             $stmtInsert->bind_param("isi", $idEspacio, $fecha, $horaReserva);
             
             if ($stmtInsert->execute()) {
-                $_SESSION['mensaje'] = "Reserva creada exitosamente.";
+                $_SESSION['mensaje'] = "Reserva creada exitosamente. Pendiente de aprobación.";
                 $_SESSION['tipo_mensaje'] = "exito";
             } else {
                 $_SESSION['mensaje'] = "Error al crear la reserva: " . $mysqli->error;
@@ -90,19 +90,48 @@ $queryEspacios = "SELECT * FROM espacios ORDER BY NumSalon";
 $resultEspacios = $mysqli->query($queryEspacios);
 
 // ============================================
-// OBTENER RESERVAS ACTIVAS (FUTURAS Y ACTUALES)
+// OBTENER RESERVAS PENDIENTES (aprobada = 0)
 // ============================================
 $fechaActual = date('Y-m-d');
-$queryReservas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
-                         e.NumSalon, e.Tipo_salon, e.capacidad
-                  FROM reserva r
-                  INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
-                  WHERE r.Fecha >= ?
-                  ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
-$stmtReservas = $mysqli->prepare($queryReservas);
-$stmtReservas->bind_param("s", $fechaActual);
-$stmtReservas->execute();
-$resultReservas = $stmtReservas->get_result();
+$queryReservasPendientes = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
+                                    e.NumSalon, e.Tipo_salon, e.capacidad
+                             FROM reserva r
+                             INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
+                             WHERE r.Fecha >= ? AND r.aprobada = 0
+                             ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
+$stmtReservasPendientes = $mysqli->prepare($queryReservasPendientes);
+$stmtReservasPendientes->bind_param("s", $fechaActual);
+$stmtReservasPendientes->execute();
+$resultReservasPendientes = $stmtReservasPendientes->get_result();
+
+// ============================================
+// OBTENER RESERVAS APROBADAS (aprobada = 1)
+// ============================================
+$queryReservasAprobadas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
+                                   e.NumSalon, e.Tipo_salon, e.capacidad
+                            FROM reserva r
+                            INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
+                            WHERE r.Fecha >= ? AND r.aprobada = 1
+                            ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
+$stmtReservasAprobadas = $mysqli->prepare($queryReservasAprobadas);
+$stmtReservasAprobadas->bind_param("s", $fechaActual);
+$stmtReservasAprobadas->execute();
+$resultReservasAprobadas = $stmtReservasAprobadas->get_result();
+
+// ============================================
+// FUNCIÓN PARA VERIFICAR SI UN SLOT ESTÁ OCUPADO
+// ============================================
+function verificarSlotOcupado($mysqli, $idEspacio, $fecha, $hora) {
+    $sql = "SELECT COUNT(*) as total FROM reserva 
+            WHERE IdEspacio = ? AND Fecha = ? AND Hora_Reserva = ? AND aprobada = 1";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("isi", $idEspacio, $fecha, $hora);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    return $row['total'] > 0;
+}
 
 // ============================================
 // FUNCIONES DE UTILIDAD
@@ -144,7 +173,6 @@ function formatearHora($hora) {
 include '../front/header.html';
 include '../front/reservas_html.php';
 include '../front/navDOC.php';
-
 
 // ============================================
 // CIERRE DE CONEXIÓN

@@ -15,10 +15,19 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aprobar_reserva'])) {
     $idReserva = intval($_POST['id_reserva']);
     
-    // Por ahora solo mostramos mensaje de éxito
-    // Puedes agregar un campo "estado" a la tabla reserva si quieres guardar el estado
-    $_SESSION['mensaje'] = "Reserva aprobada exitosamente.";
-    $_SESSION['tipo_mensaje'] = "exito";
+    // Actualizar el campo aprobada a 1 (true)
+    $sqlAprobar = "UPDATE reserva SET aprobada = 1 WHERE IdReserva = ?";
+    $stmtAprobar = $mysqli->prepare($sqlAprobar);
+    $stmtAprobar->bind_param("i", $idReserva);
+    
+    if ($stmtAprobar->execute()) {
+        $_SESSION['mensaje'] = "Reserva aprobada exitosamente.";
+        $_SESSION['tipo_mensaje'] = "exito";
+    } else {
+        $_SESSION['mensaje'] = "Error al aprobar la reserva: " . $mysqli->error;
+        $_SESSION['tipo_mensaje'] = "error";
+    }
+    $stmtAprobar->close();
     
     header("Location: administrar_reservas_espacios.php");
     exit;
@@ -48,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rechazar_reserva'])) 
 }
 
 // ============================================
-// OBTENER TODAS LAS RESERVAS ACTIVAS
+// OBTENER SOLO RESERVAS PENDIENTES (aprobada = 0)
 // ============================================
 $fechaActual = date('Y-m-d');
 $queryReservas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
@@ -56,7 +65,7 @@ $queryReservas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva,
                          e.IdEspacio
                   FROM reserva r
                   INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
-                  WHERE r.Fecha >= ?
+                  WHERE r.Fecha >= ? AND r.aprobada = 0
                   ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
 $stmtReservas = $mysqli->prepare($queryReservas);
 $stmtReservas->bind_param("s", $fechaActual);
@@ -66,7 +75,7 @@ $resultReservas = $stmtReservas->get_result();
 // ============================================
 // ESTADÍSTICAS
 // ============================================
-$sqlStats = "SELECT COUNT(*) as total FROM reserva WHERE Fecha >= ?";
+$sqlStats = "SELECT COUNT(*) as total FROM reserva WHERE Fecha >= ? AND aprobada = 0";
 $stmtStats = $mysqli->prepare($sqlStats);
 $stmtStats->bind_param("s", $fechaActual);
 $stmtStats->execute();

@@ -2,7 +2,6 @@
 
 <body>
 
-
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
 <main class="principal">
     
@@ -23,7 +22,7 @@
         <section class="filtros">
             <h2><i class="bi bi-calendar-plus"></i> <span data-lang="new_reservation">Nueva Reserva</span></h2>
             <br>
-            <form method="POST" action="docente_reservas.php">
+            <form method="POST" action="docente_reservas.php" id="formReserva">
                 <input type="hidden" name="crear_reserva" value="1">
                 
                 <div class="controles-filtro">
@@ -101,15 +100,56 @@
 
         <br><br>
 
-        <!-- RESERVAS ACTIVAS -->
+        <!-- RESERVAS APROBADAS -->
         <section class="aulas">
             <div class="aulas-header">
-                <h2><i class="bi bi-calendar-check"></i> <span data-lang="my_active_reservations">Mis Reservas Activas</span></h2>
+                <h2><i class="bi bi-check-circle-fill" ></i> <span data-lang="approved_reservations">Reservas Aprobadas</span></h2>
             </div>
             
-            <?php if ($resultReservas->num_rows > 0): ?>
+            <?php if ($resultReservasAprobadas->num_rows > 0): ?>
                 <div class="grilla">
-                    <?php while ($reserva = $resultReservas->fetch_assoc()): ?>
+                    <?php while ($reserva = $resultReservasAprobadas->fetch_assoc()): ?>
+                        <div class="tarjeta-aula" >
+                            <div class="info-aula">
+                                <h4>
+                                    <i class="<?= obtenerIconoTipo($reserva['Tipo_salon']); ?>"></i>
+                                    <?= obtenerNombreEspacio($reserva['Tipo_salon'], $reserva['NumSalon']); ?>
+                                </h4>
+                                <div class="detalles">
+                                    <p><i class="bi bi-calendar"></i> <strong data-lang="date">Fecha</strong>: <?= formatearFecha($reserva['Fecha']); ?></p>
+                                    <p><i class="bi bi-clock"></i> <strong data-lang="hour">Hora</strong>: <?= formatearHora($reserva['Hora_Reserva']); ?></p>
+                                    <p><i class="bi bi-people"></i> <strong data-lang="capacity">Capacidad</strong>: <?= $reserva['capacidad']; ?> <span data-lang="people">personas</span></p>
+                                </div>
+                                <div class="etiqueta">
+                                    <i class="bi bi-check-circle"></i> <span data-lang="approved">Aprobada</span>
+                                </div>
+                                <form method="POST" action="docente_reservas.php">
+                                    <input type="hidden" name="eliminar_reserva" value="1">
+                                    <input type="hidden" name="id_reserva" value="<?= $reserva['IdReserva']; ?>">
+                                    <button type="submit" class="boton-secundario">
+                                        <i class="bi bi-trash"></i> <span data-lang="cancel_reservation">Cancelar Reserva</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            <?php else: ?>
+                <p data-lang="no_approved_reservations">No tienes reservas aprobadas en este momento.</p>
+            <?php endif; ?>
+        </section>
+
+        <br><br>
+
+        <!-- RESERVAS PENDIENTES -->
+        <section class="aulas">
+            <div class="aulas-header">
+                <h2><i class="bi bi-clock-history"></i> <span data-lang="pending_reservations">Reservas Pendientes</span></h2>
+            </div>
+            
+            <?php if ($resultReservasPendientes->num_rows > 0): ?>
+                <div class="grilla">
+                    <?php while ($reserva = $resultReservasPendientes->fetch_assoc()): ?>
                         <div class="tarjeta-aula">
                             <div class="info-aula">
                                 <h4>
@@ -121,10 +161,13 @@
                                     <p><i class="bi bi-clock"></i> <strong data-lang="hour">Hora</strong>: <?= formatearHora($reserva['Hora_Reserva']); ?></p>
                                     <p><i class="bi bi-people"></i> <strong data-lang="capacity">Capacidad</strong>: <?= $reserva['capacidad']; ?> <span data-lang="people">personas</span></p>
                                 </div>
+                                <div class="etiqueta" >
+                                    <i class="bi bi-clock"></i> <span data-lang="pending">Pendiente</span>
+                                </div>
                                 <form method="POST" action="docente_reservas.php">
                                     <input type="hidden" name="eliminar_reserva" value="1">
                                     <input type="hidden" name="id_reserva" value="<?= $reserva['IdReserva']; ?>">
-                                  <button type="submit" class="boton-secundario">
+                                    <button type="submit" class="boton-secundario">
                                         <i class="bi bi-trash"></i> <span data-lang="cancel_reservation">Cancelar Reserva</span>
                                     </button>
                                 </form>
@@ -133,7 +176,7 @@
                     <?php endwhile; ?>
                 </div>
             <?php else: ?>
-                <p data-lang="no_reservations">No tienes reservas activas en este momento.</p>
+                <p data-lang="no_pending_reservations_teacher">No tienes reservas pendientes en este momento.</p>
             <?php endif; ?>
         </section>
 
@@ -141,8 +184,36 @@
 
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Script para validar disponibilidad en tiempo real -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formReserva = document.getElementById('formReserva');
+    const selectEspacio = document.getElementById('id_espacio');
+    const inputFecha = document.getElementById('fecha');
+    const selectHora = document.getElementById('hora_reserva');
+    
+    // Función para verificar disponibilidad
+    async function verificarDisponibilidad() {
+        const espacio = selectEspacio.value;
+        const fecha = inputFecha.value;
+        const hora = selectHora.value;
+        
+        if (!espacio || !fecha || !hora) {
+            return;
+        }
+        
+        // Aquí podrías hacer una petición AJAX para verificar en tiempo real
+        // Por ahora, el servidor lo validará al enviar el formulario
+    }
+    
+    // Listeners para cambios
+    selectEspacio.addEventListener('change', verificarDisponibilidad);
+    inputFecha.addEventListener('change', verificarDisponibilidad);
+    selectHora.addEventListener('change', verificarDisponibilidad);
+});
+</script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>
