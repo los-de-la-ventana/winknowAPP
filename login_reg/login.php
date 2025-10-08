@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cedula = $_POST['cedula'];
     $contra = $_POST['contra'];
 
-    $sql = "SELECT Contrasenia, Nombre_usr FROM Usuarios WHERE Cedula = ?";
+    $sql = "SELECT Contrasenia, Nombre_usr FROM usuarios WHERE Cedula = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("s", $cedula);
     $stmt->execute();
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['nombre'] = $nombre;
 
             // Verificar rol
-            $queryAdmin = $mysqli->prepare("SELECT rolAdmin FROM Administrador WHERE Cedula = ?");
+            $queryAdmin = $mysqli->prepare("SELECT rolAdmin FROM administrador WHERE Cedula = ?");
             $queryAdmin->bind_param("s", $cedula);
             $queryAdmin->execute();
             $resultAdmin = $queryAdmin->get_result();
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             } else {
                 // Verificar si es docente
-                $queryDocente = $mysqli->prepare("SELECT Cedula FROM Docente WHERE Cedula = ?");
+                $queryDocente = $mysqli->prepare("SELECT Cedula FROM docente WHERE Cedula = ?");
                 $queryDocente->bind_param("s", $cedula);
                 $queryDocente->execute();
                 $resultDocente = $queryDocente->get_result();
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 } else {
                     // Verificar si es estudiante
-                    $queryEst = $mysqli->prepare("SELECT Cedula FROM Estudiante WHERE Cedula = ?");
+                    $queryEst = $mysqli->prepare("SELECT Cedula FROM estudiante WHERE Cedula = ?");
                     $queryEst->bind_param("s", $cedula);
                     $queryEst->execute();
                     $resultEst = $queryEst->get_result();

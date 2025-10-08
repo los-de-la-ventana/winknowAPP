@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
         $tipo_salon = $_POST['tipo_salon'];
         
         // Validar que no exista el número de salón
-        $checkQuery = "SELECT NumSalon FROM Espacios WHERE NumSalon = ?";
+        $checkQuery = "SELECT NumSalon FROM espacios WHERE NumSalon = ?";
         $checkStmt = $mysqli->prepare($checkQuery);
         $checkStmt->bind_param("i", $num_salon);
         $checkStmt->execute();
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
             $tipo_mensaje = 'error';
         } else {
             // Insertar nuevo espacio
-            $insertQuery = "INSERT INTO Espacios (NumSalon, capacidad, Tipo_salon) VALUES (?, ?, ?)";
+            $insertQuery = "INSERT INTO espacios (NumSalon, capacidad, Tipo_salon) VALUES (?, ?, ?)";
             $insertStmt = $mysqli->prepare($insertQuery);
             $insertStmt->bind_param("iis", $num_salon, $capacidad, $tipo_salon);
             
@@ -58,7 +58,7 @@ $statsQuery = "SELECT
     COUNT(CASE WHEN Tipo_salon = 'Taller' THEN 1 END) as talleres,
     COUNT(CASE WHEN Tipo_salon = 'Laboratorio' THEN 1 END) as laboratorios,
     COUNT(CASE WHEN Tipo_salon = 'Salon' THEN 1 END) as salones
-FROM Espacios";
+FROM espacios";
 $statsResult = $mysqli->query($statsQuery);
 $stats = $statsResult->fetch_assoc();
 

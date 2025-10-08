@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aprobar_reserva'])) {
     $idReserva = intval($_POST['id_reserva']);
     
     // Por ahora solo mostramos mensaje de éxito
-    // Puedes agregar un campo "estado" a la tabla Reserva si quieres guardar el estado
+    // Puedes agregar un campo "estado" a la tabla reserva si quieres guardar el estado
     $_SESSION['mensaje'] = "Reserva aprobada exitosamente.";
     $_SESSION['tipo_mensaje'] = "exito";
     
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aprobar_reserva'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rechazar_reserva'])) {
     $idReserva = intval($_POST['id_reserva']);
     
-    $sqlDelete = "DELETE FROM Reserva WHERE IdReserva = ?";
+    $sqlDelete = "DELETE FROM reserva WHERE IdReserva = ?";
     $stmtDelete = $mysqli->prepare($sqlDelete);
     $stmtDelete->bind_param("i", $idReserva);
     
@@ -54,8 +54,8 @@ $fechaActual = date('Y-m-d');
 $queryReservas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
                          e.NumSalon, e.Tipo_salon, e.capacidad,
                          e.IdEspacio
-                  FROM Reserva r
-                  INNER JOIN Espacios e ON r.IdEspacio = e.IdEspacio
+                  FROM reserva r
+                  INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
                   WHERE r.Fecha >= ?
                   ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
 $stmtReservas = $mysqli->prepare($queryReservas);
@@ -66,7 +66,7 @@ $resultReservas = $stmtReservas->get_result();
 // ============================================
 // ESTADÍSTICAS
 // ============================================
-$sqlStats = "SELECT COUNT(*) as total FROM Reserva WHERE Fecha >= ?";
+$sqlStats = "SELECT COUNT(*) as total FROM reserva WHERE Fecha >= ?";
 $stmtStats = $mysqli->prepare($sqlStats);
 $stmtStats->bind_param("s", $fechaActual);
 $stmtStats->execute();

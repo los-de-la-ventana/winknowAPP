@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pass = password_hash($contra, PASSWORD_BCRYPT);
         
         // Verificar si el usuario ya existe
-        $checkUsuario = $mysqli->prepare("SELECT Cedula FROM Usuarios WHERE Cedula = ?");
+        $checkUsuario = $mysqli->prepare("SELECT Cedula FROM usuarios WHERE Cedula = ?");
         if (!$checkUsuario) {
             throw new Exception("Error en la consulta: " . $mysqli->error);
         }
@@ -98,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Comenzar transacción
         $mysqli->autocommit(FALSE);
         
-        // Insertar en tabla Usuarios
-        $stmtUsuario = $mysqli->prepare("INSERT INTO Usuarios (Cedula, Contrasenia, Nombre_usr) VALUES (?, ?, ?)");
+        // Insertar en tabla usuarios
+        $stmtUsuario = $mysqli->prepare("INSERT INTO usuarios (Cedula, Contrasenia, Nombre_usr) VALUES (?, ?, ?)");
         if (!$stmtUsuario) {
             throw new Exception("Error preparando consulta de usuario: " . $mysqli->error);
         }
@@ -110,8 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmtUsuario->close();
         
-        // Insertar en tabla Email
-        $stmtEmail = $mysqli->prepare("INSERT INTO Email (Cedula, numeroTelefono, email) VALUES (?, ?, ?)");
+        // Insertar en tabla email
+        $stmtEmail = $mysqli->prepare("INSERT INTO email (Cedula, numeroTelefono, email) VALUES (?, ?, ?)");
         if (!$stmtEmail) {
             throw new Exception("Error preparando consulta de email: " . $mysqli->error);
         }
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception("El rol de administrador es obligatorio");
             }
             
-            $stmtAdmin = $mysqli->prepare("INSERT INTO Administrador (Cedula, rolAdmin) VALUES (?, ?)");
+            $stmtAdmin = $mysqli->prepare("INSERT INTO administrador (Cedula, rolAdmin) VALUES (?, ?)");
             if (!$stmtAdmin) {
                 throw new Exception("Error preparando consulta de administrador: " . $mysqli->error);
             }
@@ -147,9 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         } elseif ($tipo === 'docente') {
             
-
-
-            $stmtDocente = $mysqli->prepare("INSERT INTO Docente (Cedula, contrasenia) VALUES (?, ?)");
+            $stmtDocente = $mysqli->prepare("INSERT INTO docente (Cedula, contrasenia) VALUES (?, ?)");
             if (!$stmtDocente) {
                 throw new Exception("Error preparando consulta de docente: " . $mysqli->error);
             }
@@ -165,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tipo_mensaje = 'success';
             
         } elseif ($tipo === 'estudiante') {
-            $stmtEstudiante = $mysqli->prepare("INSERT INTO Estudiante (Cedula) VALUES (?)");
+            $stmtEstudiante = $mysqli->prepare("INSERT INTO estudiante (Cedula) VALUES (?)");
             if (!$stmtEstudiante) {
                 throw new Exception("Error preparando consulta de estudiante: " . $mysqli->error);
             }

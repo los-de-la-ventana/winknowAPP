@@ -10,6 +10,7 @@ function conectarDB() {
         return ['success' => false, 'message' => 'Error de conexión: ' . $e->getMessage()];
     }
 }
+
 function listarUsuarios() {
     $conn = conectarDB();
     if (!$conn['success']) return ['success' => false, 'message' => $conn['message'], 'data' => []];
@@ -18,7 +19,7 @@ function listarUsuarios() {
         $db = $conn['connection'];
         
         // Primero obtener todos los usuarios básicos
-        $stmt = $db->prepare("SELECT Cedula, Nombre_usr FROM Usuarios WHERE Cedula != '0' ORDER BY Nombre_usr");
+        $stmt = $db->prepare("SELECT Cedula, Nombre_usr FROM usuarios WHERE Cedula != '0' ORDER BY Nombre_usr");
         $stmt->execute();
         $usuarios_base = $stmt->fetchAll();
         
@@ -29,7 +30,7 @@ function listarUsuarios() {
             $cedula = $user['Cedula'];
             
             // Obtener email y teléfono
-            $stmt_email = $db->prepare("SELECT email, numeroTelefono FROM Email WHERE Cedula = ?");
+            $stmt_email = $db->prepare("SELECT email, numeroTelefono FROM email WHERE Cedula = ?");
             $stmt_email->execute([$cedula]);
             $email_data = $stmt_email->fetch() ?: ['email' => '', 'numeroTelefono' => ''];
             
@@ -37,18 +38,18 @@ function listarUsuarios() {
             $tipo_usuario = 'Sin tipo';
             $rolAdmin = null;
             
-            $stmt_admin = $db->prepare("SELECT rolAdmin FROM Administrador WHERE Cedula = ?");
+            $stmt_admin = $db->prepare("SELECT rolAdmin FROM administrador WHERE Cedula = ?");
             $stmt_admin->execute([$cedula]);
             if ($admin = $stmt_admin->fetch()) {
                 $tipo_usuario = 'Administrador';
                 $rolAdmin = $admin['rolAdmin'];
             } else {
-                $stmt_doc = $db->prepare("SELECT Cedula FROM Docente WHERE Cedula = ?");
+                $stmt_doc = $db->prepare("SELECT Cedula FROM docente WHERE Cedula = ?");
                 $stmt_doc->execute([(int)$cedula]);
                 if ($stmt_doc->fetch()) {
                     $tipo_usuario = 'Docente';
                 } else {
-                    $stmt_est = $db->prepare("SELECT Cedula FROM Estudiante WHERE Cedula = ?");
+                    $stmt_est = $db->prepare("SELECT Cedula FROM estudiante WHERE Cedula = ?");
                     $stmt_est->execute([(int)$cedula]);
                     if ($stmt_est->fetch()) {
                         $tipo_usuario = 'Estudiante';
@@ -73,6 +74,7 @@ function listarUsuarios() {
         return ['success' => false, 'message' => 'Error: ' . $e->getMessage(), 'data' => []];
     }
 }
+
 function agregarUsuario($cedula, $contrasenia, $nombre, $tipo_usuario, $email = '', $telefono = '', $datos_adicionales = []) {
     $conn = conectarDB();
     if (!$conn['success']) return ['success' => false, 'message' => $conn['message']];

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva'])) {
         $_SESSION['tipo_mensaje'] = "error";
     } else {
         // Verificar si ya existe una reserva para ese espacio, fecha y hora
-        $sqlCheck = "SELECT COUNT(*) as total FROM Reserva 
+        $sqlCheck = "SELECT COUNT(*) as total FROM reserva 
                      WHERE IdEspacio = ? AND Fecha = ? AND Hora_Reserva = ?";
         $stmtCheck = $mysqli->prepare($sqlCheck);
         $stmtCheck->bind_param("isi", $idEspacio, $fecha, $horaReserva);
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva'])) {
             $_SESSION['tipo_mensaje'] = "error";
         } else {
             // Insertar la reserva
-            $sqlInsert = "INSERT INTO Reserva (IdEspacio, Fecha, Hora_Reserva) VALUES (?, ?, ?)";
+            $sqlInsert = "INSERT INTO reserva (IdEspacio, Fecha, Hora_Reserva) VALUES (?, ?, ?)";
             $stmtInsert = $mysqli->prepare($sqlInsert);
             $stmtInsert->bind_param("isi", $idEspacio, $fecha, $horaReserva);
             
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_reserva'])) {
     $idReserva = intval($_POST['id_reserva']);
     
-    $sqlDelete = "DELETE FROM Reserva WHERE IdReserva = ?";
+    $sqlDelete = "DELETE FROM reserva WHERE IdReserva = ?";
     $stmtDelete = $mysqli->prepare($sqlDelete);
     $stmtDelete->bind_param("i", $idReserva);
     
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_reserva'])) 
 // ============================================
 
 // Obtener todos los espacios para el selector
-$queryEspacios = "SELECT * FROM Espacios ORDER BY NumSalon";
+$queryEspacios = "SELECT * FROM espacios ORDER BY NumSalon";
 $resultEspacios = $mysqli->query($queryEspacios);
 
 // ============================================
@@ -95,8 +95,8 @@ $resultEspacios = $mysqli->query($queryEspacios);
 $fechaActual = date('Y-m-d');
 $queryReservas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
                          e.NumSalon, e.Tipo_salon, e.capacidad
-                  FROM Reserva r
-                  INNER JOIN Espacios e ON r.IdEspacio = e.IdEspacio
+                  FROM reserva r
+                  INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
                   WHERE r.Fecha >= ?
                   ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
 $stmtReservas = $mysqli->prepare($queryReservas);

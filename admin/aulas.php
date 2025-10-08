@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_aula'])) {
     $numSalon = intval($_POST['num_salon']);
     
     // Primero verificar si hay reservas asociadas
-    $sqlCheck = "SELECT COUNT(*) as total FROM Reserva r 
-                 INNER JOIN Espacios e ON r.IdEspacio = e.IdEspacio 
+    $sqlCheck = "SELECT COUNT(*) as total FROM reserva r 
+                 INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio 
                  WHERE e.NumSalon = ?";
     $stmtCheck = $mysqli->prepare($sqlCheck);
     $stmtCheck->bind_param("i", $numSalon);
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_aula'])) {
         $_SESSION['tipo_mensaje'] = "error";
     } else {
         // Eliminar el espacio
-        $sql = "DELETE FROM Espacios WHERE NumSalon = ?";
+        $sql = "DELETE FROM espacios WHERE NumSalon = ?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $numSalon);
         
@@ -55,23 +55,23 @@ $conteoDocentes   = 0;
 $conteoEstudiantes = 0;
 
 // Contar administradores
-$sql = "SELECT COUNT(*) as total FROM Administrador a 
-        INNER JOIN Usuarios u ON a.Cedula = u.Cedula";
+$sql = "SELECT COUNT(*) as total FROM administrador a 
+        INNER JOIN usuarios u ON a.Cedula = u.Cedula";
 if ($res = $mysqli->query($sql)) {
     $conteoAdmins = $res->fetch_assoc()['total'];
 }
 
 // Contar docentes activos
-$sql = "SELECT COUNT(*) as total FROM Docente d 
-        INNER JOIN Usuarios u ON d.Cedula = u.Cedula 
+$sql = "SELECT COUNT(*) as total FROM docente d 
+        INNER JOIN usuarios u ON d.Cedula = u.Cedula 
       ";
 if ($res = $mysqli->query($sql)) {
     $conteoDocentes = $res->fetch_assoc()['total'];
 }
 
 // Contar estudiantes
-$sql = "SELECT COUNT(*) as total FROM Estudiante e 
-        INNER JOIN Usuarios u ON e.Cedula = u.Cedula";
+$sql = "SELECT COUNT(*) as total FROM estudiante e 
+        INNER JOIN usuarios u ON e.Cedula = u.Cedula";
 if ($res = $mysqli->query($sql)) {
     $conteoEstudiantes = $res->fetch_assoc()['total'];
 }
@@ -83,7 +83,7 @@ $filtroTipo      = $_GET['tipo_salon'] ?? '';
 $filtroCapacidad = $_GET['capacidad'] ?? '';
 
 // Construir consulta dinámica
-$queryEspacios = "SELECT * FROM Espacios WHERE 1=1";
+$queryEspacios = "SELECT * FROM espacios WHERE 1=1";
 
 // Filtro tipo salón
 if (!empty($filtroTipo)) {
