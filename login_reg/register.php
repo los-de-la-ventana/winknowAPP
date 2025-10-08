@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception("Error preparando consulta de docente: " . $mysqli->error);
             }
 
-            $stmtDocente->bind_param("ss", $cedula, $pass);
+            $stmtDocente->bind_param("is", $cedula, $pass);
             if (!$stmtDocente->execute()) {
                 throw new Exception("Error al registrar docente: " . $stmtDocente->error);
             }
