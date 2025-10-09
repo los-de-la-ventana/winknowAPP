@@ -8,12 +8,13 @@
     <?php if ($mensaje): ?>
         <div id="mensaje-data" 
              data-mensaje="<?= htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?>" 
-             data-tipo="<?= htmlspecialchars($tipo_mensaje, ENT_QUOTES, 'UTF-8'); ?>">
+             data-tipo="<?= htmlspecialchars($tipo_mensaje, ENT_QUOTES, 'UTF-8'); ?>"
+             class="mensaje-oculto">
         </div>
     <?php endif; ?>
     
     <form id="editarUsuarioForm" class="form-flotante" method="POST">
-        <h2 style="text-align: center; margin-bottom: 20px;">
+        <h2 class="header-centrado">
             <i class="bi bi-pencil-square"></i> <span data-lang="edit_user">Editar Usuario</span>
         </h2>
         
@@ -80,7 +81,7 @@
             <i class="bi bi-check-circle"></i> <span data-lang="save_changes">Guardar Cambios</span>
         </button>
         
-        <a href="../usuarios.php" class="boton-secundario" style="text-align: center; margin-top: 10px;">
+        <a href="../usuarios.php" class="boton-secundario header-centrado-simple mt-10">
             <i class="bi bi-arrow-left"></i> <span data-lang="back">Volver</span>
         </a>
     </form>

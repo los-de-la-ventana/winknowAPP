@@ -541,7 +541,114 @@ body {
     font-size: 15px;
     color: var(--texto-secundario);
 }
+/* =======================
+   CLASES PARA REEMPLAZAR CSS INLINE
+======================= */
 
+/* Mensajes ocultos */
+.mensaje-oculto {
+    display: none;
+}
+
+/* Header de formulario con botón volver */
+.form-header-with-back {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-header-with-back p {
+    margin: 0;
+}
+
+.form-header-with-back .btn-back {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.form-header-with-back .btn-back:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .form-header-with-back .btn-back:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Headers centrados */
+.header-centrado {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-centrado-simple {
+    text-align: center;
+}
+
+/* Grid de checkboxes */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+}
+
+/* Input de texto flexible */
+.input-flex {
+    flex: 1;
+}
+
+/* Wrapper para input de contraseña con toggle */
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    flex: 1;
+}
+
+.password-toggle-btn {
+    margin-left: 8px;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Margen top para elementos */
+.mt-10 {
+    margin-top: 10px;
+}
+
+/* Responsive para clases inline */
+@media screen and (max-width: 767px) {
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+}
 .form-flotante button[type="submit"] {
     width: 100%;
     margin-top: 10px;

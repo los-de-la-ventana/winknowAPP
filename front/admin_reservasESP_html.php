@@ -2,7 +2,6 @@
 
 <body>
 
-
 <main class="principal">
     
     <div class="contenido">
@@ -12,7 +11,7 @@
             <div id="mensaje-data" 
                  data-mensaje="<?= htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
                  data-tipo="<?= htmlspecialchars($_SESSION['tipo_mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
-                 style="display: none;">
+                 class="mensaje-oculto">
             </div>
             <?php 
                 unset($_SESSION['mensaje']);

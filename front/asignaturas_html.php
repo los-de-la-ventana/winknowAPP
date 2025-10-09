@@ -14,7 +14,7 @@
             <div id="mensaje-data" 
                  data-mensaje="<?= htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
                  data-tipo="<?= htmlspecialchars($_SESSION['tipo_mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
-                 style="display: none;">
+                 class="mensaje-oculto">
             </div>
             <?php 
                 unset($_SESSION['mensaje']);
@@ -59,9 +59,9 @@
                 <input type="hidden" name="crear_asignatura" value="1">
                 
                 <div class="controles-filtro">
-                    <input type="text" name="nombre_asignatura" 
+                    <input type="text" name="nombre_asignatura" class="input-flex"
                            data-lang="subject_name" placeholder="Nombre de la Asignatura" 
-                           required maxlength="50" style="flex: 1;">
+                           required maxlength="50">
                     
                     <button type="submit" class="boton-primario">
                         <i class="bi bi-check-circle"></i> <span data-lang="create">Crear</span>
@@ -79,7 +79,7 @@
             <form method="POST" action="asignaturas.php">
                 <input type="hidden" name="crear_curso" value="1">
                 
-                <div class="form-row" style="width: 100%;">
+                <div class="form-row">
                     <div class="form-group">
                         <label for="nombre_curso" data-lang="course_name">Nombre del Curso:</label>
                         <input type="text" id="nombre_curso" name="nombre_curso" 
@@ -109,16 +109,15 @@
                 
                 <div class="form-group">
                     <label data-lang="assign_subjects">Asignar Asignaturas (opcional):</label>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 10px;">
+                    <div class="checkbox-grid">
                         <?php 
                         if ($resultAsignaturasSelector && $resultAsignaturasSelector->num_rows > 0):
                             $resultAsignaturasSelector->data_seek(0);
                             while ($asignatura = $resultAsignaturasSelector->fetch_assoc()): 
                         ?>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <label class="checkbox-label">
                                 <input type="checkbox" name="asignaturas[]" 
-                                       value="<?= $asignatura['IdAsignatura']; ?>"
-                                       style="width: auto;">
+                                       value="<?= $asignatura['IdAsignatura']; ?>">
                                 <span><?= htmlspecialchars($asignatura['nombreAsignatura']); ?></span>
                             </label>
                         <?php 

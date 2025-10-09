@@ -71,12 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Crear contenedor flexible
     var wrapper = document.createElement('div');
-    wrapper.style.display = 'flex';
-    wrapper.style.alignItems = 'center';
-    wrapper.style.position = 'relative';
-    wrapper.style.width = '100%';
-
-    passwordInput.style.flex = '1';
+    wrapper.className = 'password-wrapper';
 
     // Insertar el wrapper y meter el input dentro
     passwordInput.parentNode.insertBefore(wrapper, passwordInput);
@@ -85,16 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Crear botón de alternar visibilidad
     var toggleButton = document.createElement('button');
     toggleButton.type = 'button';
+    toggleButton.className = 'password-toggle-btn';
     toggleButton.textContent = '👁️';
-    toggleButton.style.marginLeft = '8px';
-    toggleButton.style.fontSize = '20px';
-    toggleButton.style.background = 'transparent';
-    toggleButton.style.border = 'none';
-    toggleButton.style.cursor = 'pointer';
-    toggleButton.style.position = 'absolute';
-    toggleButton.style.right = '10px';
-    toggleButton.style.top = '50%';
-    toggleButton.style.transform = 'translateY(-50%)';
 
     var isVisible = false;
 
