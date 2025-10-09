@@ -17,7 +17,8 @@
                 // Verificar si el usuario es estudiante
                 if (isset($_SESSION['tipo']) && $_SESSION['tipo'] !== 'estudiante') {
                     // Mostrar opciones completas para admin y docente
-                    echo '<a href="docente_reservas.php"> <li class="activo"><i class="bi bi-building"></i><span data-lang="nav_reservas">Reservas</span></li></a>';
+                    echo '<a href="docente_reservas.php"> <li><i class="bi bi-building"></i><span data-lang="nav_reservas_espacios">Reservar Espacios</span></li></a>';
+                    echo '<a href="docente_reservas_recursos.php"> <li><i class="bi bi-box-seam"></i><span data-lang="nav_reservas_recursos">Reservar Recursos</span></li></a>';
                 }
                 ?>
                 
@@ -51,4 +52,4 @@
 
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../alertaLogout.js"></script>
+<script src="../alertaLogout.js"></script>  

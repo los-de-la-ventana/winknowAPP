@@ -119,6 +119,8 @@ include '../front/header.html';
 include '../front/admin_reservasESP_html.php';
 include '../front/navADM.php';
 
+
+
 // ============================================
 // CIERRE DE CONEXIÓN
 // ============================================

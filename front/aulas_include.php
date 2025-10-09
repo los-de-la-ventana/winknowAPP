@@ -60,7 +60,10 @@
     </a>
     
     <a href="administrar_reservas_espacios.php" class="boton-primario">
-        <i class="bi bi-gear"></i> <span data-lang="manage_reservations">Administrar Reservas</span>
+        <i class="bi bi-gear"></i> <span data-lang="manage_reservations_spaces">Reservas de Espacios</span>
+    </a>
+    <a href="administrar_reservas_recursos.php" class="boton-primario">
+        <i class="bi bi-gear"></i> <span data-lang="manage_reservations_resources">Reservas de Recursos</span>
     </a>
 </section>
 
