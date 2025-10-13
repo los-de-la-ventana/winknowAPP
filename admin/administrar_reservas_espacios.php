@@ -61,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rechazar_reserva'])) 
 // ============================================
 $fechaActual = date('Y-m-d');
 $queryReservas = "SELECT r.IdReserva, r.Fecha, r.Hora_Reserva, 
-                         e.NumSalon, e.Tipo_salon, e.capacidad,
-                         e.IdEspacio
-                  FROM reserva r
-                  INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
-                  WHERE r.Fecha >= ? AND r.aprobada = 0
-                  ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
+    e.NumSalon, e.Tipo_salon, e.capacidad,
+    e.IdEspacio
+    FROM reserva r
+    INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio
+    WHERE r.Fecha >= ? AND r.aprobada = 0
+    ORDER BY r.Fecha ASC, r.Hora_Reserva ASC";
 $stmtReservas = $mysqli->prepare($queryReservas);
 $stmtReservas->bind_param("s", $fechaActual);
 $stmtReservas->execute();
