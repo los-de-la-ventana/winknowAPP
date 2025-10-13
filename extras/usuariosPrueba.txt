@@ -10,7 +10,7 @@ Rameau1
 
 80731788
 Rameau1
-bianchimts | adm
+John Programador | adm
 
 
 83256953
@@ -22,3 +22,9 @@ Gaston gomez | docente
 65186348
 Rameau1
 MRameau  | Docente
+
+
+
+97748239
+Rameau1 
+Luca fontana estudiante

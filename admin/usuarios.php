@@ -91,3 +91,4 @@ include '../front/header.html';
 include '../front/gestion_usuarios.php';
 
 ?>
+<script src="adminValidation.js"></script>

@@ -169,7 +169,7 @@
     "carousel_next": "Siguiente"
   },
   "en": {
-    "btn_theme": "Change theme",
+    "btn_theme": "Toggle theme",
     "nav_inicio": "Home",
     "nav_aulas": "Classrooms",
     "nav_calendario": "Calendar",
