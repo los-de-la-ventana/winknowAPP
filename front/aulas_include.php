@@ -110,7 +110,7 @@
                             <div class="info-aula">
                                 <h4>
                                     <i class="<?= obtenerIconoTipo($espacio['Tipo_salon']); ?>"></i>
-                                    <?= obtenerNombreAula($espacio); ?>
+                                      <?= obtenerNombreAula($espacio); ?>
                                 </h4>
                                 <div class="detalles">
                                     <i class="bi bi-people"></i> <span data-lang="capacity">Capacidad</span>: <strong><?= $espacio['capacidad']; ?></strong> <span data-lang="people">Personas</span>
