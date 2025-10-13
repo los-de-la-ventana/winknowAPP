@@ -11,7 +11,7 @@ include '../front/navDOC.php';
     <main class="principal">
 <header class="encabezado">
     <h1>
-        <span data-lang="hello">Hola</span>, 
+        <span data-lang="hello">Hola </span>, 
         <?php
         if (isset($_SESSION['nombre']) && isset($_SESSION['tipo'])) {
             echo htmlspecialchars($_SESSION['nombre']);
