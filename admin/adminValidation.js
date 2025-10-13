@@ -78,25 +78,6 @@ function eliminarUsuario(cedula) {
     });
 }
 
-function cambiarEstado(cedula, estado) {
-    Swal.fire({
-        title: '¿Cambiar estado?',
-        text: "El nuevo estado será: " + estado,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, cambiar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            postForm({
-                accion: 'cambiar_estado',
-                cedula: cedula,
-                nuevo_estado: estado
-            });
-        }
-    });
-}
-
 function editarUsuario(cedula) {
     window.location.href = 'adm_usr/editar_usr.php?cedula=' + cedula;
 }
