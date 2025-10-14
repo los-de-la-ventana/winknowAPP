@@ -3,109 +3,112 @@ session_start();
 require("../conexion.php");
 $mysqli = conectarDB();
 
-// SEGURIDAD: VERIFICAR PERMISOS DE ADMIN
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['tipo'] !== 'admin') {
+// SEGURIDAD: VERIFICAR PERMISOS
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: ../login_reg/login.php");
     exit;
 }
 
 // ============================================
-// OBTENER TODOS LOS CURSOS CON SUS DATOS
+// OBTENER TODOS LOS GRUPOS DISPONIBLES
 // ============================================
-$queryCursos = "SELECT 
-    c.IdCurso,
-    c.Nombre as nombre_curso,
-    u.Nombre_usr as nombre_docente,
-    u.Cedula as cedula_docente,
-    GROUP_CONCAT(DISTINCT a.nombreAsignatura SEPARATOR '|') as asignaturas
-    FROM cursos c
-    INNER JOIN usuarios u ON c.Cedula = u.Cedula
-    LEFT JOIN asignatura_curso ac ON c.IdCurso = ac.IdCurso
-    LEFT JOIN asignatura a ON ac.IdAsignatura = a.IdAsignatura
-    GROUP BY c.IdCurso
-    ORDER BY c.Nombre";
-$resultCursos = $mysqli->query($queryCursos);
+$queryGrupos = "SELECT g.IdGrupo, g.nombreGrupo, c.Nombre as nombre_curso
+    FROM grupo g
+    INNER JOIN cursos c ON g.IdCurso = c.IdCurso
+    ORDER BY c.Nombre, g.nombreGrupo";
+$resultGrupos = $mysqli->query($queryGrupos);
 
 // ============================================
-// OBTENER HORARIOS DE TODOS LOS CURSOS
+// OBTENER GRUPO SELECCIONADO
 // ============================================
-$queryHorarios = "SELECT 
-    h.ID_horario,
-    h.Hora,
-    h.Dia,
-    h.IdCurso,
-    c.Nombre as nombre_curso,
-    u.Nombre_usr as nombre_docente,
-    GROUP_CONCAT(DISTINCT a.nombreAsignatura SEPARATOR ', ') as asignaturas
-    FROM horario h
-    INNER JOIN cursos c ON h.IdCurso = c.IdCurso
-    INNER JOIN usuarios u ON h.Cedula = u.Cedula
-    LEFT JOIN asignatura_curso ac ON c.IdCurso = ac.IdCurso
-    LEFT JOIN asignatura a ON ac.IdAsignatura = a.IdAsignatura
-    GROUP BY h.ID_horario
-    ORDER BY h.Dia, h.Hora";
-$resultHorarios = $mysqli->query($queryHorarios);
+$grupoSeleccionado = isset($_GET['grupo']) ? intval($_GET['grupo']) : null;
 
-// Organizar horarios por día de la semana y hora
+// Si no hay grupo seleccionado, usar el primero disponible
+if ($grupoSeleccionado === null && $resultGrupos->num_rows > 0) {
+    $resultGrupos->data_seek(0);
+    $primerGrupo = $resultGrupos->fetch_assoc();
+    $grupoSeleccionado = $primerGrupo['IdGrupo'];
+    $resultGrupos->data_seek(0);
+}
+
+// ============================================
+// OBTENER INFORMACIÓN DEL GRUPO SELECCIONADO
+// ============================================
+$infoGrupo = null;
+if ($grupoSeleccionado) {
+    $queryInfo = "SELECT g.IdGrupo, g.nombreGrupo, g.anio, c.Nombre as nombre_curso
+        FROM grupo g
+        INNER JOIN cursos c ON g.IdCurso = c.IdCurso
+        WHERE g.IdGrupo = ?";
+    $stmtInfo = $mysqli->prepare($queryInfo);
+    $stmtInfo->bind_param("i", $grupoSeleccionado);
+    $stmtInfo->execute();
+    $resultInfo = $stmtInfo->get_result();
+    $infoGrupo = $resultInfo->fetch_assoc();
+    $stmtInfo->close();
+}
+
+// ============================================
+// OBTENER HORARIOS DEL GRUPO SELECCIONADO
+// ============================================
 $horariosSemana = array();
 $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+$horasDisponibles = range(7, 22);
 
 // Inicializar estructura de horarios
 foreach ($diasSemana as $dia) {
     $horariosSemana[$dia] = array();
-    for ($hora = 7; $hora <= 22; $hora++) {
-        $horariosSemana[$dia][$hora] = array();
+    foreach ($horasDisponibles as $hora) {
+        $horariosSemana[$dia][$hora] = null;
     }
 }
 
 // Llenar horarios con los datos de la BD
-if ($resultHorarios && $resultHorarios->num_rows > 0) {
+if ($grupoSeleccionado) {
+    $queryHorarios = "SELECT h.DiaSemana, h.HoraInicio, h.HoraFin,
+        a.nombreAsignatura,
+        u.Nombre_usr as nombre_docente
+        FROM horario h
+        INNER JOIN asignatura a ON h.IdAsignatura = a.IdAsignatura
+        INNER JOIN usuarios u ON h.Cedula = u.Cedula
+        WHERE h.IdGrupo = ?
+        ORDER BY h.DiaSemana, h.HoraInicio";
+    
+    $stmtHorarios = $mysqli->prepare($queryHorarios);
+    $stmtHorarios->bind_param("i", $grupoSeleccionado);
+    $stmtHorarios->execute();
+    $resultHorarios = $stmtHorarios->get_result();
+    
     while ($horario = $resultHorarios->fetch_assoc()) {
-        // Obtener día de la semana de la fecha
-        $fecha = new DateTime($horario['Dia']);
-        $numeroDia = $fecha->format('N'); // 1 (Lunes) a 7 (Domingo)
+        $dia = $horario['DiaSemana'];
+        $horaInicio = intval($horario['HoraInicio']);
         
-        if ($numeroDia <= 5) { // Solo días laborables
-            $diaNombre = $diasSemana[$numeroDia - 1];
-            
-            // Obtener hora
-            $horaTime = new DateTime($horario['Hora']);
-            $horaNum = (int)$horaTime->format('H');
-            
-            if ($horaNum >= 7 && $horaNum <= 22) {
-                $horariosSemana[$diaNombre][$horaNum][] = array(
-                    'nombre_curso' => $horario['nombre_curso'],
-                    'docente' => $horario['nombre_docente'],
-                    'asignaturas' => $horario['asignaturas']
-                );
-            }
-        }
+        // Asignar horario a la estructura
+        $horariosSemana[$dia][$horaInicio] = array(
+            'asignatura' => $horario['nombreAsignatura'],
+            'docente' => $horario['nombre_docente'],
+            'horaFin' => intval($horario['HoraFin'])
+        );
     }
+    $stmtHorarios->close();
 }
 
 // ============================================
 // ESTADÍSTICAS
 // ============================================
 $sqlStats = "SELECT 
+    (SELECT COUNT(*) FROM grupo) as total_grupos,
     (SELECT COUNT(*) FROM cursos) as total_cursos,
-    (SELECT COUNT(*) FROM asignatura) as total_asignaturas,
-    (SELECT COUNT(*) FROM horario) as total_horarios";
+    (SELECT COUNT(DISTINCT Cedula) FROM horario) as docentes_activos";
 $resultStats = $mysqli->query($sqlStats);
 $stats = $resultStats->fetch_assoc();
 
 // ============================================
 // FUNCIONES DE UTILIDAD
 // ============================================
-function obtenerColorCurso($index) {
+function obtenerColorAsignatura($index) {
     $colores = [
-        '#4f7df3', // Azul
-        '#10b981', // Verde
-        '#f59e0b', // Amarillo
-        '#ef4444', // Rojo
-        '#8b5cf6', // Púrpura
-        '#ec4899', // Rosa
-        '#06b6d4', // Cyan
-        '#f97316'  // Naranja
+        '#131942ff'
     ];
     return $colores[$index % count($colores)];
 }
@@ -115,7 +118,14 @@ function obtenerColorCurso($index) {
 // ============================================
 include '../front/header.html';
 include '../front/admCalendario_html.php';
-include '../front/navADM.php';
+
+if ($_SESSION['tipo'] === 'admin') {
+    include '../front/navADM.php';
+} elseif ($_SESSION['tipo'] === 'docente') {
+    include '../front/navDOC.php';
+} else {
+    include '../front/navEST.php';
+}
 
 // ============================================
 // CIERRE DE CONEXIÓN

@@ -1,209 +1,156 @@
-<title>Calendario de Cursos - WinKnow</title>
+<title>Horarios Semanales - WinKnow</title>
 
 <style>
-/* Estilos específicos para el calendario */
-.tabs-container {
+/* Estilos específicos para el calendario de horarios */
+.selector-grupo {
+    padding: var(--padding-seccion);
+    background: var(--fondo-tarjeta);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--padding-seccion);
+    box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.selector-grupo h2 {
+    margin-bottom: 16px;
+    font-size: 18px;
+}
+
+.form-selector {
     display: flex;
+    align-items: center;
     gap: 16px;
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--color-borde);
 }
 
-.tab-button {
-    padding: 12px 24px;
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
-    color: var(--texto-secundario);
-    font-size: 16px;
-    font-weight: 500;
+.form-selector select {
+    flex: 1;
+    max-width: 400px;
+    padding: 12px 16px;
+    background: var(--fondo-primario);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius);
+    color: var(--texto-primario);
+    font-family: var(--fuente-principal);
+    font-size: 15px;
     cursor: pointer;
-    transition: all var(--transition-rapida);
 }
 
-.tab-button.active {
-    color: var(--azul);
-    border-bottom-color: var(--azul);
+.info-grupo {
+    padding: 20px;
+    background: var(--fondo-primario);
+    border-radius: var(--border-radius);
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.tab-button:hover {
+.info-grupo h3 {
+    margin: 0;
+    font-size: 24px;
     color: var(--texto-primario);
 }
 
-.tab-content {
-    display: none;
+.info-grupo .detalles-grupo {
+    font-size: 14px;
+    color: var(--texto-secundario);
 }
 
-.tab-content.active {
-    display: block;
-}
-
-/* Calendario semanal */
 .calendario-semanal {
     overflow-x: auto;
     background: var(--fondo-tarjeta);
     border-radius: var(--border-radius);
     padding: 20px;
+    box-shadow: 0 2px 8px var(--color-shadow);
 }
 
-.calendario-grid {
-    display: grid;
-    grid-template-columns: 80px repeat(5, 1fr);
-    gap: 1px;
-    background: var(--color-borde);
-    border: 1px solid var(--color-borde);
+.tabla-horario {
+    width: 100%;
     min-width: 800px;
+    border-collapse: separate;
+    border-spacing: 2px;
+    background: var(--color-borde);
 }
 
-.calendario-header {
-    background: var(--fondo-primario);
+.tabla-horario th {
+    background: var(--azul);
+    color: white;
     padding: 16px 8px;
     text-align: center;
     font-weight: 600;
     font-size: 14px;
-    color: var(--texto-primario);
+    border-radius: 4px;
 }
 
-.hora-label {
+.tabla-horario th.hora-header {
     background: var(--fondo-primario);
-    padding: 12px 8px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--texto-secundario);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--texto-primario);
+    width: 80px;
 }
 
-.calendario-celda {
+.tabla-horario td {
     background: var(--fondo-tarjeta);
     padding: 8px;
     min-height: 60px;
-    position: relative;
+    vertical-align: top;
+    text-align: center;
 }
 
-.calendario-celda:hover {
+.tabla-horario td.hora-label {
     background: var(--fondo-primario);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texto-secundario);
+    text-align: center;
 }
 
-.clase-item {
+.clase-bloque {
     background: var(--azul);
     color: white;
-    padding: 8px;
+    padding: 10px 8px;
     border-radius: 6px;
-    margin-bottom: 6px;
-    font-size: 12px;
-    line-height: 1.4;
+    height: 100%;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
     box-shadow: 0 2px 4px var(--color-shadow);
+    transition: transform 0.2s;
 }
 
-.clase-item:last-child {
-    margin-bottom: 0;
+.clase-bloque:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--color-shadow);
 }
 
 .clase-nombre {
     font-weight: 600;
-    margin-bottom: 4px;
+    font-size: 13px;
+    line-height: 1.3;
 }
 
-.clase-docente {
-    opacity: 0.9;
-    font-size: 11px;
-}
-
-.clase-asignaturas {
-    opacity: 0.85;
-    font-size: 11px;
-    margin-top: 4px;
-    font-style: italic;
-}
-
-/* Vista de cursos */
-.cursos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 24px;
-}
-
-.curso-card {
+.celda-vacia {
     background: var(--fondo-primario);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    box-shadow: 0 2px 8px var(--color-shadow);
-    transition: transform var(--transition-rapida);
+    opacity: 0.5;
 }
 
-.curso-card:hover {
-    transform: translateY(-4px);
-}
-
-.curso-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid var(--color-borde);
-}
-
-.curso-icono {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+.celda-recreo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    color: white;
-}
-
-.curso-titulo h3 {
-    margin: 0 0 4px 0;
-    font-size: 18px;
-    color: var(--texto-primario);
-}
-
-.curso-docente {
-    margin: 0;
-    font-size: 14px;
-    color: var(--texto-secundario);
-}
-
-.curso-asignaturas {
-    margin-bottom: 16px;
-}
-
-.curso-asignaturas h4 {
-    font-size: 14px;
-    color: var(--texto-secundario);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.asignaturas-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.asignatura-tag {
-    display: inline-block;
-    padding: 4px 10px;
-    background: var(--fondo-tarjeta);
-    border-radius: 12px;
     font-size: 12px;
-    color: var(--texto-primario);
 }
 
-.mensaje-sin-datos {
+.mensaje-sin-horarios {
     text-align: center;
     padding: 60px 20px;
     color: var(--texto-secundario);
 }
 
-.mensaje-sin-datos i {
+.mensaje-sin-horarios i {
     font-size: 64px;
     margin-bottom: 16px;
     display: block;
@@ -212,13 +159,28 @@
 
 /* Responsive */
 @media screen and (max-width: 1023px) {
-    .calendario-grid {
-        grid-template-columns: 60px repeat(5, 1fr);
+    .form-selector {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-selector select {
+        max-width: none;
+    }
+    
+    .info-grupo {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    
+    .tabla-horario {
         font-size: 12px;
     }
     
-    .cursos-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    .tabla-horario th,
+    .tabla-horario td {
+        padding: 8px 4px;
     }
 }
 
@@ -227,28 +189,16 @@
         padding: 12px;
     }
     
-    .tabs-container {
-        overflow-x: auto;
+    .tabla-horario {
+        min-width: 600px;
     }
     
-    .tab-button {
-        padding: 10px 16px;
-        font-size: 14px;
-        white-space: nowrap;
-    }
-    
-    .cursos-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .calendario-header {
-        padding: 12px 4px;
-        font-size: 12px;
-    }
-    
-    .hora-label {
-        padding: 8px 4px;
+    .clase-nombre {
         font-size: 11px;
+    }
+    
+    .clase-docente {
+        font-size: 10px;
     }
 }
 </style>
@@ -262,187 +212,160 @@
         <!-- ESTADÍSTICAS -->
         <section class="estadisticas">
             <div class="tarjeta-estadistica">
-                <div class="icono total"><i class="bi bi-journal-text"></i></div>
+                <div class="icono total"><i class="bi bi-collection"></i></div>
                 <div>
-                    <h3 data-lang="total_courses">Total Cursos</h3>
+                    <h3>Total Cursos</h3>
                     <div class="numero"><?= sprintf('%02d', $stats['total_cursos']); ?></div>
                 </div>
             </div>
             
             <div class="tarjeta-estadistica">
-                <div class="icono disponible"><i class="bi bi-book"></i></div>
+                <div class="icono disponible"><i class="bi bi-people-fill"></i></div>
                 <div>
-                    <h3 data-lang="total_subjects">Total Asignaturas</h3>
-                    <div class="numero"><?= sprintf('%02d', $stats['total_asignaturas']); ?></div>
+                    <h3>Total Grupos</h3>
+                    <div class="numero"><?= sprintf('%02d', $stats['total_grupos']); ?></div>
                 </div>
             </div>
             
             <div class="tarjeta-estadistica">
-                <div class="icono reservado"><i class="bi bi-calendar-check"></i></div>
+                <div class="icono reservado"><i class="bi bi-person-workspace"></i></div>
                 <div>
-                    <h3 data-lang="total_schedules">Horarios Programados</h3>
-                    <div class="numero"><?= sprintf('%02d', $stats['total_horarios']); ?></div>
+                    <h3>Docentes Activos</h3>
+                    <div class="numero"><?= sprintf('%02d', $stats['docentes_activos']); ?></div>
                 </div>
             </div>
         </section>
 
         <br>
 
-        <!-- PESTAÑAS -->
-        <div class="tabs-container">
-            <button class="tab-button active" onclick="switchTab('calendario')" data-lang="weekly_calendar">
-                <i class="bi bi-calendar-week"></i> Calendario Semanal
-            </button>
-            <button class="tab-button" onclick="switchTab('cursos')" data-lang="courses_list">
-                <i class="bi bi-list-ul"></i> Lista de Cursos
-            </button>
-        </div>
+        <!-- SELECTOR DE GRUPO -->
+        <section class="selector-grupo">
+            <h2><i class="bi bi-funnel"></i> Seleccionar Grupo</h2>
+            <form method="GET" action="ver_horarios.php" class="form-selector">
+                <select name="grupo" onchange="this.form.submit()" required>
+                    <option value="">-- Seleccione un grupo --</option>
+                    <?php 
+                    if ($resultGrupos && $resultGrupos->num_rows > 0):
+                        $resultGrupos->data_seek(0);
+                        while ($grupo = $resultGrupos->fetch_assoc()): 
+                    ?>
+                        <option value="<?= $grupo['IdGrupo']; ?>" 
+                                <?= ($grupoSeleccionado == $grupo['IdGrupo']) ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($grupo['nombre_curso']); ?> - 
+                            <?= htmlspecialchars($grupo['nombreGrupo']); ?>
+                        </option>
+                    <?php 
+                        endwhile;
+                    endif;
+                    ?>
+                </select>
+            </form>
+        </section>
 
-        <!-- CONTENIDO PESTAÑA: CALENDARIO SEMANAL -->
-        <div id="tab-calendario" class="tab-content active">
+        <?php if ($infoGrupo): ?>
+            <!-- INFORMACIÓN DEL GRUPO -->
+            <div class="info-grupo">
+                <div>
+                    <h3><?= htmlspecialchars($infoGrupo['nombre_curso']); ?></h3>
+                    <div class="detalles-grupo">
+                        Grupo: <strong><?= htmlspecialchars($infoGrupo['nombreGrupo']); ?></strong>
+                        <?php if ($infoGrupo['anio']): ?>
+                            - Año: <strong><?= $infoGrupo['anio']; ?></strong>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALENDARIO SEMANAL -->
             <section class="calendario-semanal">
-                <?php if ($stats['total_horarios'] > 0): ?>
-                    <div class="calendario-grid">
-                        <!-- Encabezado con hora vacía y días -->
-                        <div class="calendario-header"></div>
-                        <?php foreach ($diasSemana as $dia): ?>
-                            <div class="calendario-header"><?= $dia; ?></div>
-                        <?php endforeach; ?>
-                        
-                        <!-- Filas de horas -->
-                        <?php for ($hora = 7; $hora <= 22; $hora++): ?>
-                            <div class="hora-label"><?= sprintf('%02d:00', $hora); ?></div>
-                            
+                <table class="tabla-horario">
+                    <thead>
+                        <tr>
+                            <th class="hora-header">Hora</th>
                             <?php foreach ($diasSemana as $dia): ?>
-                                <div class="calendario-celda">
+                                <th><?= $dia; ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $horasUsadas = [];
+                        foreach ($diasSemana as $dia) {
+                            foreach ($horariosSemana[$dia] as $hora => $clase) {
+                                if ($clase !== null || $hora == 13) { // Incluir hora 13 (recreo)
+                                    $horasUsadas[$hora] = true;
+                                }
+                            }
+                        }
+                        ksort($horasUsadas);
+                        $horasUsadas = array_keys($horasUsadas);
+                        
+                        // Si no hay horarios, mostrar al menos de 7 a 16
+                        if (empty($horasUsadas)) {
+                            $horasUsadas = range(7, 16);
+                        }
+                        
+                        // Asegurarse de que el rango incluya todas las horas de 7 a 16
+                        $horaMin = !empty($horasUsadas) ? min($horasUsadas) : 7;
+                        $horaMax = !empty($horasUsadas) ? max($horasUsadas) : 16;
+                        if ($horaMax < 16) $horaMax = 16;
+                        $horasUsadas = range($horaMin, $horaMax);
+                        
+                        $colorIndex = 0;
+                        $coloresAsignatura = array();
+                        
+                        foreach ($horasUsadas as $hora): 
+                        ?>
+                            <tr>
+                                <td class="hora-label"><?= sprintf('%02d:00', $hora); ?></td>
+                                <?php foreach ($diasSemana as $dia): ?>
                                     <?php 
-                                    if (isset($horariosSemana[$dia][$hora]) && !empty($horariosSemana[$dia][$hora])):
-                                        foreach ($horariosSemana[$dia][$hora] as $index => $clase):
-                                            $color = obtenerColorCurso($index);
+                                    // Mostrar recreo a las 13:00
+                                    if ($hora == 13): 
                                     ?>
-                                        <div class="clase-item" style="background: <?= $color; ?>">
-                                            <div class="clase-nombre"><?= htmlspecialchars($clase['nombre_curso']); ?></div>
-                                            <div class="clase-docente">
-                                                <i class="bi bi-person"></i> <?= htmlspecialchars($clase['docente']); ?>
-                                            </div>
-                                            <?php if (!empty($clase['asignaturas'])): ?>
-                                                <div class="clase-asignaturas">
-                                                    <?= htmlspecialchars($clase['asignaturas']); ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
                                     <?php 
-                                        endforeach;
+                                    else:
+                                        $clase = $horariosSemana[$dia][$hora];
+                                        if ($clase !== null): 
+                                            // Asignar color único por asignatura
+                                            if (!isset($coloresAsignatura[$clase['asignatura']])) {
+                                                $coloresAsignatura[$clase['asignatura']] = obtenerColorAsignatura($colorIndex++);
+                                            }
+                                            $color = $coloresAsignatura[$clase['asignatura']];
+                                    ?>
+                                        <td>
+                                            <div class="clase-bloque" style="background: <?= $color; ?>">
+                                                <div class="clase-nombre">
+                                                    <?= htmlspecialchars($clase['asignatura']); ?>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    <?php 
+                                        else: 
+                                    ?>
+                                        <td class="celda-vacia"></td>
+                                    <?php 
+                                        endif;
                                     endif;
                                     ?>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endfor; ?>
-                    </div>
-                <?php else: ?>
-                    <div class="mensaje-sin-datos">
-                        <i class="bi bi-calendar-x"></i>
-                        <h3 data-lang="no_schedules">No hay horarios programados</h3>
-                        <p data-lang="add_schedules_msg">Agrega cursos y horarios para visualizarlos en el calendario.</p>
-                    </div>
-                <?php endif; ?>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </section>
-        </div>
 
-        <!-- CONTENIDO PESTAÑA: LISTA DE CURSOS -->
-        <div id="tab-cursos" class="tab-content">
-            <section class="aulas">
-                <?php if ($resultCursos && $resultCursos->num_rows > 0): ?>
-                    <div class="cursos-grid">
-                        <?php 
-                        $resultCursos->data_seek(0);
-                        $colorIndex = 0;
-                        while ($curso = $resultCursos->fetch_assoc()): 
-                            $color = obtenerColorCurso($colorIndex++);
-                        ?>
-                            <div class="curso-card">
-                                <div class="curso-header">
-                                    <div class="curso-icono" style="background: <?= $color; ?>">
-                                        <i class="bi bi-mortarboard"></i>
-                                    </div>
-                                    <div class="curso-titulo">
-                                        <h3><?= htmlspecialchars($curso['nombre_curso']); ?></h3>
-                                        <p class="curso-docente">
-                                            <i class="bi bi-person-badge"></i> 
-                                            <?= htmlspecialchars($curso['nombre_docente']); ?>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <?php if (!empty($curso['asignaturas'])): ?>
-                                    <div class="curso-asignaturas">
-                                        <h4 data-lang="subjects">Asignaturas:</h4>
-                                        <div class="asignaturas-list">
-                                            <?php 
-                                            $asignaturas = explode('|', $curso['asignaturas']);
-                                            foreach ($asignaturas as $asignatura): 
-                                                if (!empty(trim($asignatura))):
-                                            ?>
-                                                <span class="asignatura-tag">
-                                                    <?= htmlspecialchars(trim($asignatura)); ?>
-                                                </span>
-                                            <?php 
-                                                endif;
-                                            endforeach; 
-                                            ?>
-                                        </div>
-                                    </div>
-                                <?php else: ?>
-                                    <div class="curso-asignaturas">
-                                        <p class="curso-docente" data-lang="no_subjects_assigned">
-                                            <i class="bi bi-info-circle"></i> Sin asignaturas asignadas
-                                        </p>
-                                    </div>
-                                <?php endif; ?>
-
-                                <div class="detalles" style="margin-top: 12px;">
-                                    <p style="font-size: 13px; color: var(--texto-secundario);">
-                                        <i class="bi bi-hash"></i> 
-                                        <span data-lang="course_id">ID del Curso:</span> <?= $curso['IdCurso']; ?>
-                                    </p>
-                                </div>
-                            </div>
-                        <?php endwhile; ?>
-                    </div>
-                <?php else: ?>
-                    <div class="mensaje-sin-datos">
-                        <i class="bi bi-inbox"></i>
-                        <h3 data-lang="no_courses">No hay cursos registrados</h3>
-                        <p data-lang="add_courses_msg">Ve a la sección de Asignaturas para crear nuevos cursos.</p>
-                    </div>
-                <?php endif; ?>
-            </section>
-        </div>
+        <?php else: ?>
+            <div class="mensaje-sin-horarios">
+                <i class="bi bi-calendar-x"></i>
+                <h3>No hay horarios disponibles</h3>
+                <p>Selecciona un grupo para ver su horario semanal.</p>
+            </div>
+        <?php endif; ?>
 
     </div>
 
 </main>
-
-<script>
-// Función para cambiar entre pestañas
-function switchTab(tabName) {
-    // Ocultar todos los contenidos de pestañas
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabContents.forEach(content => {
-        content.classList.remove('active');
-    });
-    
-    // Desactivar todos los botones
-    const tabButtons = document.querySelectorAll('.tab-button');
-    tabButtons.forEach(button => {
-        button.classList.remove('active');
-    });
-    
-    // Activar la pestaña seleccionada
-    document.getElementById('tab-' + tabName).classList.add('active');
-    event.target.classList.add('active');
-}
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../alertaLogout.js"></script>
