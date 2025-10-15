@@ -118,51 +118,6 @@ function agregarUsuario($cedula, $contrasenia, $nombre, $tipo_usuario, $email = 
     }
 }
 
-function modificarUsuario($cedula, $datos) {
-    $conn = conectarDB();
-    if (!$conn['success']) return ['success' => false, 'message' => $conn['message']];
-    
-    try {
-        $db = $conn['connection'];
-        $db->beginTransaction();
-        
-        $stmt = $db->prepare("SELECT Cedula FROM usuarios WHERE Cedula = ?");
-        $stmt->execute([$cedula]);
-        if (!$stmt->fetch()) {
-            $db->rollBack();
-            return ['success' => false, 'message' => 'El usuario no existe'];
-        }
-        
-        if (!empty($datos['nombre'])) 
-            $db->prepare("UPDATE usuarios SET Nombre_usr = ? WHERE Cedula = ?")->execute([$datos['nombre'], $cedula]);
-        
-        if (!empty($datos['nueva_contrasenia'])) {
-            $hash_pass = password_hash($datos['nueva_contrasenia'], PASSWORD_DEFAULT);
-            $db->prepare("UPDATE usuarios SET Contrasenia = ? WHERE Cedula = ?")->execute([$hash_pass, $cedula]);
-            if ($datos['tipo_usuario'] === 'Docente')
-                $db->prepare("UPDATE docente SET contrasenia = ? WHERE Cedula = ?")->execute([$hash_pass, $cedula]);
-        }
-        
-        $db->prepare("UPDATE email SET email = ?, numeroTelefono = ? WHERE Cedula = ?")->execute([$datos['email'] ?? '', $datos['telefono'] ?? '', $cedula]);
-        
-        switch ($datos['tipo_usuario']) {
-            case 'Docente':
-                if (isset($datos['estado_docente']))
-                    $db->prepare("UPDATE docente SET estado_docente = ? WHERE Cedula = ?")->execute([$datos['estado_docente'], $cedula]);
-                break;
-            case 'Administrador':
-                if (isset($datos['rolAdmin']))
-                    $db->prepare("UPDATE administrador SET rolAdmin = ? WHERE Cedula = ?")->execute([$datos['rolAdmin'], $cedula]);
-                break;
-        }
-        
-        $db->commit();
-        return ['success' => true, 'message' => 'Usuario actualizado correctamente'];
-    } catch (PDOException $e) {
-        if (isset($db)) $db->rollBack();
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
-    }
-}
 
 function eliminarUsuario($cedula) {
     $conn = conectarDB();
@@ -212,31 +167,5 @@ function obtenerEstadisticasUsuarios() {
     }
 }
 
-function obtenerUsuario($cedula) {
-    $conn = conectarDB();
-    if (!$conn['success']) return ['success' => false, 'message' => $conn['message'], 'data' => null];
-    
-    try {
-        $stmt = $conn['connection']->prepare("SELECT u.Cedula, u.Nombre_usr,
-            COALESCE(e.numeroTelefono, '') as numeroTelefono, COALESCE(e.email, '') as email,
-            CASE WHEN a.Cedula IS NOT NULL THEN 'Administrador'
-                 WHEN d.Cedula IS NOT NULL THEN 'Docente'
-                 WHEN est.Cedula IS NOT NULL THEN 'Estudiante' ELSE 'Sin tipo' END as tipo_usuario,
-            a.rolAdmin, d.estado_docente
-            FROM usuarios u
-            LEFT JOIN email e ON u.Cedula = e.Cedula
-            LEFT JOIN administrador a ON u.Cedula = a.Cedula
-            LEFT JOIN docente d ON u.Cedula = CAST(d.Cedula AS CHAR)
-            LEFT JOIN estudiante est ON u.Cedula = CAST(est.Cedula AS CHAR)
-            WHERE u.Cedula = ?");
-        $stmt->execute([$cedula]);
-        $usuario = $stmt->fetch();
-        
-        return $usuario 
-            ? ['success' => true, 'message' => 'Usuario obtenido', 'data' => $usuario]
-            : ['success' => false, 'message' => 'Usuario no encontrado', 'data' => null];
-    } catch (PDOException $e) {
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage(), 'data' => null];
-    }
-}
+
 ?>

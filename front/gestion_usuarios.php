@@ -96,9 +96,7 @@
                                 </div>
 
                                     <div class="acciones-usuario">
-                                        <a href="adm_usr/editar_usr.php?cedula=<?= $u['Cedula']; ?>" class="boton-secundario">
-                                            <i class="bi bi-pencil"></i> <span data-lang="edit">Editar</span>
-                                        </a>
+                                        
                                         
                                         <form method="POST" action="usuarios.php" class="form-eliminar-usuario">
                                             <input type="hidden" name="accion" value="eliminar">

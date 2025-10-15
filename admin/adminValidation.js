@@ -63,32 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// ================== CONFIRMACIÓN AL GUARDAR ==================
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.querySelector('#editarUsuarioForm');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (typeof Swal === 'undefined') {
-                form.submit();
-                return;
-            }
-            
-            Swal.fire({
-                title: '¿Guardar cambios?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, guardar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
-    }
-});
+
 
 // ================== FUNCIONES AUXILIARES ==================
 function postForm(data) {
@@ -172,8 +147,4 @@ function cambiarEstado(cedula, estado) {
             });
         }
     });
-}
-
-function editarUsuario(cedula) {
-    window.location.href = 'adm_usr/editar_usr.php?cedula=' + cedula;
 }
