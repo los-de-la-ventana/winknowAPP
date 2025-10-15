@@ -3,8 +3,8 @@ santi
 Rameau1
 
 
-vale coria
-3115230 | estudiante
+Piñeiro
+50072203 | estudiante
 Rameau1
 
 
@@ -15,7 +15,7 @@ John Programador | adm
    
 Prof. Gastón Gómez
    Usuario: 83256953
-   Contraseña: Docente2025
+   Contraseña: Rameau1
 
 
 65186348

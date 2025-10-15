@@ -24,18 +24,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva_recurso
         $_SESSION['mensaje'] = "No se puede reservar una fecha pasada.";
         $_SESSION['tipo_mensaje'] = "error";
     } else {
-        // Verificar si ya existe una reserva APROBADA para ese recurso, fecha y hora
-        $sqlCheck = "SELECT COUNT(*) as total FROM reserva_recurso 
-                     WHERE IdRecurso = ? AND Fecha = ? AND Hora_Reserva = ? AND aprobada = 1";
-        $stmtCheck = $mysqli->prepare($sqlCheck);
-        $stmtCheck->bind_param("isi", $idRecurso, $fecha, $horaReserva);
-        $stmtCheck->execute();
-        $resultCheck = $stmtCheck->get_result();
-        $row = $resultCheck->fetch_assoc();
+        // NUEVA VALIDACIÓN: Verificar si ya existe UNA reserva (pendiente o aprobada) para ese recurso, fecha y hora
+        $sqlCheckDuplicado = "SELECT COUNT(*) as total FROM reserva_recurso 
+                             WHERE IdRecurso = ? AND Fecha = ? AND Hora_Reserva = ?";
+        $stmtCheckDuplicado = $mysqli->prepare($sqlCheckDuplicado);
+        $stmtCheckDuplicado->bind_param("isi", $idRecurso, $fecha, $horaReserva);
+        $stmtCheckDuplicado->execute();
+        $resultCheckDuplicado = $stmtCheckDuplicado->get_result();
+        $rowDuplicado = $resultCheckDuplicado->fetch_assoc();
+        $stmtCheckDuplicado->close();
         
-        if ($row['total'] > 0) {
-            $_SESSION['mensaje'] = "Ya existe una reserva aprobada para ese recurso en esa fecha y hora.";
-            $_SESSION['tipo_mensaje'] = "error";
+        if ($rowDuplicado['total'] > 0) {
+            $_SESSION['mensaje'] = "Ya existe una reserva para este recurso en la misma fecha y hora.";
+            $_SESSION['tipo_mensaje'] = "error_duplicado";
         } else {
             // Insertar la reserva con estado pendiente (aprobada = 0)
             $sqlInsert = "INSERT INTO reserva_recurso (IdRecurso, Fecha, Hora_Reserva, aprobada) VALUES (?, ?, ?, 0)";
@@ -51,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_reserva_recurso
             }
             $stmtInsert->close();
         }
-        $stmtCheck->close();
     }
     
     header("Location: docente_reservas_recursos.php");

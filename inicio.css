@@ -509,7 +509,14 @@ body {
     box-shadow: 0 8px 32px var(--color-form-shadow);
     color: var(--texto-primario);
 }
+/* =======================
+   ESTILOS PARA ALERTA DE DUPLICADO
+======================= */
+.swal-duplicado {
+    border-left: 5px solid #f59e0b !important;
+}
 
+.swal-duplicado .swal2-icon.swal
 .form-flotante h2 {
     font-size: 20px;
     color: var(--texto-primario);

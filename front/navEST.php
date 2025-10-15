@@ -13,7 +13,7 @@
             <ul>
                 <a href="inicioEst.php"> <li><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
                    <!-- Calendario disponible para todos los tipos de usuario -->
-                <a href="calendario.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
+                <a href="calendarioEST.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
                <!-- Cerrar sesión disponible para todos los tipos de usuario -->
             <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
             </ul>
