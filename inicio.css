@@ -444,7 +444,270 @@ body {
 .icono.reservado {
     background: var(--gris);
 }
+/* ============================================
+   CALENDARIO ESTUDIANTE - ESTILOS BÁSICOS
+============================================ */
 
+/* Selector de Grupo */
+.selector-grupo {
+    padding: 20px;
+    background: var(--fondo-tarjeta);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+.selector-grupo h2 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+}
+
+.form-selector select {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    background: var(--fondo-primario);
+    border: 1px solid var(--color-borde);
+    border-radius: 6px;
+    color: var(--texto-primario);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Información del Grupo */
+.info-grupo {
+    padding: 15px;
+    background: var(--fondo-primario);
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.info-grupo h3 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+}
+
+.info-grupo .detalles-grupo {
+    font-size: 14px;
+    color: var(--texto-secundario);
+}
+
+/* Contenedor del Calendario */
+.calendario-semanal {
+    overflow-x: auto;
+    background: var(--fondo-tarjeta);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+/* Tabla de Horarios */
+.tabla-horario {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+}
+
+.tabla-horario th {
+    background: var(--azul);
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    border: 2px solid var(--fondo-tarjeta);
+}
+
+.tabla-horario th.hora-header {
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    width: 70px;
+}
+
+.tabla-horario td {
+    background: var(--fondo-tarjeta);
+    padding: 8px;
+    min-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid var(--color-borde);
+}
+
+.tabla-horario td.hora-label {
+    background: var(--fondo-primario);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texto-secundario);
+}
+
+/* Bloque de Clase */
+.clase-bloque {
+    background: var(--azul);
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clase-nombre {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+/* Celda Vacía */
+.celda-vacia {
+    background: var(--fondo-primario);
+    opacity: 0.3;
+}
+
+/* Mensaje Sin Horarios */
+.mensaje-sin-horarios {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--texto-secundario);
+}
+
+.mensaje-sin-horarios i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.mensaje-sin-horarios h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.mensaje-sin-horarios p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ============================================
+   RESPONSIVE - TABLETS (768px - 1023px)
+============================================ */
+@media screen and (max-width: 1023px) {
+    .selector-grupo {
+        padding: 15px;
+    }
+    
+    .form-selector select {
+        max-width: 100%;
+    }
+    
+    .info-grupo {
+        text-align: center;
+    }
+    
+    .tabla-horario {
+        font-size: 13px;
+    }
+    
+    .tabla-horario th,
+    .tabla-horario td {
+        padding: 6px 4px;
+    }
+    
+    .clase-nombre {
+        font-size: 12px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVILES (hasta 767px)
+============================================ */
+@media screen and (max-width: 767px) {
+    .selector-grupo {
+        padding: 12px;
+    }
+    
+    .selector-grupo h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .form-selector select {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    .info-grupo {
+        padding: 12px;
+    }
+    
+    .info-grupo h3 {
+        font-size: 18px;
+    }
+    
+    .calendario-semanal {
+        padding: 10px;
+    }
+    
+    .tabla-horario {
+        min-width: 600px;
+        font-size: 12px;
+    }
+    
+    .tabla-horario th {
+        padding: 10px 6px;
+        font-size: 13px;
+    }
+    
+    .tabla-horario td {
+        padding: 6px 4px;
+    }
+    
+    .clase-bloque {
+        padding: 6px;
+        min-height: 40px;
+    }
+    
+    .clase-nombre {
+        font-size: 11px;
+    }
+    
+    .mensaje-sin-horarios {
+        padding: 30px 15px;
+    }
+    
+    .mensaje-sin-horarios i {
+        font-size: 36px;
+    }
+    
+    .mensaje-sin-horarios h3 {
+        font-size: 16px;
+    }
+    
+    .mensaje-sin-horarios p {
+        font-size: 13px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVILES PEQUEÑOS (hasta 480px)
+============================================ */
+@media screen and (max-width: 480px) {
+    .tabla-horario {
+        min-width: 500px;
+    }
+    
+    .tabla-horario th.hora-header {
+        width: 50px;
+    }
+    
+    .tabla-horario td.hora-label {
+        font-size: 11px;
+    }
+    
+    .clase-nombre {
+        font-size: 10px;
+    }
+}
 /* =======================
    ACCIONES
 ======================= */
