@@ -10,7 +10,7 @@
             <a href="inicio.php"><li class="activo"><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
             <a href="aulas.php"><li><i class="bi bi-building"></i> <span data-lang="nav_aulas">Aulas</span></li></a>
             <a href="asignaturas.php"><li><i class="bi bi-book"></i> <span data-lang="nav_asignaturas">Asignaturas</span></li></a>
-            <a href="calendario.php"><li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li></a>
+            <a href="../calendario.php"><li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li></a>
             <a href="usuarios.php"><li><i class="bi bi-people"></i> <span data-lang="nav_usuarios">Administrar Usuarios</span></li></a>
             <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
         </ul>

@@ -23,7 +23,7 @@
                 ?>
                 
                 <!-- Calendario disponible para todos los tipos de usuario -->
-                <a href="calendario.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
+                <a href="../calendario.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
                 <!-- Cerrar sesión disponible para todos los tipos de usuario -->
             <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
  

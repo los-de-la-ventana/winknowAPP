@@ -90,10 +90,28 @@ if ($grupoSeleccionado) {
 }
 
 // ============================================
+// FUNCIONES DE UTILIDAD
+// ============================================
+function obtenerColorAsignatura($index) {
+    $colores = [
+        '#131942ff'
+    ];
+    return $colores[$index % count($colores)];
+}
+
+// ============================================
 // INCLUIR VISTA HTML
 // ============================================
 include '../front/header.html';
-include '../front/calendarioEST_html.php';
+include '../front/calendario_html.php';
+
+if ($_SESSION['tipo'] === 'admin') {
+    include '../front/navADM.php';
+} elseif ($_SESSION['tipo'] === 'docente') {
+    include '../front/navDOC.php';
+} else {
+    include '../front/navEST.php';
+}
 
 // ============================================
 // CIERRE DE CONEXIÓN
