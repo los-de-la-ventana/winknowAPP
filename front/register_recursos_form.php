@@ -26,14 +26,14 @@
         <br>
 
         <!-- FORMULARIO DE REGISTRO -->
-                <section class="filtros">
-                <h2>
-                    <i class="bi bi-plus-circle"></i> 
-                    <span data-lang="register_new_resource">Registrar Nuevo Recurso</span>
-                </h2>
-                <br>
-                
-                <form method="POST" action="register_recursos.php">
+        <section class="filtros">
+            <h2>
+                <i class="bi bi-plus-circle"></i> 
+                <span data-lang="register_new_resource">Registrar Nuevo Recurso</span>
+            </h2>
+            <br>
+            
+            <form method="POST" action="register_recursos.php">
                 <input type="hidden" name="accion" value="registrar">
                 
                 <div class="form-group">
