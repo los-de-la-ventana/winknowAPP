@@ -1,5 +1,4 @@
-<title>Calendario ADMIN - WinKnow</title>
-
+<title>Calendario - WinKnow</title>
 
 
 <body>
@@ -8,11 +7,7 @@
     
     <div class="contenido">
 
-
-
-        <br>
-
-        <!-- SELECTOR DE GRUPO - CORREGIDO -->
+        <!-- SELECTOR DE GRUPO -->
         <section class="selector-grupo">
             <h2><i class="bi bi-funnel"></i> Seleccionar Grupo</h2>
             <form method="GET" action="calendario.php" class="form-selector">
@@ -66,7 +61,7 @@
                         $horasUsadas = [];
                         foreach ($diasSemana as $dia) {
                             foreach ($horariosSemana[$dia] as $hora => $clase) {
-                                if ($clase !== null || $hora == 13) { // Incluir hora 13 (recreo)
+                                if ($clase !== null || $hora == 13) {
                                     $horasUsadas[$hora] = true;
                                 }
                             }
@@ -74,12 +69,10 @@
                         ksort($horasUsadas);
                         $horasUsadas = array_keys($horasUsadas);
                         
-                        // Si no hay horarios, mostrar al menos de 7 a 16
                         if (empty($horasUsadas)) {
                             $horasUsadas = range(7, 16);
                         }
                         
-                        // Asegurarse de que el rango incluya todas las horas de 7 a 16
                         $horaMin = !empty($horasUsadas) ? min($horasUsadas) : 7;
                         $horaMax = !empty($horasUsadas) ? max($horasUsadas) : 16;
                         if ($horaMax < 16) $horaMax = 16;
@@ -94,14 +87,12 @@
                                 <td class="hora-label"><?= sprintf('%02d:00', $hora); ?></td>
                                 <?php foreach ($diasSemana as $dia): ?>
                                     <?php 
-                                    // Mostrar recreo a las 13:00
                                     if ($hora == 13): 
                                     ?>
                                     <?php 
                                     else:
                                         $clase = $horariosSemana[$dia][$hora];
                                         if ($clase !== null): 
-                                            // Asignar color único por asignatura
                                             if (!isset($coloresAsignatura[$clase['asignatura']])) {
                                                 $coloresAsignatura[$clase['asignatura']] = obtenerColorAsignatura($colorIndex++);
                                             }

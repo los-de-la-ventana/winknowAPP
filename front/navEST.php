@@ -2,24 +2,22 @@
 
 <body>
 
-        <!-- Barra Lateral -->
-    <aside class="barra-lateral">
-        <div class="logo">
-            <div class="icono-logo">WK</div>
-            <span>WinKnow</span>
-        </div>
-        
+<!-- Barra Lateral -->
+<aside class="barra-lateral">
+    <div class="logo">
+        <div class="icono-logo">WK</div>
+        <span>WinKnow</span>
+    </div>
+    
     <nav class="navegacion">
-            <ul>
-                <a href="inicioEst.php"> <li><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
-                   <!-- Calendario disponible para todos los tipos de usuario -->
-                <a href="calendarioEST.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
-               <!-- Cerrar sesión disponible para todos los tipos de usuario -->
+        <ul>
+            <a href="inicioEst.php"><li><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
+            <a href="calendario.php"><li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li></a>
             <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
-            </ul>
-        </nav> 
+        </ul>
+    </nav> 
 
-<div class="usuario">
+    <div class="usuario">
         <div class="info-usuario">
             <div class="nombre-usuario">
                 <i class="bi bi-person-circle"></i>

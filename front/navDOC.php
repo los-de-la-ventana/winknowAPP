@@ -2,35 +2,23 @@
 
 <body>
 
-        <!-- Barra Lateral -->
-    <aside class="barra-lateral">
-        <div class="logo">
-            <div class="icono-logo">WK</div>
-            <span>WinKnow</span>
-        </div>
-        
+<!-- Barra Lateral -->
+<aside class="barra-lateral">
+    <div class="logo">
+        <div class="icono-logo">WK</div>
+        <span>WinKnow</span>
+    </div>
+    
     <nav class="navegacion">
-            <ul>
-                <a href="inicioDoc.php"> <li><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
-                
-                <?php
-                // Verificar si el usuario es estudiante
-                if (isset($_SESSION['tipo']) && $_SESSION['tipo'] !== 'estudiante') {
-                    // Mostrar opciones completas para admin y docente
-                    echo '<a href="docente_reservas.php"> <li><i class="bi bi-building"></i><span data-lang="nav_reservas_espacios">Reservar Espacios</span></li></a>';
-                    echo '<a href="docente_reservas_recursos.php"> <li><i class="bi bi-box-seam"></i><span data-lang="nav_reservas_recursos">Reservar Recursos</span></li></a>';
-                }
-                ?>
-                
-                <!-- Calendario disponible para todos los tipos de usuario -->
-                <a href="../calendario.php">  <li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li> </a>
-                <!-- Cerrar sesión disponible para todos los tipos de usuario -->
+        <ul>
+            <a href="inicioDoc.php"><li><i class="bi bi-house"></i> <span data-lang="nav_inicio">Inicio</span></li></a> 
+            <a href="docente_reservas.php"><li><i class="bi bi-building"></i><span data-lang="nav_reservas_espacios">Reservar Espacios</span></li></a>
+            <a href="docente_reservas_recursos.php"><li><i class="bi bi-box-seam"></i><span data-lang="nav_reservas_recursos">Reservar Recursos</span></li></a>
+            <a href="calendario.php"><li><i class="bi bi-calendar3"></i> <span data-lang="nav_calendario">Calendario</span></li></a>
             <a href="../login_reg/logout.php" id="logout-link"><li><i class="bi bi-box-arrow-right"></i> <span data-lang="nav_logout">Cerrar Sesión</span></li></a>
- 
-            </ul>
-            
-        </nav> 
-        
+        </ul>
+    </nav> 
+    
     <div class="usuario">
         <div class="info-usuario">
             <div class="nombre-usuario">
@@ -52,4 +40,4 @@
 
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../alertaLogout.js"></script>  
+<script src="../alertaLogout.js"></script>

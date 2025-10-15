@@ -103,8 +103,8 @@ function obtenerColorAsignatura($index) {
 // INCLUIR VISTA HTML
 // ============================================
 include '../front/header.html';
-include '../front/calendario_html.php';
 
+// Incluir navegación según tipo de usuario
 if ($_SESSION['tipo'] === 'admin') {
     include '../front/navADM.php';
 } elseif ($_SESSION['tipo'] === 'docente') {
@@ -112,6 +112,8 @@ if ($_SESSION['tipo'] === 'admin') {
 } else {
     include '../front/navEST.php';
 }
+
+include '../front/calendario_html.php';
 
 // ============================================
 // CIERRE DE CONEXIÓN
