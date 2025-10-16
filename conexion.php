@@ -9,7 +9,7 @@ function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "db
     if ($conexion->connect_errno) {
         die("Conexión fallida [estoy fuera] : " . $conexion->connect_error);
     };
-  
+    
     return $conexion;
 }
 
