@@ -220,7 +220,7 @@ $resultDocentes = $mysqli->query($queryDocentes);
 // ============================================
 $queryAsignaturasSelector = "SELECT IdAsignatura, nombreAsignatura FROM asignatura ORDER BY nombreAsignatura";
 $resultAsignaturasSelector = $mysqli->query($queryAsignaturasSelector);
-
+    
 // ============================================
 // INCLUIR VISTA HTML
 // ============================================

@@ -174,10 +174,6 @@ function cambiarEstado(cedula, estado) {
     });
 }
 
-function editarUsuario(cedula) {
-    window.location.href = 'adm_usr/editar_usr.php?cedula=' + cedula;
-}
-
 // ================== EVENTO CERRAR SESIÓN muestra MENSAJE CON SWEET ALERT PARA CONFIRMAR ==================
 document.addEventListener('DOMContentLoaded', function() {
     const logoutLink = document.getElementById('logout-link');
