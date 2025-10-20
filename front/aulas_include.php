@@ -3,7 +3,7 @@
 <body>
 
 <?php
-    include '../front/navADM.php';
+    include '../front/navadm.php';
 ?>
 
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->

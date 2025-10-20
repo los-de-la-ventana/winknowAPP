@@ -1,7 +1,7 @@
 <?php
 session_start();
         include '../front/header.html';
-                    include '../front/navEST.php'; 
+                    include '../front/navest.php'; 
 
 ?>
 

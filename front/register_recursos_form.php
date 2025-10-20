@@ -2,7 +2,7 @@
 
 <body>
 
-<?php include 'navADM.php'; ?>
+<?php include 'navadm.php'; ?>
 
 <main class="principal">
     

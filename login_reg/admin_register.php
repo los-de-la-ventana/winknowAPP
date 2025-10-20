@@ -151,5 +151,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $mysqli->close();
-include '../front/admRegister_form.php';
+include '../front/admregister_form.php';
 ?>

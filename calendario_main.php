@@ -106,11 +106,11 @@ include '../front/header.html';
 
 // Incluir navegación según tipo de usuario
 if ($_SESSION['tipo'] === 'admin') {
-    include '../front/navADM.php';
+    include '../front/navadm.php';
 } elseif ($_SESSION['tipo'] === 'docente') {
-    include '../front/navDOC.php';
+    include '../front/navdoc.php';
 } else {
-    include '../front/navEST.php';
+    include '../front/navest.php';
 }
 
 include '../front/calendario_html.php';

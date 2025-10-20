@@ -125,5 +125,5 @@ function obtenerIconoTipo($tipoSalon) {
 // ============================================
 include '../front/header.html';
 include '../front/aulas_include.php';
-
+    
 ?>

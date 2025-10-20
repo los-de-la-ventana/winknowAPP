@@ -2,7 +2,7 @@
 
 <body>
 
-<?php include '../front/navADM.php'; ?>
+<?php include '../front/navadm.php'; ?>
 
 <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
 <main class="principal">

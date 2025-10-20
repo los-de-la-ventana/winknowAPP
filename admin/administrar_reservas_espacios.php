@@ -116,8 +116,10 @@ function formatearHora($hora) {
 // INCLUIR VISTA HTML
 // ============================================
 include '../front/header.html';
-include '../front/admin_reservasESP_html.php';
-include '../front/navADM.php';
+include '../front/admin_reservasesp_html.php';
+
+
+include '../front/navadm.php';
 
 
 

@@ -124,8 +124,8 @@ function formatearHora($hora) {
 // INCLUIR VISTA HTML
 // ============================================
 include '../front/header.html';
-include '../front/admin_reservasREC_html.php';
-include '../front/navADM.php';
+include '../front/admin_reservasrec_html.php';
+include '../front/navadm.php';
 
 // ============================================
 // CIERRE DE CONEXIÓN

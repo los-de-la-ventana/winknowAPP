@@ -205,5 +205,5 @@ if ($tipo_mensaje === 'success' && !empty($redirigir)) {
     exit;
 }
 
-include '../front/usrREG_form.php';
+include '../front/usrreg_form.php';
 ?>
