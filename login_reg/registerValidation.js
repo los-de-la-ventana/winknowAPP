@@ -1,5 +1,9 @@
+// Esperar a que cargue todo el DOM
 document.addEventListener('DOMContentLoaded', function () {
 
+  /**
+   * Función para validar que un input solo acepte números
+   */
   function validateNumericInput(input) {
     input.addEventListener('input', function (e) {
       e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -20,14 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /**
+   * Función que inicializa el formulario y carga los inputs dinámicos
+   */
   function inicializarFormularioRegistro() {
     var domMenuSeleccion = document.getElementById('operacion');
     var domDivDeInputs = document.getElementById('divDeInputs');
-
-    if (!domMenuSeleccion || !domDivDeInputs) {
-      console.error('No se encontraron elementos necesarios');
-      return;
-    }
 
     function updateInputs() {
       var opcionSeleccionada = domMenuSeleccion.value;
@@ -35,40 +37,99 @@ document.addEventListener('DOMContentLoaded', function () {
 
       console.log('Opción seleccionada:', opcionSeleccionada);
 
+      // Clonar el contenido del template según la opción seleccionada
       if (opcionSeleccionada === 'docente') {
         var docenteTemplate = document.getElementById('template-docente');
-        console.log('Template docente encontrado:', docenteTemplate);
         
         if (docenteTemplate) {
-          var content = docenteTemplate.content || docenteTemplate;
-          var clone = content.cloneNode(true);
-          domDivDeInputs.appendChild(clone);
-          console.log('Template docente insertado');
+          var templateContent = null;
+          
+          // Método 1: Usar .content (estándar HTML5)
+          if (docenteTemplate.content) {
+            templateContent = docenteTemplate.content.cloneNode(true);
+            console.log('Método 1: Usando template.content');
+          }
+          // Método 2: Buscar el div interno directamente
+          else if (docenteTemplate.querySelector) {
+            var innerDiv = docenteTemplate.querySelector('#docente-form');
+            if (innerDiv) {
+              templateContent = innerDiv.cloneNode(true);
+              console.log('Método 2: Usando querySelector interno');
+            }
+          }
+          // Método 3: Clonar usando innerHTML
+          else {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = docenteTemplate.innerHTML;
+            templateContent = tempDiv.firstElementChild;
+            console.log('Método 3: Usando innerHTML');
+          }
+
+          if (templateContent) {
+            domDivDeInputs.appendChild(templateContent);
+            console.log('✅ Template docente insertado');
+          } else {
+            console.error('❌ No se pudo clonar el template de docente');
+          }
         } else {
-          console.error('No se encontró el template de docente');
+          console.error('❌ No se encontró el template de docente');
         }
       }
       else if (opcionSeleccionada === 'estudiante') {
         var estudianteTemplate = document.getElementById('template-estudiante');
-        console.log('Template estudiante encontrado:', estudianteTemplate);
         
         if (estudianteTemplate) {
-          var content = estudianteTemplate.content || estudianteTemplate;
-          var clone = content.cloneNode(true);
-          domDivDeInputs.appendChild(clone);
-          console.log('Template estudiante insertado');
+          var templateContent = null;
+          
+          // Método 1: Usar .content (estándar HTML5)
+          if (estudianteTemplate.content) {
+            templateContent = estudianteTemplate.content.cloneNode(true);
+            console.log('Método 1: Usando template.content');
+          }
+          // Método 2: Buscar el div interno directamente
+          else if (estudianteTemplate.querySelector) {
+            var innerDiv = estudianteTemplate.querySelector('#estudiante-form');
+            if (innerDiv) {
+              templateContent = innerDiv.cloneNode(true);
+              console.log('Método 2: Usando querySelector interno');
+            }
+          }
+          // Método 3: Clonar usando innerHTML
+          else {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = estudianteTemplate.innerHTML;
+            templateContent = tempDiv.firstElementChild;
+            console.log('Método 3: Usando innerHTML');
+          }
+
+          if (templateContent) {
+            domDivDeInputs.appendChild(templateContent);
+            console.log('✅ Template estudiante insertado');
+          } else {
+            console.error('❌ No se pudo clonar el template de estudiante');
+          }
         } else {
-          console.error('No se encontró el template de estudiante');
+          console.error('❌ No se encontró el template de estudiante');
         }
       }
 
+      // Aplicar validaciones a los nuevos inputs insertados
       applyFieldValidations();
     }
 
-    domMenuSeleccion.addEventListener('change', updateInputs);
-    updateInputs();
+    if (domMenuSeleccion && domDivDeInputs) {
+      domMenuSeleccion.addEventListener('change', updateInputs);
+      updateInputs();
+    } else {
+      console.error('❌ No se encontraron elementos del formulario');
+      console.log('domMenuSeleccion:', domMenuSeleccion);
+      console.log('domDivDeInputs:', domDivDeInputs);
+    }
   }
 
+  /**
+   * Función que crea el botón para mostrar/ocultar contraseña
+   */
   function createPasswordToggle(passwordInput) {
     if (passwordInput.dataset.toggleAdded) {
       return;
@@ -76,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var wrapper = document.createElement('div');
     wrapper.className = 'password-wrapper';
-    wrapper.style.cssText = 'display: flex; align-items: center; position: relative; width: 100%;';
 
     passwordInput.parentNode.insertBefore(wrapper, passwordInput);
     wrapper.appendChild(passwordInput);
@@ -85,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleButton.type = 'button';
     toggleButton.className = 'password-toggle-btn';
     toggleButton.textContent = '👁️';
-    toggleButton.style.cssText = 'margin-left: 8px; font-size: 20px; background: transparent; border: none; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);';
 
     var isVisible = false;
 
@@ -99,8 +158,11 @@ document.addEventListener('DOMContentLoaded', function () {
     passwordInput.dataset.toggleAdded = "true";
   }
 
+  /**
+   * Función que aplica validaciones específicas a campos según su nombre
+   */
   function applyFieldValidations() {
-    console.log('Aplicando validaciones...');
+    console.log('🔧 Aplicando validaciones...');
     
     var cedulaInputs = document.querySelectorAll('input[name="cedula"]');
     console.log('Inputs de cédula encontrados:', cedulaInputs.length);
@@ -125,7 +187,11 @@ document.addEventListener('DOMContentLoaded', function () {
         createPasswordToggle(input);
       }
     });
+    
+    console.log('✅ Validaciones aplicadas');
   }
 
+  console.log('🚀 Iniciando registerValidation.js');
   inicializarFormularioRegistro();
+  console.log('✅ registerValidation.js cargado');
 });
