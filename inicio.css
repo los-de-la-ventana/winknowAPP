@@ -1,5 +1,5 @@
 /* =======================
-   VARIABLES CSS
+    VARIABLES CSS
 ======================= */
 :root {
     /* Colores principales */
@@ -2148,6 +2148,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         gap: 12px;
     }
 }
-
-/* 7. ELIMINAR DUPLICADOS de #toggle-theme y #toggle-language */
-/* Mantén solo una declaración de .header-controls y sus elementos hijos */
