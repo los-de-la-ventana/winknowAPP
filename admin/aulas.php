@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_aula'])) {
     
     // Primero verificar si hay reservas asociadas
     $sqlCheck = "SELECT COUNT(*) as total FROM reserva r 
-                 INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio 
-                 WHERE e.NumSalon = ?";
+    INNER JOIN espacios e ON r.IdEspacio = e.IdEspacio 
+    WHERE e.NumSalon = ?";
     $stmtCheck = $mysqli->prepare($sqlCheck);
     $stmtCheck->bind_param("i", $numSalon);
     $stmtCheck->execute();
