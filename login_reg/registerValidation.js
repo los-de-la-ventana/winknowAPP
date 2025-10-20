@@ -1,10 +1,5 @@
-// Esperar a que cargue todo el DOM
 document.addEventListener('DOMContentLoaded', function () {
 
-  /**
-   * Función para validar que un input solo acepte números
-   * Elimina caracteres no numéricos en input, bloquea teclas no válidas y controla el pegado de texto
-   */
   function validateNumericInput(input) {
     input.addEventListener('input', function (e) {
       e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -25,63 +20,72 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /**
-   * Función que inicializa el formulario y carga los inputs dinámicos
-   * dependiendo de la opción seleccionada en el menú
-   */
   function inicializarFormularioRegistro() {
     var domMenuSeleccion = document.getElementById('operacion');
     var domDivDeInputs = document.getElementById('divDeInputs');
+
+    if (!domMenuSeleccion || !domDivDeInputs) {
+      console.error('No se encontraron elementos necesarios');
+      return;
+    }
 
     function updateInputs() {
       var opcionSeleccionada = domMenuSeleccion.value;
       domDivDeInputs.innerHTML = '';
 
-      // Clonar el contenido del template según la opción seleccionada
+      console.log('Opción seleccionada:', opcionSeleccionada);
+
       if (opcionSeleccionada === 'docente') {
         var docenteTemplate = document.getElementById('template-docente');
-        if (docenteTemplate && docenteTemplate.content) {
-          domDivDeInputs.appendChild(docenteTemplate.content.cloneNode(true));
+        console.log('Template docente encontrado:', docenteTemplate);
+        
+        if (docenteTemplate) {
+          var content = docenteTemplate.content || docenteTemplate;
+          var clone = content.cloneNode(true);
+          domDivDeInputs.appendChild(clone);
+          console.log('Template docente insertado');
+        } else {
+          console.error('No se encontró el template de docente');
         }
       }
       else if (opcionSeleccionada === 'estudiante') {
         var estudianteTemplate = document.getElementById('template-estudiante');
-        if (estudianteTemplate && estudianteTemplate.content) {
-          domDivDeInputs.appendChild(estudianteTemplate.content.cloneNode(true));
+        console.log('Template estudiante encontrado:', estudianteTemplate);
+        
+        if (estudianteTemplate) {
+          var content = estudianteTemplate.content || estudianteTemplate;
+          var clone = content.cloneNode(true);
+          domDivDeInputs.appendChild(clone);
+          console.log('Template estudiante insertado');
+        } else {
+          console.error('No se encontró el template de estudiante');
         }
       }
 
-      // Aplicar validaciones a los nuevos inputs insertados
       applyFieldValidations();
     }
 
-    if (domMenuSeleccion && domDivDeInputs) {
-      domMenuSeleccion.addEventListener('change', updateInputs);
-      updateInputs(); // Ejecutar al inicio
-    }
+    domMenuSeleccion.addEventListener('change', updateInputs);
+    updateInputs();
   }
 
-  /**
-   * Función que crea el botón para mostrar/ocultar contraseña
-   */
   function createPasswordToggle(passwordInput) {
     if (passwordInput.dataset.toggleAdded) {
       return;
     }
 
-    // Crear contenedor flexible
     var wrapper = document.createElement('div');
     wrapper.className = 'password-wrapper';
+    wrapper.style.cssText = 'display: flex; align-items: center; position: relative; width: 100%;';
 
-    // Insertar el wrapper y meter el input dentro
     passwordInput.parentNode.insertBefore(wrapper, passwordInput);
     wrapper.appendChild(passwordInput);
 
-    // Crear botón de alternar visibilidad
     var toggleButton = document.createElement('button');
     toggleButton.type = 'button';
     toggleButton.className = 'password-toggle-btn';
     toggleButton.textContent = '👁️';
+    toggleButton.style.cssText = 'margin-left: 8px; font-size: 20px; background: transparent; border: none; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);';
 
     var isVisible = false;
 
@@ -95,28 +99,27 @@ document.addEventListener('DOMContentLoaded', function () {
     passwordInput.dataset.toggleAdded = "true";
   }
 
-  /**
-   * Función que aplica validaciones específicas a campos según su nombre
-   */
   function applyFieldValidations() {
-    // Validación de cédula: solo números
+    console.log('Aplicando validaciones...');
+    
     var cedulaInputs = document.querySelectorAll('input[name="cedula"]');
+    console.log('Inputs de cédula encontrados:', cedulaInputs.length);
     cedulaInputs.forEach(function (input) {
       if (input.offsetParent !== null) {
         validateNumericInput(input);
       }
     });
 
-    // Validación de teléfono: solo números
     var telefonoInputs = document.querySelectorAll('input[name="telefono"]');
+    console.log('Inputs de teléfono encontrados:', telefonoInputs.length);
     telefonoInputs.forEach(function (input) {
       if (input.offsetParent !== null) {
         validateNumericInput(input);
       }
     });
 
-    // Agregar toggle de contraseña
     var passwordInputs = document.querySelectorAll('input[name="contra"]');
+    console.log('Inputs de contraseña encontrados:', passwordInputs.length);
     passwordInputs.forEach(function (input) {
       if (input.offsetParent !== null) {
         createPasswordToggle(input);
@@ -124,6 +127,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Inicializar formulario al cargar la página
   inicializarFormularioRegistro();
 });
