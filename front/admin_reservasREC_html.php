@@ -9,9 +9,9 @@
         <!-- MENSAJES -->
         <?php if (isset($_SESSION['mensaje'])): ?>
             <div id="mensaje-data" 
-                 data-mensaje="<?= htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
-                 data-tipo="<?= htmlspecialchars($_SESSION['tipo_mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
-                 class="mensaje-oculto">
+data-mensaje="<?= htmlspecialchars($_SESSION['mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
+data-tipo="<?= htmlspecialchars($_SESSION['tipo_mensaje'], ENT_QUOTES, 'UTF-8'); ?>" 
+class="mensaje-oculto">
             </div>
             <?php 
                 unset($_SESSION['mensaje']);
