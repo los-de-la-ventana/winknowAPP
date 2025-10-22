@@ -810,7 +810,52 @@ body {
     display: none;
 }
 
+/* Header de formulario con botón volver */
+.form-header-with-back {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
+.form-header-with-back p {
+    margin: 0;
+}
+
+.form-flotante input,
+.form-flotante select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-form-border);
+    border-radius: var(--border-radius);
+    background: var(--fondo-primario);
+    color: var(--texto-primario);
+    font-size: 15px;
+    box-sizing: border-box;
+}
+.form-header-with-back .btn-back {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.form-header-with-back .btn-back:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .form-header-with-back .btn-back:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Headers centrados */
+.header-centrado {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 .header-centrado-simple {
     text-align: center;
