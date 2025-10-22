@@ -58,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rechazar_reserva'])) 
 
 // ============================================
 // OBTENER SOLO RESERVAS PENDIENTES (aprobada = 0)
+// Esta función PHP realiza una consulta a la base de datos para
+//obtener reservas pendientes de aprobación. Te la explico paso a paso:
 // ============================================
 $fechaActual = date('Y-m-d');
 $queryReservas = "SELECT rr.IdReservaRecurso, rr.Fecha, rr.Hora_Reserva, 
