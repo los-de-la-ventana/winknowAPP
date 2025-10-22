@@ -11,7 +11,7 @@ include '../front/header.html';
 ?>
 
 <?php
- include '../front/navadm.php';
+    include '../front/navadm.php';
 ?>
 <body>
 <title>WinKnow - Panel Admin</title>
