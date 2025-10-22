@@ -590,6 +590,7 @@ body {
 
 /* ============================================
    RESPONSIVE - TABLETS (768px - 1023px)
+   Esto es un media querie
 ============================================ */
 @media screen and (max-width: 1023px) {
     .selector-grupo {
