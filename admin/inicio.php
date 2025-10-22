@@ -36,6 +36,9 @@ include '../front/header.html';
             </div>
 
             <!-- CARRUSEL -->
+
+
+            
             <?php include '../front/carrusel.html'; ?>
         </section>
     </main>
