@@ -168,7 +168,7 @@ function formatearHora($hora) {
 // ============================================
 include '../front/header.html';
 include '../front/reservas_recursos_html.php';
-include '../front/navDOC.php';
+include '../front/navdoc.php';
 
 // ============================================
 // CIERRE DE CONEXIÓN
