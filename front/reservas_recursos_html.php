@@ -47,7 +47,7 @@
                            min="<?= date('Y-m-d'); ?>" 
                            required>
                     
-                                          <?php
+                                        <?php
                         $horarios = [
                             '-- Seleccione --',
                             '7:00 - 7:45 (Primera)',
