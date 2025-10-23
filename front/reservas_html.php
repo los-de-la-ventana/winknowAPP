@@ -49,7 +49,6 @@
                     
                         <?php
                         $horarios = [
-                                '-- Seleccione --',
                             '7:00 - 7:45 (Primera)',
                             '7:50  8:35 (Segunda)', 
                             '8:40  9:25 (Tercera)',
@@ -158,7 +157,6 @@
 
         <br><br>
 
-      
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -64,9 +64,10 @@
                         ?>
 
                         <select name="hora_reserva" id="hora_reserva" required>
-                            <?php foreach($horarios as $hora): ?>
-                                <option value="<?= $hora ?>"><?= $hora ?></option>
-                            <?php endforeach; ?>
+                            <option value=""><?= $horarios[0] ?></option>
+                            <?php for($i = 1; $i < count($horarios); $i++): ?>
+                                <option value="<?= $horarios[$i] ?>"><?= $horarios[$i] ?></option>
+                            <?php endfor; ?>
                         </select>
                     
                     <button type="submit" class="boton-primario">
