@@ -47,12 +47,27 @@
                            min="<?= date('Y-m-d'); ?>" 
                            required>
                     
-                    <select name="hora_reserva" id="hora_reserva" required>
-                        <option value="" data-lang="select_hour">Seleccione una hora</option>
-                        <?php for ($i = 7; $i <= 22; $i++): ?>
-                            <option value="<?= $i; ?>"><?= $i; ?>:00 hs</option>
-                        <?php endfor; ?>
-                    </select>
+                                          <?php
+                        $horarios = [
+                            '-- Seleccione --',
+                            '7:00 - 7:45 (Primera)',
+                            '7:50  8:35 (Segunda)', 
+                            '8:40  9:25 (Tercera)',
+                            '9:30  10:15 (Cuarta)',
+                            '10:20  11:55 (Quinta)',
+                            '12:00  12:45 (Sexta)',
+                            '12:50  13:35 (Septima)',
+                            '13:40  14:25 (Octava)', 
+                            '14:30  15:15 (Novena)',
+                            '15:20  16:05 (Decima)'
+                        ];
+                        ?>
+
+                        <select name="hora_reserva" id="hora_reserva" required>
+                            <?php foreach($horarios as $hora): ?>
+                                <option value="<?= $hora ?>"><?= $hora ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     
                     <button type="submit" class="boton-primario">
                         <i class="bi bi-check-circle"></i> <span data-lang="confirm_reservation">Confirmar Reserva</span>
