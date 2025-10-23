@@ -65,10 +65,7 @@
                                         <i class="bi bi-people"></i>
                                         <span><strong data-lang="capacity">Capacidad</strong>: <?= $reserva['capacidad']; ?> <span data-lang="people">personas</span></span>
                                     </div>
-                                    <div class="detalle-item">
-                                        <i class="bi bi-person-badge"></i>
-                                        <span><strong data-lang="requester">Solicitante</strong>: <span data-lang="not_specified">No especificado</span></span>
-                                    </div>
+
                                 </div>
                             </div>
 

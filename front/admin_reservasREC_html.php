@@ -65,10 +65,7 @@ class="mensaje-oculto">
                                         <i class="bi bi-geo-alt"></i>
                                         <span><strong data-lang="location">Ubicación</strong>: <?= obtenerNombreEspacio($reserva['Tipo_salon'], $reserva['NumSalon']); ?></span>
                                     </div>
-                                    <div class="detalle-item">
-                                        <i class="bi bi-person-badge"></i>
-                                        <span><strong data-lang="requester">Solicitante</strong>: <span data-lang="not_specified">No especificado</span></span>
-                                    </div>
+
                                 </div>
                             </div>
 
