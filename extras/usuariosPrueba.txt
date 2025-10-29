@@ -1,29 +1,37 @@
-santi 
-57255539 | estudiante
-Rameau1
+=== USUARIOS DE PRUEBA ===
 
+[Usuario 1]
+Nombre: santi
+ID: 57255539
+Contraseña: Rameau1
+Rol: estudiante
 
-Piñeiro
-50072203 | estudiante
-Rameau1
+[Usuario 2]
+Nombre: Piñeiro
+ID: 50072203
+Contraseña: Rameau1
+Rol: estudiante
 
+[Usuario 3]
+Nombre: John Programador
+ID: 80731788
+Contraseña: Rameau1
+Rol: adm
 
-80731788
-Rameau1
-John Programador | adm
+[Usuario 4]
+Nombre: Prof. Gastón Gómez
+ID: 83256953
+Contraseña: Rameau1
+Rol: Docente
 
-   
-Prof. Gastón Gómez
-   Usuario: 83256953
-   Contraseña: Rameau1
+[Usuario 5]
+Nombre: MRameau
+ID: 65186348
+Contraseña: Rameau1
+Rol: Docente
 
-
-65186348
-Rameau1
-MRameau  | Docente
-
-
-
-97748239
-Rameau1 
-Luca fontana estudiante
+[Usuario 6]
+Nombre: Luca fontana
+ID: 97748239
+Contraseña: Rameau1
+Rol: estudiante
