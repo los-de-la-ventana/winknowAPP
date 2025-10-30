@@ -28,7 +28,7 @@ if ($grupoSeleccionado === null && $resultGrupos->num_rows > 0) {
     $resultGrupos->data_seek(0);
     $primerGrupo = $resultGrupos->fetch_assoc();
     $grupoSeleccionado = $primerGrupo['IdGrupo'];
-    $resultGrupos->data_seek(0);
+    $resultGrupos->data_seek(0); 
 }
 
 // ============================================
