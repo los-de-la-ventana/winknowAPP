@@ -78,13 +78,6 @@
                                     <p><strong data-lang="id_number">Cédula</strong>: <?= htmlspecialchars($u['Cedula']); ?></p>
                                     <p><strong data-lang="type">Tipo</strong>: <?= htmlspecialchars($u['tipo_usuario']); ?></p>
                                     
-                                    <?php if ($u['email']): ?>
-                                        <p><strong data-lang="email">Email</strong>: <?= htmlspecialchars($u['email']); ?></p>
-                                    <?php endif; ?>
-                                    
-                                    <?php if ($u['numeroTelefono']): ?>
-                                        <p><strong data-lang="phone">Teléfono</strong>: <?= htmlspecialchars($u['numeroTelefono']); ?></p>
-                                    <?php endif; ?>
                                     
                                     <?php if ($u['tipo_usuario'] === 'Administrador' && $u['rolAdmin']): ?>
                                         <p><strong data-lang="role">Rol</strong>: <?= htmlspecialchars($u['rolAdmin']); ?></p>
