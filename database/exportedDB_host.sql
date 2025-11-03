@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 02-11-2025 a las 19:07:14
+-- Tiempo de generación: 02-11-2025 a las 19:39:12
 -- Versión del servidor: 8.0.44
 -- Versión de PHP: 8.2.29
 
@@ -70,14 +70,79 @@ INSERT INTO `asignatura` (`IdAsignatura`, `nombreAsignatura`) VALUES
 (4, 'Filosofía'),
 (5, 'Física'),
 (6, 'Programación'),
-(7, 'Materia CTS'),
+(7, 'Matematicas CTS'),
 (8, 'Ingeniería'),
 (9, 'Cálculo'),
 (10, 'Sistemas Op'),
 (11, 'Ciberseguridad'),
-(12, 'Redesprueba'),
+(12, 'Redes'),
 (13, 'Prueba asign'),
-(14, 'Redesyredes');
+(14, 'Redes'),
+(15, 'Electrónica'),
+(16, 'Biología'),
+(17, 'Lógica'),
+(18, 'Software'),
+(19, 'Hardware'),
+(20, 'Nivelación'),
+(21, 'Ciudadanía'),
+(22, 'Historia'),
+(23, 'Inglés'),
+(24, 'Lengua y Comunicación'),
+(25, 'Física'),
+(26, 'Matemática'),
+(27, 'Programación'),
+(28, 'Electrónica'),
+(29, 'Biología'),
+(30, 'Lógica'),
+(31, 'Software'),
+(32, 'Hardware'),
+(33, 'Nivelación'),
+(34, 'Ciudadanía'),
+(35, 'Historia'),
+(36, 'Inglés'),
+(37, 'Lengua y Comunicación'),
+(38, 'Física'),
+(39, 'Matemática'),
+(40, 'Programación'),
+(41, 'Electrónica'),
+(42, 'Biología'),
+(43, 'Lógica'),
+(44, 'Software'),
+(45, 'Hardware'),
+(46, 'Nivelación'),
+(47, 'Ciudadanía'),
+(48, 'Historia'),
+(49, 'Inglés'),
+(50, 'Lengua y Comunicación'),
+(51, 'Física'),
+(52, 'Matemática'),
+(53, 'Programación'),
+(54, 'Electrónica'),
+(55, 'Biología'),
+(56, 'Lógica'),
+(57, 'Software'),
+(58, 'Hardware'),
+(59, 'Nivelación de inglés'),
+(60, 'Ciudadanía'),
+(61, 'Historia'),
+(62, 'Inglés'),
+(63, 'Lengua y Comunicación'),
+(64, 'Física'),
+(65, 'Matemática'),
+(66, 'Programación'),
+(67, 'Electrónica'),
+(68, 'Biología'),
+(69, 'Lógica'),
+(70, 'Software'),
+(71, 'Hardware'),
+(72, 'Nivelación de inglés'),
+(73, 'Ciudadanía'),
+(74, 'Historia'),
+(75, 'Inglés'),
+(76, 'Lengua y Comunicación'),
+(77, 'Física'),
+(78, 'Matemática'),
+(79, 'Programación');
 
 -- --------------------------------------------------------
 
@@ -215,20 +280,21 @@ CREATE TABLE `espacios` (
 --
 
 INSERT INTO `espacios` (`IdEspacio`, `NumSalon`, `capacidad`, `Tipo_salon`) VALUES
-(2, 102, 40, 'Aula'),
-(3, 103, 30, 'Aula'),
-(4, 201, 25, 'Taller'),
-(5, 202, 28, 'Taller'),
-(6, 203, 22, 'Taller'),
-(7, 301, 30, 'Laboratorio'),
-(9, 402, 50, 'Salon'),
-(10, 403, 40, 'Salon'),
-(14, 222, 1, 'Salon'),
-(19, 56, 199, 'Taller'),
-(20, 44, 27, 'Salon'),
-(21, 1, 20, 'Taller'),
-(22, 99, 1, 'Taller'),
-(24, 10150, 10, 'Aula');
+(1, 1, 30, 'Aula'),
+(2, 2, 30, 'Aula'),
+(3, 3, 35, 'Aula'),
+(4, 1, 40, 'Salon'),
+(5, 2, 45, 'Salon'),
+(6, 3, 40, 'Salon'),
+(7, 4, 50, 'Salon'),
+(8, 5, 45, 'Salon'),
+(9, 1, 25, 'Taller Mantenimiento'),
+(10, 2, 25, 'Taller Mantenimiento'),
+(11, 3, 30, 'Taller Electronica'),
+(12, 1, 28, 'Laboratorio Quimica'),
+(13, 2, 28, 'Laboratorio Fisica'),
+(14, 1, 20, 'Salon Prueba'),
+(15, 2, 20, 'Salon Prueba');
 
 -- --------------------------------------------------------
 
@@ -281,7 +347,9 @@ CREATE TABLE `grupo` (
 --
 
 INSERT INTO `grupo` (`IdGrupo`, `nombreGrupo`, `IdCurso`, `anio`) VALUES
-(1, '3MD', 1, 3);
+(1, '3MD', 1, 3),
+(4, '1°MC', 1, 1),
+(5, '1°MC', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -333,7 +401,52 @@ INSERT INTO `horario` (`ID_horario`, `IdGrupo`, `IdAsignatura`, `Cedula`, `DiaSe
 (27, 1, 1, 83256953, 'Viernes', 9, 10),
 (28, 1, 1, 83256953, 'Viernes', 10, 11),
 (29, 1, 3, 83256953, 'Viernes', 11, 12),
-(30, 1, 4, 83256953, 'Viernes', 12, 13);
+(30, 1, 4, 83256953, 'Viernes', 12, 13),
+(31, 5, 15, 0, 'Lunes', 7, 8),
+(32, 5, 15, 0, 'Lunes', 8, 9),
+(33, 5, 23, 0, 'Lunes', 9, 10),
+(34, 5, 23, 0, 'Lunes', 10, 11),
+(35, 5, 5, 0, 'Lunes', 11, 12),
+(36, 5, 5, 0, 'Lunes', 12, 13),
+(37, 5, 22, 0, 'Lunes', 13, 14),
+(38, 5, 22, 0, 'Lunes', 14, 15),
+(39, 5, 2, 0, 'Lunes', 15, 16),
+(40, 5, 2, 0, 'Lunes', 16, 17),
+(41, 5, 16, 0, 'Martes', 7, 8),
+(42, 5, 16, 0, 'Martes', 8, 9),
+(43, 5, 17, 0, 'Martes', 9, 10),
+(44, 5, 17, 0, 'Martes', 10, 11),
+(45, 5, 6, 0, 'Martes', 11, 12),
+(46, 5, 6, 0, 'Martes', 12, 13),
+(47, 5, 6, 0, 'Martes', 13, 14),
+(48, 5, 2, 0, 'Martes', 14, 15),
+(49, 5, 2, 0, 'Martes', 15, 16),
+(50, 5, 24, 0, 'Miércoles', 7, 8),
+(51, 5, 24, 0, 'Miércoles', 8, 9),
+(52, 5, 24, 0, 'Miércoles', 9, 10),
+(53, 5, 18, 0, 'Miércoles', 10, 11),
+(54, 5, 18, 0, 'Miércoles', 11, 12),
+(55, 5, 18, 0, 'Miércoles', 12, 13),
+(56, 5, 22, 0, 'Miércoles', 13, 14),
+(57, 5, 22, 0, 'Miércoles', 14, 15),
+(58, 5, 5, 0, 'Miércoles', 15, 16),
+(59, 5, 5, 0, 'Miércoles', 16, 17),
+(60, 5, 17, 0, 'Jueves', 8, 9),
+(61, 5, 17, 0, 'Jueves', 9, 10),
+(62, 5, 24, 0, 'Jueves', 10, 11),
+(63, 5, 24, 0, 'Jueves', 11, 12),
+(64, 5, 59, 0, 'Jueves', 15, 16),
+(65, 5, 59, 0, 'Jueves', 16, 17),
+(66, 5, 16, 0, 'Viernes', 7, 8),
+(67, 5, 24, 0, 'Viernes', 8, 9),
+(68, 5, 24, 0, 'Viernes', 9, 10),
+(69, 5, 23, 0, 'Viernes', 10, 11),
+(70, 5, 23, 0, 'Viernes', 11, 12),
+(71, 5, 19, 0, 'Viernes', 12, 13),
+(72, 5, 19, 0, 'Viernes', 13, 14),
+(73, 5, 19, 0, 'Viernes', 14, 15),
+(74, 5, 59, 0, 'Viernes', 15, 16),
+(75, 5, 59, 0, 'Viernes', 16, 17);
 
 -- --------------------------------------------------------
 
@@ -346,20 +459,6 @@ CREATE TABLE `recursos` (
   `nombre_Recurso` varchar(120) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `IdEspacio` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `recursos`
---
-
-INSERT INTO `recursos` (`IdRecurso`, `nombre_Recurso`, `IdEspacio`) VALUES
-(1, 'tele', 2),
-(2, 'proyector', 6),
-(3, 'computadora', 6),
-(4, 'HDMI cable', 7),
-(5, 'Mesa', 2),
-(6, 'Control aire acondicionado', 3),
-(7, 'pizzarra', 20),
-(8, 'pizarron', 3);
 
 -- --------------------------------------------------------
 
@@ -375,18 +474,6 @@ CREATE TABLE `reserva` (
   `aprobada` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `reserva`
---
-
-INSERT INTO `reserva` (`IdReserva`, `IdEspacio`, `Fecha`, `Hora_Reserva`, `aprobada`) VALUES
-(1, 6, '2025-10-07', 7, 0),
-(2, 5, '2025-11-01', 20, 1),
-(3, 6, '2025-10-18', 13, 1),
-(6, 4, '2025-10-26', 9, 1),
-(7, 5, '2025-10-24', 15, 1),
-(9, 20, '2025-10-15', 13, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -400,15 +487,6 @@ CREATE TABLE `reserva_recurso` (
   `Hora_Reserva` int DEFAULT NULL,
   `aprobada` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `reserva_recurso`
---
-
-INSERT INTO `reserva_recurso` (`IdReservaRecurso`, `IdRecurso`, `Fecha`, `Hora_Reserva`, `aprobada`) VALUES
-(1, 1, '2025-10-12', 8, 1),
-(5, 2, '2025-10-14', 7, 0),
-(7, 6, '2025-10-17', 13, 0);
 
 -- --------------------------------------------------------
 
@@ -542,6 +620,18 @@ ALTER TABLE `estudiante_curso`
   ADD KEY `IdCurso` (`IdCurso`);
 
 --
+-- Indices de la tabla `grupo`
+--
+ALTER TABLE `grupo`
+  ADD PRIMARY KEY (`IdGrupo`);
+
+--
+-- Indices de la tabla `horario`
+--
+ALTER TABLE `horario`
+  ADD PRIMARY KEY (`ID_horario`);
+
+--
 -- Indices de la tabla `recursos`
 --
 ALTER TABLE `recursos`
@@ -567,7 +657,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `asignatura`
 --
 ALTER TABLE `asignatura`
-  MODIFY `IdAsignatura` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `IdAsignatura` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
@@ -579,19 +669,31 @@ ALTER TABLE `docente`
 -- AUTO_INCREMENT de la tabla `espacios`
 --
 ALTER TABLE `espacios`
-  MODIFY `IdEspacio` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `IdEspacio` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `grupo`
+--
+ALTER TABLE `grupo`
+  MODIFY `IdGrupo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `horario`
+--
+ALTER TABLE `horario`
+  MODIFY `ID_horario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT de la tabla `recursos`
 --
 ALTER TABLE `recursos`
-  MODIFY `IdRecurso` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IdRecurso` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva_recurso`
 --
 ALTER TABLE `reserva_recurso`
-  MODIFY `IdReservaRecurso` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IdReservaRecurso` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
