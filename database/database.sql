@@ -1,217 +1,233 @@
--- ==============================================
--- TABLA PRINCIPAL: Usuarios
--- ==============================================
-CREATE TABLE Usuarios (
-    Cedula INT PRIMARY KEY,
-    Contrasenia VARCHAR(255) NOT NULL,   
-    Nombre_usr VARCHAR(50)
-) ENGINE=InnoDB;
+-- Base de datos: db_WinKnow
+-- Versión limpia con Foreign Keys y AUTO_INCREMENT
 
--- ==============================================
--- Email (Depende de Usuarios)
--- ==============================================
-CREATE TABLE Email (
-    Cedula INT NOT NULL,
-    numeroTelefono VARCHAR(50),
-    email VARCHAR(50),
-    PRIMARY KEY (Cedula, email),
-    FOREIGN KEY (Cedula) REFERENCES Usuarios(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- ==============================================
--- Docente (Depende de Usuarios)
--- ==============================================
-CREATE TABLE Docente (
-    codigo_doc INT PRIMARY KEY AUTO_INCREMENT,
-    Cedula INT UNIQUE,
-    grado INT,
-    contrasenia VARCHAR(255) NOT NULL,
-    AnioInsercion DATE,
-    Estado VARCHAR(20),
-    FOREIGN KEY (Cedula) REFERENCES Usuarios(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: usuarios (Base principal)
+-- --------------------------------------------------------
+CREATE TABLE `usuarios` (
+  `Cedula` varchar(12) NOT NULL,
+  `Contrasenia` varchar(255) NOT NULL,
+  `Nombre_usr` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Cedula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Administrador (Depende de Usuarios)
--- ==============================================
-CREATE TABLE Administrador (
-    codigo_adm INT PRIMARY KEY AUTO_INCREMENT,
-    Cedula INT UNIQUE,
-    EsAdmin BOOLEAN,
-    rolAdmin VARCHAR(100),
-    FOREIGN KEY (Cedula) REFERENCES Usuarios(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: administrador
+-- --------------------------------------------------------
+CREATE TABLE `administrador` (
+  `codigo_adm` int NOT NULL AUTO_INCREMENT,
+  `Cedula` varchar(12) DEFAULT NULL,
+  `rolAdmin` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`codigo_adm`),
+  KEY `Cedula` (`Cedula`),
+  CONSTRAINT `fk_administrador_usuario` FOREIGN KEY (`Cedula`) REFERENCES `usuarios` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=31;
 
--- ==============================================
--- Estudiante (Depende de Usuarios)
--- ==============================================
-CREATE TABLE Estudiante (
-    Cedula INT PRIMARY KEY,
-    FechaNac DATE,
-    FOREIGN KEY (Cedula) REFERENCES Usuarios(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: docente
+-- --------------------------------------------------------
+CREATE TABLE `docente` (
+  `codigo_doc` int NOT NULL AUTO_INCREMENT,
+  `Cedula` int DEFAULT NULL,
+  `contrasenia` varchar(255) NOT NULL,
+  PRIMARY KEY (`codigo_doc`),
+  UNIQUE KEY `Cedula` (`Cedula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=21;
 
--- ==============================================
--- Espacios (Salones, aulas, etc.)
--- ==============================================
-CREATE TABLE Espacios (
-    IdEspacio INT PRIMARY KEY AUTO_INCREMENT,
-    NumEdificio INT,
-    NumSalon INT,
-    capacidad INT,
-    Estado_Espacio VARCHAR(20),
-    Tipo_salon VARCHAR(30)
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: estudiante
+-- --------------------------------------------------------
+CREATE TABLE `estudiante` (
+  `Cedula` int NOT NULL,
+  PRIMARY KEY (`Cedula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Recursos (Depende de Espacios)
--- ==============================================
-CREATE TABLE Recursos (
-    IdRecurso INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_Recurso VARCHAR(120),
-    IdEspacio INT NOT NULL,
-    FOREIGN KEY (IdEspacio) REFERENCES Espacios(IdEspacio)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: email
+-- --------------------------------------------------------
+CREATE TABLE `email` (
+  `Cedula` int NOT NULL,
+  `numeroTelefono` varchar(50) DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  PRIMARY KEY (`Cedula`,`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Reserva (Depende de Espacios)
--- ==============================================
-CREATE TABLE Reserva (
-    IdReserva INT PRIMARY KEY AUTO_INCREMENT,
-    IdEspacio INT NOT NULL,
-    Fecha DATE,
-    Hora_Reserva INT,
-    FOREIGN KEY (IdEspacio) REFERENCES Espacios(IdEspacio)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: cursos
+-- --------------------------------------------------------
+CREATE TABLE `cursos` (
+  `IdCurso` int NOT NULL,
+  `Cedula` int NOT NULL,
+  `Recursos_Pedidos` varchar(100) DEFAULT NULL,
+  `Nombre` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`IdCurso`),
+  KEY `Cedula` (`Cedula`),
+  CONSTRAINT `fk_cursos_docente` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Cursos (Depende de Docente)
--- ==============================================
-CREATE TABLE Cursos (
-    IdCurso INT PRIMARY KEY AUTO_INCREMENT,
-    Cedula INT NOT NULL, -- docente responsable
-    Recursos_Pedidos VARCHAR(100),
-    Orientacion VARCHAR(50),
-    FOREIGN KEY (Cedula) REFERENCES Docente(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: secundario
+-- --------------------------------------------------------
+CREATE TABLE `secundario` (
+  `IdCurso` int NOT NULL,
+  `anio` int DEFAULT NULL,
+  PRIMARY KEY (`IdCurso`),
+  CONSTRAINT `fk_secundario_curso` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Dictan (Docente dicta Cursos)
--- ==============================================
-CREATE TABLE Dictan (
-    Cedula INT NOT NULL,
-    IdCurso INT NOT NULL,
-    PRIMARY KEY (Cedula, IdCurso),
-    FOREIGN KEY (Cedula) REFERENCES Docente(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (IdCurso) REFERENCES Cursos(IdCurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: terciario
+-- --------------------------------------------------------
+CREATE TABLE `terciario` (
+  `IdCurso` int NOT NULL,
+  `NumSemestres` int DEFAULT NULL,
+  PRIMARY KEY (`IdCurso`),
+  CONSTRAINT `fk_terciario_curso` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Estudiante inscrito en Curso
--- ==============================================
-CREATE TABLE Estudiante_Curso (
-    Cedula INT NOT NULL,
-    IdCurso INT NOT NULL,
-    PRIMARY KEY (Cedula, IdCurso),
-    FOREIGN KEY (Cedula) REFERENCES Estudiante(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (IdCurso) REFERENCES Cursos(IdCurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: grupo
+-- --------------------------------------------------------
+CREATE TABLE `grupo` (
+  `IdGrupo` int NOT NULL AUTO_INCREMENT,
+  `nombreGrupo` varchar(50) NOT NULL,
+  `IdCurso` int NOT NULL,
+  `anio` int DEFAULT NULL,
+  PRIMARY KEY (`IdGrupo`),
+  KEY `IdCurso` (`IdCurso`),
+  CONSTRAINT `fk_grupo_curso` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=6;
 
--- ==============================================
--- Docente solicita Recursos
--- ==============================================
-CREATE TABLE Docente_Recurso (
-    IdRecurso INT NOT NULL,
-    Cedula INT NOT NULL,
-    PRIMARY KEY (IdRecurso, Cedula),
-    FOREIGN KEY (IdRecurso) REFERENCES Recursos(IdRecurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (Cedula) REFERENCES Docente(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: asignatura
+-- --------------------------------------------------------
+CREATE TABLE `asignatura` (
+  `IdAsignatura` int NOT NULL AUTO_INCREMENT,
+  `nombreAsignatura` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`IdAsignatura`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=80;
 
--- ==============================================
--- Asignaturas
--- ==============================================
-CREATE TABLE Asignatura (
-    IdAsignatura INT PRIMARY KEY AUTO_INCREMENT,
-    nombreAsignatura VARCHAR(50)
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: asignatura_curso (Relación N:M)
+-- --------------------------------------------------------
+CREATE TABLE `asignatura_curso` (
+  `IdAsignatura` int NOT NULL,
+  `IdCurso` int NOT NULL,
+  PRIMARY KEY (`IdAsignatura`,`IdCurso`),
+  KEY `IdCurso` (`IdCurso`),
+  CONSTRAINT `fk_asignatura_curso_asignatura` FOREIGN KEY (`IdAsignatura`) REFERENCES `asignatura` (`IdAsignatura`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_asignatura_curso_curso` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Asignatura en un Curso
--- ==============================================
-CREATE TABLE Asignatura_Curso (
-    IdAsignatura INT NOT NULL,
-    IdCurso INT NOT NULL,
-    PRIMARY KEY (IdAsignatura, IdCurso),
-    FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (IdCurso) REFERENCES Cursos(IdCurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: dictan (Relación N:M)
+-- --------------------------------------------------------
+CREATE TABLE `dictan` (
+  `Cedula` int NOT NULL,
+  `IdCurso` int NOT NULL,
+  PRIMARY KEY (`Cedula`,`IdCurso`),
+  KEY `IdCurso` (`IdCurso`),
+  CONSTRAINT `fk_dictan_docente` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_dictan_curso` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==========r====================================
--- Secundario (Depende de Cursos)
--- ==============================================
-CREATE TABLE Secundario (
-    IdCurso INT PRIMARY KEY,
-    anio INT,
-    FOREIGN KEY (IdCurso) REFERENCES Cursos(IdCurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: estudiante_curso (Relación N:M)
+-- --------------------------------------------------------
+CREATE TABLE `estudiante_curso` (
+  `Cedula` int NOT NULL,
+  `IdCurso` int NOT NULL,
+  PRIMARY KEY (`Cedula`,`IdCurso`),
+  KEY `IdCurso` (`IdCurso`),
+  CONSTRAINT `fk_estudiante_curso_estudiante` FOREIGN KEY (`Cedula`) REFERENCES `estudiante` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_estudiante_curso_curso` FOREIGN KEY (`IdCurso`) REFERENCES `cursos` (`IdCurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ==============================================
--- Terciario (Depende de Cursos)
--- ==============================================
-CREATE TABLE Terciario (
-    IdCurso INT PRIMARY KEY,
-    NumSemestres INT,
-    FOREIGN KEY (IdCurso) REFERENCES Cursos(IdCurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: horario
+-- --------------------------------------------------------
+CREATE TABLE `horario` (
+  `ID_horario` int NOT NULL AUTO_INCREMENT,
+  `IdGrupo` int NOT NULL,
+  `IdAsignatura` int NOT NULL,
+  `Cedula` int NOT NULL,
+  `DiaSemana` varchar(20) NOT NULL,
+  `HoraInicio` int NOT NULL,
+  `HoraFin` int NOT NULL,
+  PRIMARY KEY (`ID_horario`),
+  KEY `IdGrupo` (`IdGrupo`),
+  KEY `IdAsignatura` (`IdAsignatura`),
+  KEY `Cedula` (`Cedula`),
+  CONSTRAINT `fk_horario_grupo` FOREIGN KEY (`IdGrupo`) REFERENCES `grupo` (`IdGrupo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_horario_asignatura` FOREIGN KEY (`IdAsignatura`) REFERENCES `asignatura` (`IdAsignatura`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_horario_docente` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=76;
 
--- ==============================================
--- Horarios (Última tabla, depende de Cursos y Docentes)
--- ==============================================
-CREATE TABLE Horario (
-    ID_horario INT PRIMARY KEY AUTO_INCREMENT,
-    Hora TIME,
-    Dia DATE,
-    IdCurso INT NOT NULL,
-    Cedula INT NOT NULL,
-    FOREIGN KEY (IdCurso) REFERENCES Cursos(IdCurso)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (Cedula) REFERENCES Docente(Cedula)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
+-- TABLA: espacios
+-- --------------------------------------------------------
+CREATE TABLE `espacios` (
+  `IdEspacio` int NOT NULL AUTO_INCREMENT,
+  `NumSalon` int DEFAULT NULL,
+  `capacidad` int DEFAULT NULL,
+  `Tipo_salon` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`IdEspacio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=16;
+
+-- --------------------------------------------------------
+-- TABLA: recursos
+-- --------------------------------------------------------
+CREATE TABLE `recursos` (
+  `IdRecurso` int NOT NULL AUTO_INCREMENT,
+  `nombre_Recurso` varchar(120) DEFAULT NULL,
+  `IdEspacio` int NOT NULL,
+  PRIMARY KEY (`IdRecurso`),
+  KEY `IdEspacio` (`IdEspacio`),
+  CONSTRAINT `fk_recursos_espacio` FOREIGN KEY (`IdEspacio`) REFERENCES `espacios` (`IdEspacio`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+-- TABLA: docente_recurso (Relación N:M)
+-- --------------------------------------------------------
+CREATE TABLE `docente_recurso` (
+  `IdRecurso` int NOT NULL,
+  `Cedula` int NOT NULL,
+  PRIMARY KEY (`IdRecurso`,`Cedula`),
+  KEY `Cedula` (`Cedula`),
+  CONSTRAINT `fk_docente_recurso_recurso` FOREIGN KEY (`IdRecurso`) REFERENCES `recursos` (`IdRecurso`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_docente_recurso_docente` FOREIGN KEY (`Cedula`) REFERENCES `docente` (`Cedula`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+-- TABLA: reserva
+-- --------------------------------------------------------
+CREATE TABLE `reserva` (
+  `IdReserva` int NOT NULL AUTO_INCREMENT,
+  `IdEspacio` int NOT NULL,
+  `Fecha` date DEFAULT NULL,
+  `Hora_Reserva` int DEFAULT NULL,
+  `aprobada` tinyint(1) NOT NULL,
+  PRIMARY KEY (`IdReserva`),
+  KEY `IdEspacio` (`IdEspacio`),
+  CONSTRAINT `fk_reserva_espacio` FOREIGN KEY (`IdEspacio`) REFERENCES `espacios` (`IdEspacio`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+-- TABLA: reserva_recurso
+-- --------------------------------------------------------
+CREATE TABLE `reserva_recurso` (
+  `IdReservaRecurso` int NOT NULL AUTO_INCREMENT,
+  `IdRecurso` int NOT NULL,
+  `Fecha` date DEFAULT NULL,
+  `Hora_Reserva` int DEFAULT NULL,
+  `aprobada` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`IdReservaRecurso`),
+  KEY `IdRecurso` (`IdRecurso`),
+  CONSTRAINT `fk_reserva_recurso_recurso` FOREIGN KEY (`IdRecurso`) REFERENCES `recursos` (`IdRecurso`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+COMMIT;
