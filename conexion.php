@@ -17,4 +17,3 @@ function conectarDB($server = "localhost", $user = "root", $pass = "", $db = "db
 $conexion = conectarDB();
 
 ?>
-
