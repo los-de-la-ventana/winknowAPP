@@ -16,7 +16,7 @@ function listarUsuarios() {
     if (!$conn['success']) return ['success' => false, 'message' => $conn['message'], 'data' => []];
     
     try {
-        $db = $conn['connection'];
+        $db = $conn['connection']; // gola
         
         // Primero obtener todos los usuarios básicos
         $stmt = $db->prepare("SELECT Cedula, Nombre_usr FROM usuarios WHERE Cedula != '0' ORDER BY Nombre_usr");
